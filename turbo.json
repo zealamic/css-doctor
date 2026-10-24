@@ -1,0 +1,132 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "pnpm-workspace.yaml",
+    "pnpm-lock.yaml",
+    "turbo.json",
+    "biome.json"
+  ],
+  "globalEnv": [
+    "CARGO_BUILD_TARGET",
+    "RUSTFLAGS",
+    "RUSTUP_TOOLCHAIN",
+    "NAPI_RS_FORCE_WASI",
+    "TARGET"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "src/**",
+        "public/**",
+        "*.html",
+        "tsconfig.json",
+        "tsup.config.*",
+        "vite.config.*",
+        "next.config.*",
+        "build.rs",
+        "Cargo.toml",
+        "!node_modules/**",
+        "!.turbo/**",
+        "!dist/**",
+        "!test/**",
+        "!tests/**",
+        "!examples/**",
+        "!coverage/**",
+        "!index.js",
+        "!index.d.ts",
+        "!index.d.cts",
+        "!index.node",
+        "!*.node"
+      ],
+      "outputs": [
+        "dist/**",
+        "*.node",
+        "index.node",
+        "index.js",
+        "index.d.ts",
+        "index.d.cts"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": true,
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "src/**",
+        "test/**",
+        "tests/**",
+        "*.ts",
+        "*.tsx",
+        "*.html",
+        "package.json",
+        "tsconfig.json",
+        "Cargo.toml",
+        "build.rs",
+        "!node_modules/**",
+        "!.turbo/**",
+        "!dist/**",
+        "!coverage/**",
+        "!index.js",
+        "!index.d.ts",
+        "!index.d.cts",
+        "!index.node",
+        "!*.node"
+      ],
+      "outputs": []
+    },
+    "lint": {
+      "dependsOn": [],
+      "cache": true,
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "src/**",
+        "test/**",
+        "*.ts",
+        "*.tsx",
+        "tsconfig.json",
+        "package.json",
+        "!node_modules/**",
+        "!.turbo/**",
+        "!dist/**",
+        "!index.js",
+        "!index.d.ts",
+        "!index.d.cts",
+        "!index.node",
+        "!*.node"
+      ],
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "format": {
+      "cache": false,
+      "outputs": []
+    },
+    "format:check": {
+      "cache": true,
+      "outputs": []
+    },
+    "check": {
+      "cache": true,
+      "outputs": []
+    }
+  },
+  "globalPassThroughEnv": [
+    "CARGO_HOME",
+    "RUSTUP_HOME",
+    "HOME",
+    "PNPM_HOME",
+    "XDG_DATA_HOME",
+    "npm_config_store_dir"
+  ]
+}

@@ -1,0 +1,19 @@
+.shell {
+  min-height: 100vh;
+}
+
+.shared-card {
+  padding: 1rem;
+}
+
+.home-only {
+  color: blue;
+}
+
+.about-only {
+  color: green;
+}
+
+.dead-route {
+  display: none;
+}

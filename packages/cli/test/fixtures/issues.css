@@ -1,0 +1,14 @@
+.broken {
+  color red;
+}
+
+.empty {
+}
+
+.duplicate {
+  color: red;
+}
+
+.duplicate {
+  color: blue;
+}

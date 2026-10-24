@@ -1,0 +1,24 @@
+---
+description: Vite and Next.js integration lifecycle, page scanning, emitted page CSS, and known limitations.
+globs: packages/css-doctor-vite/**/*.ts,packages/css-doctor-next/**/*.ts,packages/cli/**/*.ts
+---
+
+# Integration rules
+
+- Vite: `generateBundle` + `enforce: 'post'`; replace CSS asset with common CSS;
+  aggregate page CSS; `this.emitFile` page files.
+- Vite SPA shell: direct dynamic import chunks are pages; entry shell classes
+  and CSS apply to every route. Route scans skip the entry chunk so classes do
+  not leak through the shared React/runtime import. Nested dynamic chunks
+  belong to their route.
+- Next: only `!context.dev && !context.isServer`; hook `thisCompilation` and
+  `processAssets` at `PROCESS_ASSETS_STAGE_OPTIMIZE`; use
+  `compilation.updateAsset` and `compilation.emitAsset`.
+- Next App Router page chunks are stubs; keep route/layout source scanning and
+  relative/`@/` import traversal.
+- `cssd.config.*` is loaded via jiti only when no inline options are passed.
+- Never let split/report/callback failures abort the host build.
+- Page chunks are emitted but not injected into HTML/manifests. State this
+  limitation; use `pageUsage`/`forceCommonSelectors` for CSS Modules/dynamic
+  classes.
+- Run the package test and, for Next, `test:next`.

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": [
+    "//"
+  ],
+  "tasks": {
+    "build": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "src/**",
+        "Cargo.toml",
+        "build.rs",
+        "tsconfig.json",
+        "../../crates/core/**",
+        "../../Cargo.toml",
+        "../../Cargo.lock",
+        "!node_modules/**",
+        "!.turbo/**",
+        "!test.ts",
+        "!index.js",
+        "!index.d.ts",
+        "!index.d.cts",
+        "!index.node",
+        "!*.node"
+      ],
+      "outputs": [
+        "*.node",
+        "index.node",
+        "index.js",
+        "index.d.ts",
+        "index.d.cts"
+      ]
+    },
+    "test": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "src/**",
+        "test.ts",
+        "tsconfig.json",
+        "Cargo.toml",
+        "build.rs",
+        "../../crates/core/**",
+        "../../Cargo.toml",
+        "../../Cargo.lock",
+        "!node_modules/**",
+        "!.turbo/**",
+        "!index.js",
+        "!index.d.ts",
+        "!index.d.cts",
+        "!index.node",
+        "!*.node"
+      ],
+      "dependsOn": [
+        "build"
+      ]
+    }
+  }
+}

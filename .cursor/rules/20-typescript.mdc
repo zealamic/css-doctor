@@ -1,0 +1,20 @@
+---
+description: TypeScript package conventions, build/test commands, and public API stability.
+globs: packages/**/*.ts,packages/**/*.tsx,packages/**/*.json
+---
+
+# TypeScript package rules
+
+- Read `.agents/skills/css-doctor-integrations/SKILL.md` when touching CLI,
+  Vite, or Next; read `css-doctor-binding` for NAPI changes.
+- ESM + strict TS + tsup. Tests run with `tsx --test`.
+- FE scope: use `type` for all object definitions; do not use `interface`.
+  Generated NAPI `*.d.ts` is the only exception.
+- Preserve public option/diagnostic interfaces; check generated `.d.ts`.
+- NAPI boundary uses `f64` for ratios and `u32` for indices/counters.
+- Integration plugins must contain parse/split/callback/reporter failures.
+- Do not mutate user configs destructively; preserve original webpack hooks and
+  plugin arrays.
+- Build binding before typechecking consumers; generated binding d.ts is ignored
+  by git and must be regenerated locally.
+- Verify: `pnpm --filter <pkg> typecheck`, `build`, `test`.

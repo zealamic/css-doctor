@@ -1,0 +1,27 @@
+---
+description: css-doctor monorepo guardrails, build order, generated files, and verification expectations.
+alwaysApply: true
+---
+
+# css-doctor project rules
+
+Read `AGENTS.md` for the canonical guide and use the skills in
+`.agents/skills/` for focused workflows.
+
+- Monorepo: Rust core + NAPI binding + TS CLI/Vite/Next packages.
+- Default file/folder naming is kebab-case. Exceptions: Rust module files
+  (snake_case), Next route files, tool configs, generated files, and standard
+  docs. React component filenames are kebab-case; identifiers stay PascalCase.
+- Use Turborepo for workspace-wide tasks: `pnpm build`, `pnpm test`,
+  `pnpm lint`, `pnpm check`, `pnpm format`, `pnpm test:cargo`.
+- Graph: binding → CLI/Vite/Next → examples/vite-react-tailwind.
+- Inspect order with `pnpm exec turbo build --dry-run`.
+- For focused work: `pnpm --filter <pkg> typecheck|build|test`, but build the
+  native binding before TypeScript integration tests.
+- Never edit generated artifacts:
+  - `packages/binding/index.js`, `index.d.ts`, `index.d.cts`, `*.node`
+  - `packages/*/dist/**`, `.next/**`, `target/**`, coverage
+- Do not add hand-written `.js`/`.cjs`/`.mjs` source. TypeScript and Rust only.
+- Preserve error boundaries in Vite/Next; diagnostics must not crash builds.
+- Page CSS chunks are emitted but not auto-linked into HTML/manifests yet.
+- Before handoff run the relevant checks plus `git status`; no generated files.
