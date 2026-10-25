@@ -9,20 +9,41 @@ export type CssDoctorFilterPattern = string | RegExp;
 /** Include/exclude filters accepted by the plugin. */
 export type CssDoctorFilter = CssDoctorFilterPattern | CssDoctorFilterPattern[];
 
+/** Tier 1: semantic page-coverage splitting. */
+export type PageCoverageOptions = {
+  /** Enable page-coverage splitting. @default true */
+  enabled?: boolean;
+  /** Minimum page coverage for common rules. Range: 0..1. @default 0.5 */
+  minPageRatio?: number;
+  /** Selectors or classes that always stay in the common chunk. */
+  forceCommon?: string[];
+};
+
+/** Tier 2: physical size-budget splitting. */
+export type SizeBudgetOptions = {
+  /** Enable size-budget splitting. @default true */
+  enabled?: boolean;
+  /** Maximum serialized bytes per body chunk. @default 60 * 1024 */
+  maxChunkSize?: number;
+  /** Isolate CSS variables before splitting. @default true */
+  isolateVariables?: boolean;
+};
+
 /** Configuration for {@link cssDoctor}. */
 export type CssDoctorViteOptions = {
-  /**
-   * Minimum share of pages that must use a selector before it is placed in the
-   * common CSS chunk. Range: 0..1.
-   *
-   * @default 0.5
-   */
+  /** @deprecated Use `pageCoverage.minPageRatio`. */
   minPageRatio?: number;
-  /**
-   * Selectors or class names that must always stay in the common chunk even
-   * when no scanned page uses them.
-   */
+  /** @deprecated Use `pageCoverage.forceCommon`. */
   forceCommonSelectors?: string[];
+  /** Tier 1 configuration. */
+  pageCoverage?: PageCoverageOptions;
+  /** Tier 2 configuration. */
+  sizeBudget?: SizeBudgetOptions;
+  /**
+   * Minify emitted CSS with LightningCSS. Defaults to `true` for production
+   * builds. When `false`, Vite's `build.cssMinify` is disabled as well.
+   */
+  minify?: boolean;
   /** Print the diagnostics table to the terminal after analysis. @default true */
   report?: boolean;
   /** Only analyze CSS assets whose emitted file name matches these patterns. */
@@ -98,6 +119,30 @@ export type EmittedPageChunk = {
   sizeBytes: number;
 };
 
+/** One final CSS chunk produced by either pipeline tier. */
+export type EmittedCssChunk = {
+  fileName: string;
+  sourceChunk: string;
+  kind: "common" | "page" | "variables" | "part";
+  page?: string;
+  variables: boolean;
+  part?: number;
+  sizeBytes: number;
+  oversized: boolean;
+  splitDueToSize: boolean;
+  /** True when the chunk is embedded in an existing Vite asset. */
+  embedded: boolean;
+};
+
+/** Tier 2 summary for the diagnostics report. */
+export type SizeBudgetDiagnostics = {
+  enabled: boolean;
+  maxChunkSize: number;
+  isolateVariables: boolean;
+  splitChunks: number;
+  oversizedChunks: number;
+};
+
 /** Complete diagnostics emitted by a Vite build. */
 export type CssDoctorDiagnostics = {
   plugin: "vite-plugin-css-doctor";
@@ -105,6 +150,13 @@ export type CssDoctorDiagnostics = {
   /** Time spent scanning, analyzing, splitting and emitting. */
   durationMs: number;
   minPageRatio: number;
+  /** Whether LightningCSS minification was enabled. */
+  minify: boolean;
+  pageCoverage: {
+    enabled: boolean;
+    minPageRatio: number;
+  };
+  sizeBudget: SizeBudgetDiagnostics;
   pages: string[];
   /** Number of scanned classes per page. */
   pageUsage: Record<string, number>;
@@ -123,6 +175,8 @@ export type CssDoctorDiagnostics = {
   /** Total bytes of emitted page-specific CSS. */
   pageSpecificCssBytes: number;
   emittedPageChunks: EmittedPageChunk[];
+  /** Every final chunk, including common chunks embedded in the original asset. */
+  emittedCssChunks: EmittedCssChunk[];
   /** Selector usage matrix produced by the native splitter. */
   usageMatrix: JsSelectorStat[];
   /** Number of dead selector occurrences removed. */

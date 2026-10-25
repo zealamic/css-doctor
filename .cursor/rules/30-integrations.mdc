@@ -7,6 +7,13 @@ globs: packages/css-doctor-vite/**/*.ts,packages/css-doctor-next/**/*.ts,package
 
 - Vite: `generateBundle` + `enforce: 'post'`; replace CSS asset with common CSS;
   aggregate page CSS; `this.emitFile` page files.
+- Next skips CSS Modules, emits hashed `static/css` chunks, wraps split common
+  CSS in `@import`, and loads page CSS from page JS. `minify: false` removes
+  Next's CSS minimizer.
+- Vite minifies by default in production builds (`minify`); pass `minify: false`
+  to opt out. Emit assets with `name` + `getFileName()` so Vite hashes them.
+- Common CSS links go in HTML; page CSS is loaded from a loader prepended to
+  the page JS chunk. Do not inject all page CSS links into HTML.
 - Vite SPA shell: direct dynamic import chunks are pages; entry shell classes
   and CSS apply to every route. Route scans skip the entry chunk so classes do
   not leak through the shared React/runtime import. Nested dynamic chunks

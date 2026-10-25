@@ -83,6 +83,18 @@ API changes intentional and propagate them to `packages/binding`.
    - regenerate `packages/binding/index.d.ts`;
    - run binding tests and dependent TypeScript tests.
 
+## Two-tier pipeline
+
+`optimize_css_pipeline` composes:
+1. `split_css_by_pages` (page coverage + dead code).
+2. `split_css_by_size` (byte budget; optional variable isolation).
+
+Size splitting must not cut inside a top-level at-rule. A single rule larger
+than the budget is emitted as an oversized chunk. Variables include `:root`,
+`:host`, `@property`, `@custom-media`, `@theme`, and `--*` declarations.
+`minify` defaults to `true` and must be passed to every `PrinterOptions` used
+for common, page, variable, and part serialization.
+
 ## Splitter test matrix
 
 At minimum verify:

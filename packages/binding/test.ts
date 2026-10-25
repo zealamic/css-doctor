@@ -96,6 +96,32 @@ async function main(): Promise<void> {
   assert.equal(aboutStat.pageCount, 1);
   assert.equal(aboutStat.targetChunk, "page:about");
 
+  const pipeline = binding.optimizeCss({
+    cssContent:
+      ":root { --brand: red; } .shared { color: var(--brand); } .home { color: blue; } .dead { display: none; }",
+    pageUsage: {
+      home: ["shared", "home"],
+      about: ["shared"],
+      contact: ["shared"],
+    },
+    pageCoverage: {
+      enabled: true,
+      minPageRatio: 0.5,
+      forceCommon: [],
+    },
+    sizeBudget: {
+      enabled: true,
+      maxChunkSize: 40,
+      isolateVariables: true,
+    },
+  });
+
+  assert.ok(pipeline.chunks.length > 1);
+  assert.ok(pipeline.chunks.some((chunk) => chunk.variables));
+  assert.ok(pipeline.chunks.some((chunk) => chunk.part !== undefined));
+  assert.equal(pipeline.deadCodeCount, 1);
+  assert.ok(pipeline.chunks.every((chunk) => !chunk.css.includes("\n")));
+
   console.log("\n✅ css-doctor NAPI binding OK");
   console.log(
     `   ${result.stats.ruleCount} rules, ${result.stats.selectorCount} selectors, ` +

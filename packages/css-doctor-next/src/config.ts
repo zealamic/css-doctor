@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
 import { createJiti } from "jiti";
@@ -8,10 +8,8 @@ import type { CssDoctorNextOptions } from "./types";
 const CONFIG_FILENAMES = [
   "cssd.config.ts",
   "cssd.config.mts",
-  "cssd.config.cts",
   "cssd.config.js",
   "cssd.config.mjs",
-  "cssd.config.cjs",
 ];
 
 /** Result of attempting to load the central css-doctor config file. */
@@ -50,10 +48,11 @@ export function findCssDoctorConfig(
 }
 
 /**
- * Loads `cssd.config.ts|js|mjs` synchronously using jiti.
+ * Loads `cssd.config.ts|mts|js|mjs` synchronously using jiti.
  *
- * Invalid or missing config files are reported through `error` instead of
- * throwing, so a broken css-doctor config cannot prevent Next.js from starting.
+ * Missing and empty config files fall back to an empty options object. Invalid
+ * config files are reported through `error` instead of throwing, so a broken
+ * css-doctor config cannot prevent Next.js from starting.
  */
 export function loadCssDoctorConfig(
   options: { cwd?: string; configFile?: string } = {},
@@ -68,14 +67,14 @@ export function loadCssDoctorConfig(
   }
 
   if (!existsSync(file)) {
-    return {
-      options: {},
-      file,
-      error: `css-doctor config file not found: ${file}`,
-    };
+    return { options: {} };
   }
 
   try {
+    if (readFileSync(file, "utf8").trim().length === 0) {
+      return { options: {}, file };
+    }
+
     const jiti = createJiti(import.meta.url, {
       interopDefault: true,
       fsCache: false,

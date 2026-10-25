@@ -24,10 +24,10 @@
     "typecheck": "tsc --noEmit",
     "test": "pnpm typecheck && pnpm build && tsx --test test/next-plugin.test.ts",
     "test:next": "pnpm build && tsx --test test/next-build.test.ts",
-    "lint": "biome lint src test/next-plugin.test.ts test/next-build.test.ts",
-    "format": "biome format --write src test/next-plugin.test.ts test/next-build.test.ts",
-    "format:check": "biome format src test/next-plugin.test.ts test/next-build.test.ts",
-    "check": "biome check src test/next-plugin.test.ts test/next-build.test.ts"
+    "lint": "biome lint src examples test/next-plugin.test.ts test/next-build.test.ts",
+    "format": "biome format --write src examples test/next-plugin.test.ts test/next-build.test.ts",
+    "format:check": "biome format src examples test/next-plugin.test.ts test/next-build.test.ts",
+    "check": "biome check src examples test/next-plugin.test.ts test/next-build.test.ts"
   },
   "dependencies": {
     "@zealamic/css-doctor-binding": "workspace:*",
@@ -39,15 +39,15 @@
   },
   "devDependencies": {
     "@types/node": "^22.20.5",
-    "next": "^14.2.35",
+    "next": "^15.0.0",
     "tsup": "^8.5.1",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "webpack": "^5.112.2",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "engines": {
     "node": ">=18"

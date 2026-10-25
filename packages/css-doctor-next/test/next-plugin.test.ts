@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
@@ -23,7 +23,10 @@ const entryPath = join(packageRoot, "test/fixtures/webpack-entry.js");
 const configProject = join(packageRoot, "test/fixtures/config-project");
 
 class CssFixturePlugin {
-  constructor(private readonly css: string) {}
+  constructor(
+    private readonly css: string,
+    private readonly fileName = "static/css/app.css",
+  ) {}
 
   apply(compiler: Compiler): void {
     compiler.hooks.thisCompilation.tap("CssFixturePlugin", (compilation) => {
@@ -34,7 +37,7 @@ class CssFixturePlugin {
         },
         () => {
           compilation.emitAsset(
-            "static/css/app.css",
+            this.fileName,
             new compiler.webpack.sources.RawSource(this.css),
           );
         },
@@ -46,6 +49,7 @@ class CssFixturePlugin {
 async function runWebpack(
   css: string,
   options: CssDoctorWebpackPluginOptions,
+  cssFileName = "static/css/app.css",
 ): Promise<{
   stats: Stats;
   diagnostics: CssDoctorNextDiagnostics;
@@ -66,7 +70,7 @@ async function runWebpack(
       minimize: false,
     },
     plugins: [
-      new CssFixturePlugin(css),
+      new CssFixturePlugin(css, cssFileName),
       new CssDoctorWebpackPlugin({
         report: false,
         ...options,
@@ -99,8 +103,11 @@ async function runWebpack(
 
   const assets = new Map<string, string>();
   const cssAssetNames = [
-    "static/css/app.css",
+    cssFileName,
     ...diagnostics.emittedPageChunks.map((chunk) => chunk.fileName),
+    ...diagnostics.emittedCssChunks
+      .filter((chunk) => !chunk.embedded)
+      .map((chunk) => chunk.fileName),
   ];
 
   for (const fileName of cssAssetNames) {
@@ -129,6 +136,50 @@ test("loads cssd.config.ts from the project root", () => {
     home: ["shared", "always-keep"],
     about: ["shared", "about-only"],
   });
+});
+
+test("prefers cssd.config.ts and falls back for missing or empty configs", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "cssd-next-config-"));
+
+  try {
+    await writeFile(
+      join(directory, "cssd.config.mjs"),
+      "export default { report: true };\n",
+    );
+
+    assert.equal(
+      findCssDoctorConfig(directory),
+      join(directory, "cssd.config.mjs"),
+    );
+
+    await writeFile(
+      join(directory, "cssd.config.ts"),
+      "export default { report: false, minPageRatio: 0.25 };\n",
+    );
+
+    assert.equal(
+      findCssDoctorConfig(directory),
+      join(directory, "cssd.config.ts"),
+    );
+
+    const loaded = loadCssDoctorConfig({ cwd: directory });
+    assert.equal(loaded.error, undefined);
+    assert.equal(loaded.options.report, false);
+    assert.equal(loaded.options.minPageRatio, 0.25);
+
+    await writeFile(join(directory, "cssd.config.ts"), "");
+    const empty = loadCssDoctorConfig({ cwd: directory });
+    assert.deepEqual(empty.options, {});
+    assert.equal(empty.error, undefined);
+
+    const missing = loadCssDoctorConfig({
+      cwd: join(directory, "does-not-exist"),
+    });
+    assert.deepEqual(missing.options, {});
+    assert.equal(missing.error, undefined);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
 
 test("withCssDoctor preserves user webpack config and only adds the plugin to client production", async () => {
@@ -232,17 +283,16 @@ test("splits CSS assets inside a real webpack compilation", async () => {
   assert.equal(diagnostics.plugin, "css-doctor-next");
   assert.equal(diagnostics.pages.length, 3);
   assert.equal(diagnostics.splitApplied, true);
+  assert.equal(diagnostics.minify, true);
   assert.equal(diagnostics.totalCssAssets, 1);
   assert.equal(diagnostics.analyzedCssAssets, 1);
   assert.equal(diagnostics.deadCodeCount, 1);
   assert.equal(diagnostics.emittedPageChunks.length, 1);
-  assert.equal(
-    diagnostics.emittedPageChunks[0]?.fileName,
-    "static/css/page-about.css",
-  );
+  const pageFileName = diagnostics.emittedPageChunks[0]?.fileName ?? "";
+  assert.match(pageFileName, /^static\/css\/page-about\.[a-f0-9]{8}\.css$/);
 
   const commonCss = assets.get("static/css/app.css");
-  const pageCss = assets.get("static/css/page-about.css");
+  const pageCss = assets.get(pageFileName);
 
   assert.ok(commonCss);
   assert.ok(pageCss);
@@ -263,8 +313,63 @@ test("splits CSS assets inside a real webpack compilation", async () => {
   assert.match(report, /\[css-doctor\]/);
   assert.match(report, /Usage Matrix/);
   assert.match(report, /Assigned Chunk/);
-  assert.match(report, /page-about\.css/);
+  assert.match(report, /page-about\.[a-f0-9]{8}\.css/);
   assert.match(report, /Dead code eliminated/);
+});
+
+test("skips CSS Modules assets", async () => {
+  const { diagnostics } = await runWebpack(
+    ".module { color: red; }",
+    {
+      pageUsage: { home: ["module"] },
+    },
+    "static/css/app.module.css",
+  );
+
+  assert.equal(diagnostics.totalCssAssets, 1);
+  assert.equal(diagnostics.skippedCssAssets, 1);
+  assert.equal(diagnostics.analyzedCssAssets, 0);
+  assert.equal(diagnostics.emittedPageChunks.length, 0);
+});
+
+test("skips content-hashed CSS Modules assets", async () => {
+  const { diagnostics } = await runWebpack(
+    ".dashboard_metricCard__fugXQ { color: red; }",
+    {
+      pageUsage: { dashboard: ["metricCard"] },
+    },
+    "static/css/cba9ef9e1e8cb570.css",
+  );
+
+  assert.equal(diagnostics.totalCssAssets, 1);
+  assert.equal(diagnostics.skippedCssAssets, 1);
+  assert.equal(diagnostics.analyzedCssAssets, 0);
+});
+
+test("splits a global CSS asset by size budget", async () => {
+  const { diagnostics, assets } = await runWebpack(
+    `:root { --brand: red; }
+     .a { color: red; }
+     .b { color: blue; }
+     .c { color: green; }
+     .d { color: orange; }
+     .e { color: purple; }`,
+    {
+      pageCoverage: { enabled: false },
+      sizeBudget: { enabled: true, maxChunkSize: 40, isolateVariables: true },
+    },
+  );
+
+  assert.equal(diagnostics.pageCoverage.enabled, false);
+  assert.equal(diagnostics.sizeBudget.enabled, true);
+  assert.ok(diagnostics.emittedCssChunks.some((chunk) => chunk.variables));
+  assert.ok(
+    diagnostics.emittedCssChunks.some((chunk) => chunk.part !== undefined),
+  );
+  assert.ok(diagnostics.sizeBudget.splitChunks > 0);
+  const wrapper = String(assets.get("static/css/app.css"));
+  assert.match(wrapper, /@import "\.\/common-vars\.[a-f0-9]{8}\.css"/);
+  assert.match(wrapper, /@import "\.\/common-part-1\.[a-f0-9]{8}\.css"/);
 });
 
 test("webpack build survives invalid CSS and a throwing callback", async () => {

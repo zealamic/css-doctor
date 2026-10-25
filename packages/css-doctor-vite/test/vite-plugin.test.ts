@@ -13,6 +13,7 @@ const appRoot = join(packageRoot, "test/fixtures/app");
 
 type EmittedAsset = {
   type: "asset";
+  name?: string;
   fileName: string;
   source: string | Uint8Array;
 };
@@ -20,7 +21,12 @@ type EmittedAsset = {
 type PluginContextLike = {
   warn: (message: string) => void;
   getModuleInfo: (id: string) => { code?: string | null } | null;
-  emitFile: (asset: EmittedAsset) => string;
+  emitFile: (asset: {
+    type: "asset";
+    name?: string;
+    source: string | Uint8Array;
+  }) => string;
+  getFileName: (referenceId: string) => string;
 };
 
 type GenerateBundleHook = (
@@ -53,12 +59,29 @@ function directContext(
   emitted: EmittedAsset[],
   warnings: string[] = [],
 ): PluginContextLike {
+  const fileNames = new Map<string, string>();
+  let nextReference = 0;
+
   return {
     warn: (message) => warnings.push(message),
     getModuleInfo: () => null,
     emitFile: (item) => {
-      emitted.push(item);
-      return String(emitted.length);
+      nextReference += 1;
+      const referenceId = String(nextReference);
+      const name = item.name ?? `asset-${referenceId}.css`;
+      const fileName = `assets/${name.replace(/\.css$/, "")}-testhash.css`;
+      fileNames.set(referenceId, fileName);
+      emitted.push({ ...item, fileName });
+      return referenceId;
+    },
+    getFileName: (referenceId) => {
+      const fileName = fileNames.get(referenceId);
+
+      if (!fileName) {
+        throw new Error(`Unknown asset reference: ${referenceId}`);
+      }
+
+      return fileName;
     },
   };
 }
@@ -113,6 +136,13 @@ test("splits CSS assets during a real Vite build", async () => {
 
   assert.equal(diagnostics.deadCodeCount, 1);
   assert.equal(diagnostics.emittedPageChunks.length, 2);
+  assert.ok(
+    diagnostics.emittedPageChunks.every(
+      (chunk) =>
+        chunk.fileName.startsWith("assets/") &&
+        /-[^/]+\.css$/.test(chunk.fileName),
+    ),
+  );
   assert.ok(diagnostics.pageSpecificCssBytes > 0);
   assert.ok(diagnostics.files.every((file) => file.split !== undefined));
 
@@ -158,11 +188,15 @@ test("splits CSS using explicit pageUsage", async () => {
   const diagnostics = captured[0];
   assert.ok(diagnostics);
   assert.equal(diagnostics.splitApplied, true);
+  assert.equal(diagnostics.minify, true);
   assert.deepEqual(diagnostics.pages.sort(), ["about", "contact", "home"]);
   assert.equal(diagnostics.deadCodeCount, 1);
   assert.equal(diagnostics.emittedPageChunks.length, 1);
   assert.equal(diagnostics.emittedPageChunks[0]?.page, "about");
-  assert.equal(diagnostics.emittedPageChunks[0]?.fileName, "page-about.css");
+  assert.match(
+    diagnostics.emittedPageChunks[0]?.fileName ?? "",
+    /assets\/page-about-[^/]+\.css$/,
+  );
 
   const common = String(
     (bundle["assets/all.css"] as { source: unknown }).source,
@@ -171,7 +205,9 @@ test("splits CSS using explicit pageUsage", async () => {
   assert.doesNotMatch(common, /\.dead/);
   assert.doesNotMatch(common, /\.about-only/);
 
-  const aboutChunk = emitted.find((item) => item.fileName === "page-about.css");
+  const aboutChunk = emitted.find((item) =>
+    item.fileName.includes("page-about"),
+  );
   assert.ok(aboutChunk);
   assert.match(String(aboutChunk.source), /\.about-only/);
 
@@ -299,8 +335,44 @@ test("prints the usage matrix and dead-code report", async () => {
   assert.match(output, /\[css-doctor\]/);
   assert.match(output, /Usage Matrix/);
   assert.match(output, /Assigned Chunk/);
-  assert.match(output, /page-about\.css/);
+  assert.match(output, /assets\/page-about-[^\s]+\.css/);
+  assert.match(output, /Size budget/);
+  assert.match(output, /Minified: YES/);
   assert.match(output, /Dead code eliminated/);
+});
+
+test("disables Vite cssMinify when minify is false", async () => {
+  const output = (await build({
+    root: appRoot,
+    logLevel: "silent",
+    plugins: [
+      cssDoctor({
+        report: false,
+        minify: false,
+        pageCoverage: { enabled: false },
+      }),
+    ],
+    build: {
+      write: false,
+      rollupOptions: {
+        input: join(appRoot, "page-a.html"),
+      },
+    },
+  })) as {
+    output: Array<{
+      type: string;
+      fileName: string;
+      source?: string | Uint8Array;
+    }>;
+  };
+
+  const css = output.output.find(
+    (item) => item.type === "asset" && item.fileName.endsWith(".css"),
+  );
+  assert.ok(css);
+  const source = String(css.source);
+  assert.match(source, /\n/);
+  assert.match(source, /color: #646cff/);
 });
 
 test("rejects an invalid minPageRatio", () => {
@@ -311,7 +383,7 @@ test("treats direct dynamic route imports as pages", async () => {
   const captured: CssDoctorDiagnostics[] = [];
   const spaRoot = join(packageRoot, "test/fixtures/spa");
 
-  await build({
+  const buildOutput = (await build({
     root: spaRoot,
     logLevel: "silent",
     plugins: [
@@ -326,7 +398,14 @@ test("treats direct dynamic route imports as pages", async () => {
     build: {
       write: false,
     },
-  });
+  })) as {
+    output: Array<{
+      type: string;
+      fileName: string;
+      code?: string;
+      source?: string;
+    }>;
+  };
 
   const diagnostics = captured[0];
   assert.ok(diagnostics);
@@ -339,6 +418,28 @@ test("treats direct dynamic route imports as pages", async () => {
   );
   assert.ok(
     diagnostics.emittedPageChunks.some((chunk) => chunk.page === "about"),
+  );
+
+  const homeCss = diagnostics.emittedPageChunks.find(
+    (chunk) => chunk.page === "home",
+  );
+  assert.ok(homeCss);
+  const homeChunk = buildOutput.output.find(
+    (output) =>
+      output.type === "chunk" &&
+      output.fileName.includes("home-") &&
+      output.code !== undefined,
+  );
+  assert.ok(homeChunk?.code);
+  assert.ok(homeChunk.code.includes(homeCss.fileName));
+
+  const htmlAsset = buildOutput.output.find(
+    (output) => output.type === "asset" && output.fileName.endsWith(".html"),
+  );
+  assert.ok(htmlAsset?.source);
+  assert.doesNotMatch(
+    htmlAsset.source,
+    new RegExp(homeCss.fileName.replaceAll(".", "\\.")),
   );
 
   const shared = diagnostics.usageMatrix.find(
@@ -361,4 +462,116 @@ test("treats direct dynamic route imports as pages", async () => {
   assert.ok(dead);
   assert.equal(dead.pageCount, 0);
   assert.equal(dead.targetChunk, "dead");
+});
+
+test("isolates variables and injects size-budget parts", async () => {
+  const captured: CssDoctorDiagnostics[] = [];
+  const emitted: EmittedAsset[] = [];
+  const plugin = cssDoctor({
+    report: false,
+    pageCoverage: { enabled: false },
+    sizeBudget: {
+      maxChunkSize: 90,
+      isolateVariables: true,
+    },
+    onDiagnostics: (result) => {
+      captured.push(result);
+    },
+  });
+
+  const html = `<!doctype html><html><head><title>Size budget</title></head><body></body></html>`;
+  const css = `
+    :root { --brand: #646cff; --space: 4px; }
+    .a { color: red; }
+    .b { color: blue; }
+    .c { color: green; }
+    .d { color: orange; }
+    .e { color: purple; }
+    .f { color: teal; }
+    .g { color: pink; }
+    .h { color: brown; }
+  `;
+  const bundle: Record<string, unknown> = {
+    "index.html": asset("index.html", html),
+    "assets/all.css": asset("assets/all.css", css),
+  };
+
+  await hookFor(plugin).call(directContext(emitted), {}, bundle);
+
+  const diagnostics = captured[0];
+  assert.ok(diagnostics);
+  assert.equal(diagnostics.pageCoverage.enabled, false);
+  assert.equal(diagnostics.sizeBudget.enabled, true);
+  assert.equal(diagnostics.sizeBudget.maxChunkSize, 90);
+  assert.ok(diagnostics.sizeBudget.splitChunks > 0);
+  assert.ok(diagnostics.emittedCssChunks.some((chunk) => chunk.variables));
+  assert.ok(
+    diagnostics.emittedCssChunks.some(
+      (chunk) => chunk.kind === "part" && chunk.part !== undefined,
+    ),
+  );
+
+  const variableChunk = diagnostics.emittedCssChunks.find(
+    (chunk) => chunk.variables,
+  );
+  assert.ok(variableChunk);
+  assert.match(variableChunk.fileName, /common-vars-[^/]+\.css$/);
+  assert.equal(variableChunk.embedded, false);
+
+  const partFiles = emitted
+    .map((item) => item.fileName)
+    .filter((fileName) => fileName.includes("part-"));
+
+  assert.ok(partFiles.length > 0);
+  const htmlSource = String(
+    (bundle["index.html"] as { source: unknown }).source,
+  );
+  assert.ok(htmlSource.includes(variableChunk.fileName));
+  const firstPart = partFiles[0];
+  assert.ok(firstPart);
+  assert.ok(htmlSource.includes(firstPart));
+  assert.ok(
+    htmlSource.indexOf(variableChunk.fileName) < htmlSource.indexOf(firstPart),
+  );
+  assert.equal(
+    String((bundle["assets/all.css"] as { source: unknown }).source),
+    "",
+  );
+});
+
+test("honors minify: false", async () => {
+  const captured: CssDoctorDiagnostics[] = [];
+  const plugin = cssDoctor({
+    report: false,
+    minify: false,
+    pageUsage: { home: ["app"] },
+    onDiagnostics: (result) => {
+      captured.push(result);
+    },
+  });
+
+  const bundle: Record<string, unknown> = {
+    "assets/all.css": asset(
+      "assets/all.css",
+      ".app { color: red; } .dead { display: none; }",
+    ),
+  };
+
+  await hookFor(plugin).call(directContext([]), {}, bundle);
+
+  const diagnostics = captured[0];
+  assert.ok(diagnostics);
+  assert.equal(diagnostics.minify, false);
+  const common = String(
+    (bundle["assets/all.css"] as { source: unknown }).source,
+  );
+  assert.match(common, /color: red/);
+  assert.doesNotMatch(common, /\.dead/);
+});
+
+test("rejects an invalid size budget", () => {
+  assert.throws(
+    () => cssDoctor({ sizeBudget: { maxChunkSize: 0 } }),
+    /maxChunkSize/,
+  );
 });

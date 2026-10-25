@@ -13,11 +13,12 @@ Turborepo.
 | Path | Role |
 | --- | --- |
 | `crates/core` | Rust engine: parse, selector extraction, usage matrix, page-coverage splitter |
-| `packages/binding` | NAPI-RS bridge exposing `analyzeCss`, `splitCssByPages`, and JS types |
+| `packages/binding` | NAPI-RS bridge exposing `analyzeCss`, `splitCssByPages`, `optimizeCss`, and JS types |
 | `packages/cli` | `css-doctor` terminal CLI (Commander + tsup, ESM) |
 | `packages/css-doctor-vite` | Vite/Rollup plugin (ESM + CJS + DTS) |
 | `packages/css-doctor-next` | Next.js config wrapper + Webpack plugin (ESM + CJS + DTS) |
 | `examples/vite-react-tailwind` | React 19 + Tailwind v4 SPA build-graph demo for Vite |
+| `examples/next-app-tailwind` | Next 15 App Router + Tailwind v4 CSS Modules safety fixture |
 | `turbo.json` | Turborepo task graph, input hashing, native addon outputs |
 | `.agents/skills` | Vendor-neutral agent skills (canonical) |
 | `.claude/skills` | Single Claude router skill pointing at the canonical workflows |
@@ -123,24 +124,47 @@ target directory is involved.
 - Nested style rules are recursively split and keep parent-selector context.
 - `total_occurrences` in the matrix means matched class-hit frequency across
   pages, not raw occurrences in the CSS file.
+- The high-level pipeline runs tier 1 (page coverage + dead code) and then tier
+  2 (size budget + variable isolation). Either tier can be disabled.
+- Size splitting only cuts between top-level AST rules. `@media`, `@supports`,
+  `@keyframes`, and other blocks stay intact; a single oversized rule is
+  emitted alone and marked `oversized`.
+- `minify` is a cross-cutting pipeline option (default `true`). Both page and
+  size splitters pass it to LightningCSS `PrinterOptions`; JS callers can set
+  `minify: false` to preserve readable output. The Vite plugin also sets
+  `build.cssMinify: false` when `minify: false`, otherwise Vite would minify
+  the emitted assets afterwards.
 
 ### Integration semantics
 
-- Vite: `generateBundle` → per-asset split → replace CSS asset with common CSS
-  → aggregate page CSS → `this.emitFile('page-*.css')`.
+- Vite: `generateBundle` → native `optimizeCss` pipeline → embed the common
+  chunk when it fits, or emit `common-vars.css` / `common-part-*.css` and
+  inject ordered stylesheet links. Page chunks are emitted as
+  `page-*.css` / `page-*-part-*.css`.
 - Vite entries with direct `import()` routes are treated as SPA shells: the
   entry's static classes/CSS become shared shell context, and each direct
   dynamic chunk becomes a page. Entries without direct dynamic imports remain
   single pages.
 - Next: `thisCompilation` → `processAssets` at
-  `PROCESS_ASSETS_STAGE_OPTIMIZE` → replace via `compilation.updateAsset` →
-  emit via `compilation.emitAsset`.
-- Next only activates for `!context.dev && !context.isServer`.
+  `PROCESS_ASSETS_STAGE_OPTIMIZE` → native `optimizeCss` → update the original
+  global CSS asset and emit hashed `static/css/[name].[contenthash:8].css`
+  chunks. CSS Modules (`*.module.css`) are skipped automatically; App/Pages
+  Router route scanning and shared `_app`/layout context remain.
+- Next common chunks that exceed the budget are wrapped by `@import` statements
+  in the original CSS asset, so Next's existing HTML/manifest reference keeps
+  working. Page-specific chunks are loaded lazily from the page JS chunk.
+- Next only activates for `!context.dev && !context.isServer`. When
+  `minify: false`, the plugin removes Next's CSS minimizer so output stays
+  readable.
 - Next route source scanning covers App Router `app/**/page` + layouts, Pages
   Router `pages/**` + `_app`, relative imports, and `@/` aliases.
-- **Page chunk linking is not implemented yet.** Vite and Next page CSS files
-  are emitted, but HTML/manifests do not automatically reference them. Treat
-  this as a known follow-up, not a bug to hide.
+- Vite emits hashed assets via `emitFile({ name })` + `getFileName()`.
+  Common chunks are linked from HTML; page CSS is loaded lazily by a small
+  loader prepended to each page chunk, so a fresh page load requests only the
+  current route's CSS. Visited page CSS remains cached in the DOM. `minify`
+  defaults to the production build value.
+- Next page CSS is loaded lazily from the page JS chunk; Next-specific CSS
+  module assets are skipped and never rewritten.
 
 ### Known limitations
 

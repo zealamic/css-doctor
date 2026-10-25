@@ -8,5 +8,9 @@ export type {
   CssDoctorFilterPattern,
   CssDoctorDiagnostics,
   CssDoctorViteOptions,
+  EmittedCssChunk,
   EmittedPageChunk,
+  PageCoverageOptions,
+  SizeBudgetDiagnostics,
+  SizeBudgetOptions,
 } from "./types";

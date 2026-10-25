@@ -51,6 +51,15 @@ not be edited.
 - Keep the NAPI object model close to the core model; document deliberate
   differences (for example f64 ratios, arrays instead of sets).
 
+## Pipeline API
+
+`optimize_css` maps `JsPipelineInput` to the core two-tier pipeline and returns
+`JsPipelineOutput` with `JsChunkOutput[]`. Use optional nested
+`pageCoverage` / `sizeBudget` objects; omitted fields use core defaults.
+`minify` is optional at both `JsPipelineInput` and `JsChunkConfig` and defaults
+to `true`. `maxChunkSize` maps to `u32`, chunk byte sizes map back with
+`to_u32`.
+
 ## Workflow
 
 1. Make the core change and run core tests first.

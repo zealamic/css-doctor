@@ -38,6 +38,9 @@ pub struct ChunkConfig {
     /// with or without a leading dot, or selectors with no class.
     #[serde(default)]
     pub force_common_selectors: Vec<String>,
+    /// Minify serialized CSS. Defaults to `true`.
+    #[serde(default = "default_minify")]
+    pub minify: bool,
 }
 
 impl Default for ChunkConfig {
@@ -45,8 +48,13 @@ impl Default for ChunkConfig {
         Self {
             min_page_ratio: 0.5,
             force_common_selectors: Vec::new(),
+            minify: true,
         }
     }
+}
+
+const fn default_minify() -> bool {
+    true
 }
 
 /// Input for [`split_css_by_pages`].
@@ -115,12 +123,12 @@ pub fn split_css_by_pages(input: &SplitInput) -> Result<SplitOutput, String> {
     let mut context = SplitContext::new(input);
     let mut groups = split_rule_list(&stylesheet.rules.0, &mut context)?;
 
-    let common_css = render_css(groups.common)?;
+    let common_css = render_css(groups.common, input.config.minify)?;
     let mut page_chunks = HashMap::new();
 
     for page in &context.page_names {
         let rules = groups.pages.remove(page).unwrap_or_default();
-        page_chunks.insert(page.clone(), render_css(rules)?);
+        page_chunks.insert(page.clone(), render_css(rules, input.config.minify)?);
     }
 
     let stats = context.stats.into_values().collect();
@@ -570,7 +578,7 @@ fn selector_to_css(selector: &Selector<'_>) -> Result<String, String> {
         .map_err(|error| format!("failed to serialize selector: {error}"))
 }
 
-fn render_css<'i>(rules: Vec<CssRule<'i>>) -> Result<String, String> {
+fn render_css<'i>(rules: Vec<CssRule<'i>>, minify: bool) -> Result<String, String> {
     if rules.is_empty() {
         return Ok(String::new());
     }
@@ -582,7 +590,10 @@ fn render_css<'i>(rules: Vec<CssRule<'i>>) -> Result<String, String> {
     );
 
     stylesheet
-        .to_css(PrinterOptions::default())
+        .to_css(PrinterOptions {
+            minify,
+            ..PrinterOptions::default()
+        })
         .map(|result| result.code)
         .map_err(|error| format!("failed to render CSS: {error}"))
 }
@@ -615,6 +626,7 @@ mod tests {
             config: ChunkConfig {
                 min_page_ratio: 0.5,
                 force_common_selectors: Vec::new(),
+                minify: false,
             },
         })
         .expect("split succeeds")
@@ -777,6 +789,7 @@ mod tests {
             config: ChunkConfig {
                 min_page_ratio: 0.5,
                 force_common_selectors: vec![".legacy-popup".to_string()],
+                minify: false,
             },
         })
         .expect("split succeeds");
@@ -824,10 +837,28 @@ mod tests {
             config: ChunkConfig {
                 min_page_ratio: 1.5,
                 force_common_selectors: Vec::new(),
+                minify: false,
             },
         })
         .expect_err("invalid config should fail");
 
         assert!(error.contains("min_page_ratio"));
+    }
+    #[test]
+    fn minifies_common_and_page_chunks() {
+        let output = split_css_by_pages(&SplitInput {
+            css_content: ".shared { color: red; } .home { color: blue; }".to_string(),
+            page_usage: pages(&[("home", &["shared", "home"]), ("about", &["shared"])]),
+            config: ChunkConfig {
+                min_page_ratio: 0.75,
+                force_common_selectors: Vec::new(),
+                minify: true,
+            },
+        })
+        .expect("split succeeds");
+
+        assert!(output.common_css.contains(".shared{color:red}"));
+        assert!(output.page_chunks["home"].contains(".home{color:#00f}"));
+        assert!(!output.common_css.contains("\n"));
     }
 }

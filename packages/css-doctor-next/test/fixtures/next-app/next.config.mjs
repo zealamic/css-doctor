@@ -5,6 +5,15 @@ const nextConfig = {
 };
 
 export default withCssDoctor(nextConfig, {
-  minPageRatio: 0.6,
+  pageCoverage: {
+    enabled: true,
+    minPageRatio: 0.6,
+  },
+  sizeBudget: {
+    enabled: true,
+    maxChunkSize: 60 * 1024,
+    isolateVariables: true,
+  },
+  minify: true,
   report: true,
 });

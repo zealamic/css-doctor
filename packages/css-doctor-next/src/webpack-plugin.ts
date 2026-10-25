@@ -1,10 +1,12 @@
+import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { dirname, extname, resolve } from "node:path";
+import { dirname, extname, posix, resolve } from "node:path";
 import { performance } from "node:perf_hooks";
 
-import { analyzeCss, splitCssByPages } from "@zealamic/css-doctor-binding";
+import { analyzeCss, optimizeCss } from "@zealamic/css-doctor-binding";
 import type {
+  JsChunkOutput,
   JsCssAnalysisResult,
   JsSelectorStat,
 } from "@zealamic/css-doctor-binding";
@@ -16,17 +18,21 @@ import type {
   CssAssetWarning,
   CssDoctorNextDiagnostics,
   CssDoctorWebpackPluginOptions,
-  EmittedPageChunk,
+  EmittedCssChunk,
+  PageCoverageOptions,
+  SizeBudgetOptions,
 } from "./types";
 
 const PLUGIN_NAME = "CssDoctorWebpackPlugin";
 const DEFAULT_MIN_PAGE_RATIO = 0.5;
+const DEFAULT_MAX_CHUNK_SIZE = 60 * 1_024;
 const LARGE_CSS_ASSET_BYTES = 500 * 1_024;
 
 type PageInfo = {
   name: string;
   classes: Set<string>;
   cssFiles: Set<string>;
+  jsFiles: Set<string>;
 };
 
 type PageEntry = {
@@ -49,21 +55,61 @@ type CollectedPages = {
  */
 export class CssDoctorWebpackPlugin {
   private readonly options: CssDoctorWebpackPluginOptions;
-  private readonly minPageRatio: number;
-  private readonly configurationError?: string;
+  private readonly pageCoverage: Required<PageCoverageOptions> & {
+    forceCommon: string[];
+  };
+  private readonly sizeBudget: Required<SizeBudgetOptions>;
+  private readonly minify: boolean;
+  private readonly include: Array<string | RegExp>;
+  private readonly exclude: Array<string | RegExp>;
+  private readonly configurationErrors: string[] = [];
 
   constructor(options: CssDoctorWebpackPluginOptions = {}) {
     this.options = options;
+    const ratio =
+      options.pageCoverage?.minPageRatio ??
+      options.minPageRatio ??
+      DEFAULT_MIN_PAGE_RATIO;
+    const maxChunkSize =
+      options.sizeBudget?.maxChunkSize ?? DEFAULT_MAX_CHUNK_SIZE;
 
-    const ratio = options.minPageRatio ?? DEFAULT_MIN_PAGE_RATIO;
+    this.pageCoverage = {
+      enabled: options.pageCoverage?.enabled ?? true,
+      minPageRatio:
+        Number.isFinite(ratio) && ratio >= 0 && ratio <= 1
+          ? ratio
+          : DEFAULT_MIN_PAGE_RATIO,
+      forceCommon:
+        options.pageCoverage?.forceCommon ?? options.forceCommonSelectors ?? [],
+    };
 
-    if (Number.isFinite(ratio) && ratio >= 0 && ratio <= 1) {
-      this.minPageRatio = ratio;
-    } else {
-      this.minPageRatio = DEFAULT_MIN_PAGE_RATIO;
-      this.configurationError =
-        "minPageRatio must be a number between 0 and 1; using 0.5";
+    if (!Number.isFinite(ratio) || ratio < 0 || ratio > 1) {
+      this.configurationErrors.push(
+        "minPageRatio must be a number between 0 and 1; using 0.5",
+      );
     }
+
+    this.sizeBudget = {
+      enabled: options.sizeBudget?.enabled ?? true,
+      maxChunkSize:
+        Number.isInteger(maxChunkSize) && maxChunkSize > 0
+          ? maxChunkSize
+          : DEFAULT_MAX_CHUNK_SIZE,
+      isolateVariables: options.sizeBudget?.isolateVariables ?? true,
+    };
+
+    if (
+      options.sizeBudget?.enabled !== false &&
+      (!Number.isInteger(maxChunkSize) || maxChunkSize <= 0)
+    ) {
+      this.configurationErrors.push(
+        "maxChunkSize must be a positive integer; using 61440",
+      );
+    }
+
+    this.minify = options.minify ?? true;
+    this.include = options.include ?? [];
+    this.exclude = options.exclude ?? [];
   }
 
   apply(compiler: Compiler): void {
@@ -98,6 +144,9 @@ export class CssDoctorWebpackPlugin {
     const logger = compilation.getLogger(PLUGIN_NAME);
     const pagesResult = await collectPages(compilation, this.options.pageUsage);
     const pageNames = pagesResult.pages.map((page) => page.name);
+    const pageByName = new Map(
+      pagesResult.pages.map((page) => [page.name, page]),
+    );
     const allPages = new Set(pageNames);
     const pageUsage: Record<string, string[]> = {};
     const pageUsageCounts: Record<string, number> = {};
@@ -108,18 +157,32 @@ export class CssDoctorWebpackPlugin {
       pageUsageCounts[page.name] = classes.length;
     }
 
-    const splitApplied = pageNames.length > 0;
+    const pageCoverageApplied =
+      this.pageCoverage.enabled && pageNames.length > 0;
     const diagnostics: CssDoctorNextDiagnostics = {
       plugin: "css-doctor-next",
       generatedAt: new Date().toISOString(),
       durationMs: 0,
-      minPageRatio: this.minPageRatio,
+      minPageRatio: this.pageCoverage.minPageRatio,
+      minify: this.minify,
+      pageCoverage: {
+        enabled: this.pageCoverage.enabled,
+        minPageRatio: this.pageCoverage.minPageRatio,
+      },
+      sizeBudget: {
+        enabled: this.sizeBudget.enabled,
+        maxChunkSize: this.sizeBudget.maxChunkSize,
+        isolateVariables: this.sizeBudget.isolateVariables,
+        splitChunks: 0,
+        oversizedChunks: 0,
+      },
       pages: pageNames,
       pageUsage: pageUsageCounts,
-      splitApplied,
+      splitApplied: pageCoverageApplied,
       totalCssAssets: 0,
       analyzedCssAssets: 0,
       failedCssAssets: 0,
+      skippedCssAssets: 0,
       totalSizeBeforeBytes: 0,
       totalSizeAfterBytes: 0,
       totalSelectors: 0,
@@ -127,22 +190,44 @@ export class CssDoctorWebpackPlugin {
       commonCssBytes: 0,
       pageSpecificCssBytes: 0,
       emittedPageChunks: [],
+      emittedCssChunks: [],
       usageMatrix: [],
       deadCodeCount: 0,
       files: [],
       errors: [],
     };
 
-    if (this.configurationError) {
-      diagnostics.errors.push(this.configurationError);
-    }
+    diagnostics.errors.push(...this.configurationErrors);
 
     const matrix = new Map<string, JsSelectorStat>();
-    const pageCssParts = new Map<string, string[]>();
+    const pageFiles = new Map<string, string[]>();
     const usedAssetNames = new Set(
       compilation.getAssets().map((asset) => asset.name),
     );
     const RawSource = compiler.webpack.sources.RawSource;
+
+    const emitCssChunk = (chunk: JsChunkOutput): string => {
+      const hash = createHash("sha256")
+        .update(chunk.css)
+        .digest("hex")
+        .slice(0, 8);
+      const safeName =
+        chunk.name
+          .replace(/[^a-zA-Z0-9_-]+/g, "-")
+          .replace(/^-+|-+$/g, "")
+          .toLowerCase() || "chunk";
+      let fileName = `static/css/${safeName}.${hash}.css`;
+      let index = 2;
+
+      while (usedAssetNames.has(fileName)) {
+        fileName = `static/css/${safeName}.${hash}-${index}.css`;
+        index += 1;
+      }
+
+      compilation.emitAsset(fileName, new RawSource(chunk.css));
+      usedAssetNames.add(fileName);
+      return fileName;
+    };
 
     for (const asset of compilation.getAssets()) {
       if (!asset.name.endsWith(".css")) {
@@ -150,6 +235,17 @@ export class CssDoctorWebpackPlugin {
       }
 
       diagnostics.totalCssAssets += 1;
+
+      if (
+        this.shouldSkipAsset(
+          compilation,
+          asset.name,
+          sourceToString(asset.source.source()),
+        )
+      ) {
+        diagnostics.skippedCssAssets += 1;
+        continue;
+      }
 
       const associatedPages = [
         ...(pagesResult.pagesByCss.get(asset.name) ?? allPages),
@@ -167,58 +263,150 @@ export class CssDoctorWebpackPlugin {
 
       const originalCss = sourceToString(asset.source.source());
 
-      if (splitApplied && file.analysis) {
-        try {
-          const split = splitCssByPages({
-            cssContent: originalCss,
-            pageUsage,
-            config: {
-              minPageRatio: this.minPageRatio,
-              forceCommonSelectors: this.options.forceCommonSelectors ?? [],
-            },
+      try {
+        const pipeline = optimizeCss({
+          cssContent: originalCss,
+          pageUsage,
+          pageCoverage: {
+            enabled: this.pageCoverage.enabled,
+            minPageRatio: this.pageCoverage.minPageRatio,
+            forceCommon: this.pageCoverage.forceCommon,
+          },
+          sizeBudget: {
+            enabled: this.sizeBudget.enabled,
+            maxChunkSize: this.sizeBudget.maxChunkSize,
+            isolateVariables: this.sizeBudget.isolateVariables,
+          },
+          minify: this.minify,
+        });
+
+        const commonChunks = pipeline.chunks.filter(
+          (chunk) => chunk.page === undefined && chunk.sourceChunk === "common",
+        );
+        const pageChunks = pipeline.chunks.filter(
+          (chunk) => chunk.page !== undefined,
+        );
+        const commonWasSplit =
+          commonChunks.length > 1 ||
+          commonChunks.some((chunk) => chunk.splitDueToSize);
+        const embeddedCommon = commonWasSplit ? undefined : commonChunks[0];
+
+        const commonFileNames: string[] = [];
+        let commonSizeBytes = 0;
+
+        for (const chunk of commonChunks) {
+          const embedded = chunk === embeddedCommon;
+          const fileName = embedded ? asset.name : emitCssChunk(chunk);
+          commonSizeBytes += chunk.sizeBytes;
+          commonFileNames.push(fileName);
+
+          diagnostics.emittedCssChunks.push({
+            fileName,
+            sourceChunk: chunk.sourceChunk,
+            kind: chunk.kind as EmittedCssChunk["kind"],
+            page: chunk.page,
+            variables: chunk.variables,
+            part: chunk.part,
+            sizeBytes: chunk.sizeBytes,
+            oversized: chunk.oversized,
+            splitDueToSize: chunk.splitDueToSize,
+            embedded,
           });
 
-          compilation.updateAsset(asset.name, new RawSource(split.commonCss));
-          file.sizeAfterBytes = Buffer.byteLength(split.commonCss, "utf8");
-          file.split = {
-            associatedPages,
-            commonSizeBytes: file.sizeAfterBytes,
-            pageSpecificSizeBytes: 0,
-            deadCodeCount: split.deadCodeCount,
-          };
-
-          let pageSpecificSizeBytes = 0;
-
-          for (const page of associatedPages) {
-            const pageCss = split.pageChunks[page];
-
-            if (pageCss && pageCss.trim().length > 0) {
-              const parts = pageCssParts.get(page) ?? [];
-              parts.push(pageCss);
-              pageCssParts.set(page, parts);
-              pageSpecificSizeBytes += Buffer.byteLength(pageCss, "utf8");
-            }
+          if (chunk.splitDueToSize) {
+            diagnostics.sizeBudget.splitChunks += 1;
           }
 
-          file.split.pageSpecificSizeBytes = pageSpecificSizeBytes;
-
-          for (const stat of split.stats) {
-            const previous = matrix.get(stat.selector);
-
-            if (
-              !previous ||
-              stat.totalOccurrences > previous.totalOccurrences
-            ) {
-              matrix.set(stat.selector, stat);
-            }
+          if (chunk.oversized) {
+            diagnostics.sizeBudget.oversizedChunks += 1;
           }
-
-          diagnostics.deadCodeCount += split.deadCodeCount;
-        } catch (error) {
-          const message = `failed to split CSS: ${describeError(error)}`;
-          diagnostics.errors.push(`${asset.name}: ${message}`);
-          logger.warn(`[css-doctor] ${asset.name}: ${message}`);
         }
+
+        if (commonWasSplit) {
+          const imports = commonFileNames
+            .map((fileName) => {
+              const relativePath = posix.relative(
+                posix.dirname(asset.name),
+                fileName,
+              );
+              return `@import "./${relativePath}";`;
+            })
+            .join("\n");
+          compilation.updateAsset(asset.name, new RawSource(imports));
+        } else {
+          compilation.updateAsset(
+            asset.name,
+            new RawSource(embeddedCommon?.css ?? ""),
+          );
+        }
+
+        let pageSpecificSizeBytes = 0;
+
+        for (const chunk of pageChunks) {
+          const page = chunk.page;
+
+          if (!page) {
+            continue;
+          }
+
+          const fileName = emitCssChunk(chunk);
+          pageSpecificSizeBytes += chunk.sizeBytes;
+          const files = pageFiles.get(page) ?? [];
+          files.push(fileName);
+          pageFiles.set(page, files);
+
+          diagnostics.emittedPageChunks.push({
+            page,
+            fileName,
+            sizeBytes: chunk.sizeBytes,
+          });
+          diagnostics.emittedCssChunks.push({
+            fileName,
+            sourceChunk: chunk.sourceChunk,
+            kind: chunk.kind as EmittedCssChunk["kind"],
+            page,
+            variables: chunk.variables,
+            part: chunk.part,
+            sizeBytes: chunk.sizeBytes,
+            oversized: chunk.oversized,
+            splitDueToSize: chunk.splitDueToSize,
+            embedded: false,
+          });
+
+          if (chunk.splitDueToSize) {
+            diagnostics.sizeBudget.splitChunks += 1;
+          }
+
+          if (chunk.oversized) {
+            diagnostics.sizeBudget.oversizedChunks += 1;
+          }
+        }
+
+        file.sizeAfterBytes = commonWasSplit
+          ? commonSizeBytes
+          : Buffer.byteLength(embeddedCommon?.css ?? "", "utf8");
+        file.split = {
+          associatedPages,
+          commonSizeBytes,
+          pageSpecificSizeBytes,
+          deadCodeCount: pipeline.deadCodeCount,
+        };
+
+        for (const stat of pipeline.stats) {
+          const previous = matrix.get(stat.selector);
+
+          if (!previous || stat.totalOccurrences > previous.totalOccurrences) {
+            matrix.set(stat.selector, stat);
+          }
+        }
+
+        diagnostics.deadCodeCount += pipeline.deadCodeCount;
+        diagnostics.commonCssBytes += commonSizeBytes;
+        diagnostics.pageSpecificCssBytes += pageSpecificSizeBytes;
+      } catch (error) {
+        const message = `failed to optimize CSS: ${describeError(error)}`;
+        diagnostics.errors.push(`${asset.name}: ${message}`);
+        logger.warn(`[css-doctor] ${asset.name}: ${message}`);
       }
 
       diagnostics.analyzedCssAssets += 1;
@@ -229,34 +417,8 @@ export class CssDoctorWebpackPlugin {
       diagnostics.files.push(file);
     }
 
-    diagnostics.commonCssBytes = diagnostics.totalSizeAfterBytes;
-
-    if (splitApplied) {
-      for (const [page, parts] of pageCssParts) {
-        const css = parts.join("\n");
-        const fileName = uniquePageAssetName(page, usedAssetNames);
-        const sizeBytes = Buffer.byteLength(css, "utf8");
-
-        try {
-          compilation.emitAsset(fileName, new RawSource(css));
-        } catch (error) {
-          diagnostics.errors.push(
-            `failed to emit ${fileName}: ${describeError(error)}`,
-          );
-          continue;
-        }
-
-        usedAssetNames.add(fileName);
-
-        const emitted: EmittedPageChunk = {
-          page,
-          fileName,
-          sizeBytes,
-        };
-
-        diagnostics.emittedPageChunks.push(emitted);
-        diagnostics.pageSpecificCssBytes += sizeBytes;
-      }
+    if (pageFiles.size > 0) {
+      injectPageJsLoaders(compilation, pageFiles, pageByName, RawSource);
     }
 
     diagnostics.usageMatrix = [...matrix.values()].sort((left, right) =>
@@ -287,6 +449,120 @@ export class CssDoctorWebpackPlugin {
       }
     }
   }
+
+  private shouldSkipAsset(
+    compilation: Compilation,
+    assetName: string,
+    source: string,
+  ): boolean {
+    if (isCssModuleAsset(compilation, assetName, source)) {
+      return true;
+    }
+
+    if (this.include.length > 0 && !matchesPatterns(assetName, this.include)) {
+      return true;
+    }
+
+    return this.exclude.length > 0 && matchesPatterns(assetName, this.exclude);
+  }
+}
+
+function injectPageJsLoaders(
+  compilation: Compilation,
+  cssByPage: Map<string, string[]>,
+  pageByName: Map<string, PageInfo>,
+  RawSource: new (source: string) => import("webpack").sources.Source,
+): void {
+  const publicPath =
+    typeof compilation.options.output.publicPath === "string" &&
+    compilation.options.output.publicPath.length > 0
+      ? compilation.options.output.publicPath
+      : "/_next/";
+  const normalizedBase = publicPath.endsWith("/")
+    ? publicPath
+    : `${publicPath}/`;
+
+  for (const [page, files] of cssByPage) {
+    const jsFiles = pageByName.get(page)?.jsFiles;
+
+    if (!jsFiles || files.length === 0) {
+      continue;
+    }
+
+    const hrefs = files.map((file) => `${normalizedBase}${file}`);
+    const snippet = `const __cssDoctorPageStyles=${JSON.stringify(hrefs)};if(typeof document!=="undefined"){for(const __cssDoctorPageHref of __cssDoctorPageStyles){if(!Array.from(document.querySelectorAll("link[data-css-doctor-page]")).some((link)=>link.dataset.cssDoctorPage===__cssDoctorPageHref)){const __cssDoctorPageLink=document.createElement("link");__cssDoctorPageLink.rel="stylesheet";__cssDoctorPageLink.href=__cssDoctorPageHref;__cssDoctorPageLink.dataset.cssDoctorPage=__cssDoctorPageHref;document.head.append(__cssDoctorPageLink);}}}\n`;
+
+    for (const jsFile of jsFiles) {
+      const asset = compilation.getAsset(jsFile);
+
+      if (!asset) {
+        continue;
+      }
+
+      const source = sourceToString(asset.source.source());
+      compilation.updateAsset(jsFile, new RawSource(snippet + source));
+    }
+  }
+}
+
+function matchesPatterns(
+  value: string,
+  patterns: Array<string | RegExp>,
+): boolean {
+  return patterns.some((pattern) =>
+    typeof pattern === "string" ? value.includes(pattern) : pattern.test(value),
+  );
+}
+
+function isCssModuleAsset(
+  compilation: Compilation,
+  assetName: string,
+  source: string,
+): boolean {
+  if (/\.module\.(css|scss|sass|less|styl|stylus)$/i.test(assetName)) {
+    return true;
+  }
+
+  // Next.js emits CSS Modules as content-hashed `static/css/<hash>.css`
+  // assets whose original `.module.css` name is no longer in the asset name.
+  // Its default local-identifier format is `<file>_<local>__<hash>`.
+  if (/\.[A-Za-z0-9_-]+_[A-Za-z0-9_-]+__[A-Za-z0-9_-]+/.test(source)) {
+    return true;
+  }
+
+  for (const chunk of compilation.chunks) {
+    if (!chunk.files.has(assetName) && !chunk.auxiliaryFiles.has(assetName)) {
+      continue;
+    }
+
+    for (const module of compilation.chunkGraph.getChunkModulesIterable(
+      chunk,
+    )) {
+      if (moduleHasCssModule(module)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function moduleHasCssModule(module: Module): boolean {
+  const nested = (module as Module & { modules?: Iterable<Module> }).modules;
+
+  if (nested) {
+    for (const child of nested) {
+      if (moduleHasCssModule(child)) {
+        return true;
+      }
+    }
+  }
+
+  const resource = (module as Module & { resource?: unknown }).resource;
+  return (
+    typeof resource === "string" &&
+    /\.module\.(css|scss|sass|less|styl|stylus)(\?|$)/i.test(resource)
+  );
 }
 
 function analyzeAsset(
@@ -381,6 +657,7 @@ async function collectPages(
         name,
         classes: new Set(classes.map((className) => className.toLowerCase())),
         cssFiles: new Set(),
+        jsFiles: new Set(),
       });
     }
   } else {
@@ -416,7 +693,11 @@ async function collectPages(
         name,
         classes: new Set<string>(),
         cssFiles: new Set<string>(),
+        jsFiles: collectEntryJsFiles(entry),
       };
+      for (const jsFile of collectEntryJsFiles(entry)) {
+        page.jsFiles.add(jsFile);
+      }
 
       for (const className of sharedClasses) {
         page.classes.add(className);
@@ -783,6 +1064,18 @@ function readModuleSource(module: Module): string | undefined {
   }
 }
 
+function collectEntryJsFiles(entry: Entrypoint): Set<string> {
+  const files = new Set<string>();
+
+  for (const file of entry.getFiles()) {
+    if (file.endsWith(".js")) {
+      files.add(file);
+    }
+  }
+
+  return files;
+}
+
 function collectEntryCssFiles(entry: Entrypoint): Set<string> {
   const cssFiles = new Set<string>();
 
@@ -944,24 +1237,6 @@ function addCssOwner(
   const owners = pagesByCss.get(cssFile) ?? new Set<string>();
   owners.add(page);
   pagesByCss.set(cssFile, owners);
-}
-
-function uniquePageAssetName(page: string, usedNames: Set<string>): string {
-  const safePage =
-    page
-      .replace(/[^a-zA-Z0-9_-]+/g, "-")
-      .replace(/^-+|-+$/g, "")
-      .toLowerCase() || "index";
-  const base = `static/css/page-${safePage}.css`;
-  let fileName = base;
-  let index = 2;
-
-  while (usedNames.has(fileName)) {
-    fileName = `static/css/page-${safePage}-${index}.css`;
-    index += 1;
-  }
-
-  return fileName;
 }
 
 function collectSyntaxWarnings(

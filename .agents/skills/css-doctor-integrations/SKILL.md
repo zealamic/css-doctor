@@ -30,8 +30,39 @@ This is an FE-scoped TypeScript codebase: use `type` object definitions
 everywhere, never `interface`. Biome's `useConsistentTypeDefinitions` rule
 enforces this.
 
-The demo uses Tailwind v4 through `@tailwindcss/vite` and
+The Vite demo uses Tailwind v4 through `@tailwindcss/vite` and
 `@import 'tailwindcss';`; there is no `tailwind.config.js` or PostCSS config.
+The Next demo uses `@tailwindcss/postcss` with a minimal
+`postcss.config.mjs`, `@import "tailwindcss";`, and `@theme` tokens in
+`styles/globals.css`.
+
+## Two-tier options
+
+`cssDoctor` accepts `pageCoverage` and `sizeBudget` objects. Defaults are both
+enabled: coverage threshold `0.5`, size budget `60 KiB`, variables isolated.
+`minify` defaults to the production/build value; pass `minify: false` for
+readable output. The plugin also disables Vite's `build.cssMinify` in that case,
+otherwise Vite would re-minify the emitted assets. The old `minPageRatio` /
+`forceCommonSelectors` options remain as fallbacks.
+
+Chunks are emitted with `emitFile({ type: "asset", name })`, then resolved
+through `getFileName()` so Vite applies `assetFileNames` and content hashes
+(e.g. `assets/page-home-abc123.css`). Common chunks are injected into HTML.
+Page CSS is loaded by a small loader prepended to each page JS chunk, so a
+fresh load requests only the current route; previously visited page CSS stays
+cached in the DOM. Direct `pageUsage` pages without a JS chunk still need app
+level loading.
+
+## Next.js specifics
+
+- Client production only: `!context.dev && !context.isServer`.
+- Skip `*.module.css` assets (both by name and CSS-module module graph).
+- Run `optimizeCss` and emit `static/css/[name].[contenthash:8].css`.
+- Split common chunks are exposed through an `@import` wrapper in the
+  original CSS asset, preserving Next's existing HTML/manifest links.
+- Page chunks are loaded from a small loader prepended to the page JS chunk.
+- `minify: false` removes Next's CSS minimizer; otherwise Next re-minifies the
+  assets after the native pipeline.
 
 ## Shared pipeline
 
@@ -97,15 +128,21 @@ yet** — state this limitation explicitly in docs and final answers.
 - Webpack hooks:
   - `compiler.hooks.thisCompilation`
   - `compilation.hooks.processAssets` at `PROCESS_ASSETS_STAGE_OPTIMIZE`
-  - replace with `compilation.updateAsset(..., new RawSource(commonCss))`
-  - emit with `compilation.emitAsset('static/css/page-*.css', ...)`
+  - run native `optimizeCss`
+  - update the original asset; split common chunks are exposed through an
+    `@import` wrapper
+  - emit `static/css/[name].[contenthash:8].css`
+  - prepend lazy page CSS loaders to page JS chunks
 - Page discovery supports App Router (`app/**/page`, layouts) and Pages Router
   (`pages/**`, `_app`) plus source scanning of route/layout files and relative
   imports / `@/` aliases. App Router page chunks are stubs in the client build,
   so source scanning is required; do not remove it.
 - `cssd.config.ts` is loaded synchronously with `jiti` only when no inline
-  options are provided; explicit `configFile` is supported. Config errors warn
-  and fall back, never crash Next config loading.
+  options are provided; explicit `configFile` is supported. Discovery order:
+  `.ts`, `.mts`, `.js`, `.mjs`. Missing/empty configs return `{}`; invalid
+  configs warn and fall back, never crash Next config loading.
+- Examples use modern `next.config.ts`; keep them typechecked by including
+  `examples/**/*.ts` in the package tsconfig.
 - Verify:
 
   ```bash
@@ -115,8 +152,9 @@ yet** — state this limitation explicitly in docs and final answers.
 
 ## Known limitations
 
-- Page-specific files are not injected into Vite HTML or Next manifests/HTML.
-- CSS Modules/dynamic class names require `pageUsage` or
+- Vite/Next load page CSS from the route/page JS chunk, not as a preload in the
+  initial HTML. Visited page CSS stays cached in the DOM.
+- Next skips CSS Modules entirely; dynamic class names require `pageUsage` or
   `forceCommonSelectors`.
 - Next alias resolution supports relative imports and `@/`; other aliases need
   explicit usage.

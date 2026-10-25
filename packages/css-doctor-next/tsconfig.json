@@ -15,6 +15,11 @@
     "resolveJsonModule": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "test/**/*.test.ts", "tsup.config.ts"],
+  "include": [
+    "src/**/*.ts",
+    "examples/**/*.ts",
+    "test/**/*.test.ts",
+    "tsup.config.ts"
+  ],
   "exclude": ["dist", "node_modules"]
 }

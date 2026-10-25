@@ -346,6 +346,8 @@ pub struct JsChunkConfig {
     pub min_page_ratio: f64,
     /// Selectors or class names that should always stay in the common chunk.
     pub force_common_selectors: Vec<String>,
+    /// Minify serialized CSS. Defaults to `true`.
+    pub minify: Option<bool>,
 }
 
 /// Input for [`split_css_by_pages`].
@@ -411,12 +413,212 @@ pub fn split_css_by_pages(input: JsSplitInput) -> Result<JsSplitOutput, napi::Er
         config: core::ChunkConfig {
             min_page_ratio: input.config.min_page_ratio as f32,
             force_common_selectors: input.config.force_common_selectors,
+            minify: input.config.minify.unwrap_or(true),
         },
     };
 
     core::split_css_by_pages(&core_input)
         .map(JsSplitOutput::from)
         .map_err(napi::Error::from_reason)
+}
+
+/// Configuration for the semantic page-coverage tier.
+#[napi(object)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct JsPageCoverageConfig {
+    /// Enable page-coverage splitting. Defaults to `true`.
+    pub enabled: Option<bool>,
+    /// Minimum page coverage for common rules. Defaults to `0.5`.
+    pub min_page_ratio: Option<f64>,
+    /// Selectors or classes that always stay in the common chunk.
+    pub force_common: Option<Vec<String>>,
+}
+
+/// Configuration for the physical size-budget tier.
+#[napi(object)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct JsSizeBudgetConfig {
+    /// Enable size-budget splitting. Defaults to `true`.
+    pub enabled: Option<bool>,
+    /// Maximum serialized bytes per body chunk. Defaults to 60 KiB.
+    pub max_chunk_size: Option<u32>,
+    /// Isolate CSS variables before splitting. Defaults to `true`.
+    pub isolate_variables: Option<bool>,
+}
+
+/// Input for [`optimize_css`].
+#[napi(object)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct JsPipelineInput {
+    /// Original CSS source.
+    pub css_content: String,
+    /// Page/route name to class names used by that page.
+    pub page_usage: HashMap<String, Vec<String>>,
+    /// Optional tier 1 configuration.
+    pub page_coverage: Option<JsPageCoverageConfig>,
+    /// Optional tier 2 configuration.
+    pub size_budget: Option<JsSizeBudgetConfig>,
+    /// Minify serialized CSS. Defaults to `true`.
+    pub minify: Option<bool>,
+}
+
+/// The stage that produced a pipeline chunk.
+#[napi(string_enum = "snake_case")]
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum JsPipelineChunkKind {
+    /// Shared/common rules.
+    Common,
+    /// Page-specific rules.
+    Page,
+    /// Isolated CSS variables.
+    Variables,
+    /// A size-budget part.
+    Part,
+}
+
+/// One CSS chunk emitted by the pipeline.
+#[napi(object)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct JsChunkOutput {
+    /// Logical file stem, e.g. `common`, `page-home`, `common-vars`.
+    pub name: String,
+    /// Base chunk before physical splitting.
+    pub source_chunk: String,
+    /// Serialized CSS.
+    pub css: String,
+    /// Stage/kind of this chunk.
+    pub kind: JsPipelineChunkKind,
+    /// Page that owns this chunk, when applicable.
+    pub page: Option<String>,
+    /// Whether this chunk contains isolated CSS variables.
+    pub variables: bool,
+    /// 1-based part index when produced by size splitting.
+    pub part: Option<u32>,
+    /// Serialized byte size.
+    pub size_bytes: u32,
+    /// True when an indivisible rule exceeds the budget.
+    pub oversized: bool,
+    /// True when this chunk exists because of the size budget.
+    pub split_due_to_size: bool,
+}
+
+/// Result of the two-tier optimization pipeline.
+#[napi(object)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct JsPipelineOutput {
+    /// Final chunks in load order.
+    pub chunks: Vec<JsChunkOutput>,
+    /// Selector usage matrix from tier 1.
+    pub stats: Vec<JsSelectorStat>,
+    /// Dead selector occurrences removed by tier 1.
+    pub dead_code_count: u32,
+    /// Pages discovered from `page_usage`.
+    pub pages: Vec<String>,
+    /// Whether page-coverage splitting actually ran.
+    pub page_coverage_applied: bool,
+    /// Whether size-budget processing was enabled.
+    pub size_budget_applied: bool,
+}
+
+/// Runs the two-tier CSS optimization pipeline.
+///
+/// # Errors
+///
+/// Rejects with a JavaScript `Error` when the configuration is invalid or the
+/// stylesheet/AST cannot be processed.
+#[napi]
+pub fn optimize_css(input: JsPipelineInput) -> Result<JsPipelineOutput, napi::Error> {
+    let page_coverage = input.page_coverage;
+    let size_budget = input.size_budget;
+
+    let core_input = core::PipelineInput {
+        css_content: input.css_content,
+        page_usage: input
+            .page_usage
+            .into_iter()
+            .map(|(page, classes)| (page, classes.into_iter().collect::<HashSet<_>>()))
+            .collect(),
+        page_coverage: core::PageCoverageConfig {
+            enabled: page_coverage
+                .as_ref()
+                .and_then(|config| config.enabled)
+                .unwrap_or(true),
+            min_page_ratio: page_coverage
+                .as_ref()
+                .and_then(|config| config.min_page_ratio)
+                .map(|value| value as f32)
+                .unwrap_or(0.5),
+            force_common: page_coverage
+                .and_then(|config| config.force_common)
+                .unwrap_or_default(),
+        },
+        size_budget: core::SizeBudgetConfig {
+            enabled: size_budget
+                .as_ref()
+                .and_then(|config| config.enabled)
+                .unwrap_or(true),
+            max_chunk_size: size_budget
+                .as_ref()
+                .and_then(|config| config.max_chunk_size)
+                .map(|value| value as usize)
+                .unwrap_or(60 * 1024),
+            isolate_variables: size_budget
+                .and_then(|config| config.isolate_variables)
+                .unwrap_or(true),
+        },
+        minify: input.minify.unwrap_or(true),
+    };
+
+    core::optimize_css_pipeline(&core_input)
+        .map(JsPipelineOutput::from)
+        .map_err(napi::Error::from_reason)
+}
+
+impl From<core::PipelineChunkKind> for JsPipelineChunkKind {
+    fn from(kind: core::PipelineChunkKind) -> Self {
+        match kind {
+            core::PipelineChunkKind::Common => Self::Common,
+            core::PipelineChunkKind::Page => Self::Page,
+            core::PipelineChunkKind::Variables => Self::Variables,
+            core::PipelineChunkKind::Part => Self::Part,
+        }
+    }
+}
+
+impl From<core::PipelineChunk> for JsChunkOutput {
+    fn from(chunk: core::PipelineChunk) -> Self {
+        Self {
+            name: chunk.name,
+            source_chunk: chunk.source_chunk,
+            css: chunk.css,
+            kind: chunk.kind.into(),
+            page: chunk.page,
+            variables: chunk.variables,
+            part: chunk.part,
+            size_bytes: to_u32(chunk.size_bytes),
+            oversized: chunk.oversized,
+            split_due_to_size: chunk.split_due_to_size,
+        }
+    }
+}
+
+impl From<core::PipelineOutput> for JsPipelineOutput {
+    fn from(output: core::PipelineOutput) -> Self {
+        Self {
+            chunks: output.chunks.into_iter().map(JsChunkOutput::from).collect(),
+            stats: output.stats.into_iter().map(JsSelectorStat::from).collect(),
+            dead_code_count: to_u32(output.dead_code_count),
+            pages: output.pages,
+            page_coverage_applied: output.page_coverage_applied,
+            size_budget_applied: output.size_budget_applied,
+        }
+    }
 }
 
 impl From<core::SelectorStat> for JsSelectorStat {
@@ -539,6 +741,7 @@ mod tests {
             config: JsChunkConfig {
                 min_page_ratio: 0.5,
                 force_common_selectors: Vec::new(),
+                minify: None,
             },
         };
 
@@ -568,6 +771,7 @@ mod tests {
             config: JsChunkConfig {
                 min_page_ratio: 2.0,
                 force_common_selectors: Vec::new(),
+                minify: None,
             },
         };
 
@@ -597,5 +801,32 @@ mod tests {
             }
         );
         assert!(result.warnings.is_empty());
+    }
+    #[test]
+    fn maps_pipeline_output_and_defaults() {
+        let input = JsPipelineInput {
+            css_content: ":root { --brand: red; } .a { color: var(--brand); } .b { color: blue; }"
+                .to_string(),
+            page_usage: HashMap::from([("home".to_string(), vec!["a".to_string()])]),
+            page_coverage: Some(JsPageCoverageConfig {
+                enabled: Some(false),
+                min_page_ratio: None,
+                force_common: None,
+            }),
+            size_budget: Some(JsSizeBudgetConfig {
+                enabled: Some(true),
+                max_chunk_size: Some(40),
+                isolate_variables: Some(true),
+            }),
+            minify: Some(true),
+        };
+
+        let output = optimize_css(input).expect("pipeline succeeds");
+
+        assert!(!output.page_coverage_applied);
+        assert!(output.size_budget_applied);
+        assert!(output.chunks.iter().any(|chunk| chunk.variables));
+        assert!(output.chunks.iter().any(|chunk| chunk.part.is_some()));
+        assert!(output.chunks.iter().all(|chunk| !chunk.name.is_empty()));
     }
 }

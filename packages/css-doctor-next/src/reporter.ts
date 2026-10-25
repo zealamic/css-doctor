@@ -32,7 +32,12 @@ export function formatDiagnostics(
     } CSS assets ${colors.dim("·")} ${formatBytes(
       diagnostics.totalSizeBeforeBytes,
     )} → ${formatBytes(diagnostics.totalSizeAfterBytes)} common ` +
-      `${colors.dim("·")} ${formatDuration(diagnostics.durationMs)}`,
+      `${colors.dim("·")} ${formatDuration(diagnostics.durationMs)}` +
+      ` ${colors.dim("·")} ${
+        diagnostics.minify
+          ? colors.green("Minified: YES")
+          : colors.yellow("Minified: NO")
+      }`,
   );
 
   for (const file of diagnostics.files) {
@@ -59,6 +64,11 @@ export function formatDiagnostics(
         )}`,
       );
     }
+  }
+
+  if (diagnostics.sizeBudget.enabled) {
+    lines.push("");
+    lines.push(...formatSizeBudget(diagnostics, colors));
   }
 
   if (diagnostics.deadCodeCount > 0) {
@@ -172,6 +182,64 @@ function formatMatrix(
         diagnostics.minPageRatio,
         colors,
       )}  ${chunk}`,
+    );
+  }
+
+  return lines;
+}
+
+function formatSizeBudget(
+  diagnostics: CssDoctorNextDiagnostics,
+  colors: ReturnType<typeof picocolors.createColors>,
+): string[] {
+  const budget = diagnostics.sizeBudget;
+  const lines = [
+    `  ${colors.bold("Size budget")} ${colors.dim(
+      `(max ${formatBytes(budget.maxChunkSize)} · variables ${
+        budget.isolateVariables ? "isolated" : "inline"
+      })`,
+    )}`,
+  ];
+  const chunks = diagnostics.emittedCssChunks;
+
+  if (chunks.length === 0) {
+    lines.push(`    ${colors.dim("No CSS chunks were emitted.")}`);
+    return lines;
+  }
+
+  for (const chunk of chunks) {
+    const markers: string[] = [];
+
+    if (chunk.variables) {
+      markers.push("vars");
+    }
+
+    if (chunk.part !== undefined) {
+      markers.push(`part ${chunk.part}`);
+    }
+
+    if (chunk.embedded) {
+      markers.push("embedded");
+    }
+
+    if (chunk.splitDueToSize) {
+      markers.push(colors.yellow("split"));
+    }
+
+    if (chunk.oversized) {
+      markers.push(colors.red("oversized"));
+    }
+
+    lines.push(
+      `    ${colors.magenta(chunk.fileName)} ${colors.dim(
+        formatBytes(chunk.sizeBytes),
+      )}${markers.length > 0 ? ` ${colors.dim("·")} ${markers.join(" · ")}` : ""}`,
+    );
+  }
+
+  if (budget.splitChunks === 0) {
+    lines.push(
+      `    ${colors.dim("No chunk exceeded the configured size budget.")}`,
     );
   }
 

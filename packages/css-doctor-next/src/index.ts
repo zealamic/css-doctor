@@ -9,7 +9,11 @@ import type {
   CssDoctorNextDiagnostics,
   CssDoctorNextOptions,
   CssDoctorWebpackPluginOptions,
+  EmittedCssChunk,
   EmittedPageChunk,
+  PageCoverageOptions,
+  SizeBudgetDiagnostics,
+  SizeBudgetOptions,
 } from "./types";
 import { CssDoctorWebpackPlugin } from "./webpack-plugin";
 
@@ -82,7 +86,34 @@ function enableCssDoctor(
   }
 
   webpackConfig.plugins = plugins;
+
+  if (options.minify === false) {
+    disableNextCssMinifier(webpackConfig);
+  }
+
   return webpackConfig;
+}
+
+function disableNextCssMinifier(config: WebpackConfigLike): void {
+  const optimization = config.optimization as
+    | { minimizer?: unknown[] }
+    | undefined;
+
+  if (!optimization || !Array.isArray(optimization.minimizer)) {
+    return;
+  }
+
+  optimization.minimizer = optimization.minimizer.filter((plugin) => {
+    const source =
+      typeof plugin === "function"
+        ? Function.prototype.toString.call(plugin)
+        : String(plugin);
+
+    return (
+      !source.includes("CssMinimizerPlugin") &&
+      !source.includes("css-minimizer-plugin")
+    );
+  });
 }
 
 function resolvePluginOptions(
@@ -141,5 +172,9 @@ export type {
   CssDoctorNextDiagnostics,
   CssDoctorNextOptions,
   CssDoctorWebpackPluginOptions,
+  EmittedCssChunk,
   EmittedPageChunk,
+  PageCoverageOptions,
+  SizeBudgetDiagnostics,
+  SizeBudgetOptions,
 };

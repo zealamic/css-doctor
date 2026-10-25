@@ -9,7 +9,17 @@ export default defineConfig({
     react(),
     tailwindcss(),
     cssDoctor({
-      minPageRatio: 0.5,
+      pageCoverage: {
+        enabled: true,
+        minPageRatio: 0.5,
+        forceCommon: [".app-shell", ".nav-link"],
+      },
+      sizeBudget: {
+        enabled: true,
+        maxChunkSize: 60 * 1024,
+        isolateVariables: true,
+      },
+      minify: true,
       report: true,
     }),
   ],

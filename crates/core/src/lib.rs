@@ -42,6 +42,8 @@
 
 mod analyzer;
 mod model;
+mod pipeline;
+mod size_splitter;
 mod splitter;
 mod usage;
 
@@ -50,5 +52,10 @@ pub use model::{
     AnalysisStats, AnalysisWarning, CssAnalysisResult, SelectorInfo, SelectorKind, SourceLocation,
     Specificity, StyleRuleInfo,
 };
+pub use pipeline::{
+    PageCoverageConfig, PipelineChunk, PipelineChunkKind, PipelineInput, PipelineOutput,
+    SizeBudgetConfig, optimize_css_pipeline,
+};
+pub use size_splitter::{SizeSplitOutput, SizeSplitterConfig, split_css_by_size};
 pub use splitter::{ChunkConfig, SelectorStat, SplitInput, SplitOutput, split_css_by_pages};
 pub use usage::UsageMatrix;

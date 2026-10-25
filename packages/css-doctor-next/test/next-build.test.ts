@@ -32,15 +32,21 @@ test("runs a real Next.js App Router build with page splitting", async () => {
     const commonFile = cssFiles.find(
       (fileName) => !fileName.startsWith("page-"),
     );
+    const homeFile = cssFiles.find((fileName) =>
+      /^page-index\.[a-f0-9]{8}\.css$/.test(fileName),
+    );
+    const aboutFile = cssFiles.find((fileName) =>
+      /^page-about\.[a-f0-9]{8}\.css$/.test(fileName),
+    );
 
     assert.ok(commonFile, "expected a common CSS asset");
-    assert.ok(cssFiles.includes("page-index.css"), "expected page-index.css");
-    assert.ok(cssFiles.includes("page-about.css"), "expected page-about.css");
+    assert.ok(homeFile, "expected page-index.[hash].css");
+    assert.ok(aboutFile, "expected page-about.[hash].css");
 
     const [common, home, about] = await Promise.all([
       readFile(join(cssDir, commonFile), "utf8"),
-      readFile(join(cssDir, "page-index.css"), "utf8"),
-      readFile(join(cssDir, "page-about.css"), "utf8"),
+      readFile(join(cssDir, homeFile), "utf8"),
+      readFile(join(cssDir, aboutFile), "utf8"),
     ]);
 
     assert.match(common, /\.shared/);
@@ -50,6 +56,18 @@ test("runs a real Next.js App Router build with page splitting", async () => {
     assert.doesNotMatch(common, /\.about-card/);
     assert.match(home, /\.home-hero/);
     assert.match(about, /\.about-card/);
+
+    const pageChunks = await readdir(join(appRoot, ".next/static/chunks/app"));
+    const homeChunk = pageChunks.find((fileName) =>
+      /^page-[^/]+\.js$/.test(fileName),
+    );
+    assert.ok(homeChunk, "expected the App Router page chunk");
+    const pageChunkSource = await readFile(
+      join(appRoot, ".next/static/chunks/app", homeChunk),
+      "utf8",
+    );
+    assert.match(pageChunkSource, new RegExp(homeFile.replaceAll(".", "\\.")));
+
     assert.match(result.stdout, /\[css-doctor\]/);
     assert.match(result.stdout, /Dead code eliminated/);
   } finally {
