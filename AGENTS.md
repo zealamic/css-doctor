@@ -19,6 +19,7 @@ Turborepo.
 | `packages/css-doctor-next` | Next.js config wrapper + Webpack plugin (ESM + CJS + DTS) |
 | `examples/vite-react-tailwind` | React 19 + Tailwind v4 SPA build-graph demo for Vite |
 | `examples/next-app-tailwind` | Next 15 App Router + Tailwind v4 CSS Modules safety fixture |
+| `monitor/` | Local Node/Rust dependency dashboard (`pnpm monitor`) |
 | `turbo.json` | Turborepo task graph, input hashing, native addon outputs |
 | `.agents/skills` | Vendor-neutral agent skills (canonical) |
 | `.claude/skills` | Single Claude router skill pointing at the canonical workflows |
@@ -74,6 +75,7 @@ pnpm format                 # turbo format (Biome format --write)
 pnpm format:check           # turbo format:check (no writes)
 pnpm check                  # turbo check (Biome lint + format)
 pnpm dev                    # turbo dev (persistent, uncached)
+pnpm monitor                # dependency dashboard at http://127.0.0.1:3000
 
 # Rust
 pnpm test:cargo             # cargo test --workspace
