@@ -490,7 +490,7 @@ function injectPageJsLoaders(
     }
 
     const hrefs = files.map((file) => `${normalizedBase}${file}`);
-    const snippet = `const __cssDoctorPageStyles=${JSON.stringify(hrefs)};if(typeof document!=="undefined"){for(const __cssDoctorPageHref of __cssDoctorPageStyles){if(!Array.from(document.querySelectorAll("link[data-css-doctor-page]")).some((link)=>link.dataset.cssDoctorPage===__cssDoctorPageHref)){const __cssDoctorPageLink=document.createElement("link");__cssDoctorPageLink.rel="stylesheet";__cssDoctorPageLink.href=__cssDoctorPageHref;__cssDoctorPageLink.dataset.cssDoctorPage=__cssDoctorPageHref;document.head.append(__cssDoctorPageLink);}}}\n`;
+    const snippet = `(()=>{const __cssDoctorPageStyles=${JSON.stringify(hrefs)};if(typeof document!=="undefined"){for(const __cssDoctorPageHref of __cssDoctorPageStyles){if(!Array.from(document.querySelectorAll("link[data-css-doctor-page]")).some((link)=>link.dataset.cssDoctorPage===__cssDoctorPageHref)){const __cssDoctorPageLink=document.createElement("link");__cssDoctorPageLink.rel="stylesheet";__cssDoctorPageLink.href=__cssDoctorPageHref;__cssDoctorPageLink.dataset.cssDoctorPage=__cssDoctorPageHref;document.head.append(__cssDoctorPageLink);}}}})();\n`;
 
     for (const jsFile of jsFiles) {
       const asset = compilation.getAsset(jsFile);

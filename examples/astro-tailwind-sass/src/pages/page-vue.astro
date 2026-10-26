@@ -1,0 +1,14 @@
+---
+import LayoutBase from "../layouts/layout-base.astro";
+import IslandVue from "../components/island-vue.vue";
+---
+
+<LayoutBase title="Vue Island">
+  <IslandVue client:load />
+</LayoutBase>
+
+<style>
+  .glass-panel-box {
+    min-height: 18rem;
+  }
+</style>

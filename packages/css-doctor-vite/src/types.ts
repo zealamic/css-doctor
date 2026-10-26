@@ -51,6 +51,17 @@ export type CssDoctorViteOptions = {
   /** Skip CSS assets whose emitted file name matches these patterns. */
   exclude?: CssDoctorFilter;
   /**
+   * Skip assets that contain Vue scoped-style attributes (`[data-v-...]`).
+   * Nuxt enables this automatically; default is `false` for plain Vite apps.
+   */
+  skipVueScopedStyles?: boolean;
+  /**
+   * Wrap split common chunks with `@import` statements in the original CSS
+   * asset. Nuxt's Nitro renderer does not expose Vite HTML assets, so links
+   * cannot be injected into the SSR document.
+   */
+  wrapCommonImports?: boolean;
+  /**
    * Explicit page class usage, merged with classes scanned from entry HTML/JS
    * chunks. Useful for pages rendered by a framework or content not present in
    * the Vite module graph.

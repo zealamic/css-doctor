@@ -109,3 +109,11 @@ packages/binding/index.d.cts
 # JetBrains template (kept from upstream gitignore)
 # -----------------------------------------------------------------------------
 # .idea/ is already ignored above.
+
+# Astro build/cache output
+.astro/
+
+# Nuxt build/cache output
+.nuxt/
+.output/
+.svelte-kit/

@@ -1,0 +1,14 @@
+---
+import LayoutBase from "../layouts/layout-base.astro";
+import { IslandSolid } from "../components/island-solid";
+---
+
+<LayoutBase title="Solid Island">
+  <IslandSolid client:load />
+</LayoutBase>
+
+<style>
+  .glass-panel-box {
+    min-height: 18rem;
+  }
+</style>

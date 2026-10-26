@@ -17,8 +17,16 @@ Turborepo.
 | `packages/cli` | `css-doctor` terminal CLI (Commander + tsup, ESM) |
 | `packages/css-doctor-vite` | Vite/Rollup plugin (ESM + CJS + DTS) |
 | `packages/css-doctor-next` | Next.js config wrapper + Webpack plugin (ESM + CJS + DTS) |
+| `packages/css-doctor-rsbuild` | Rsbuild/Rspack plugin (ESM + DTS) |
+| `packages/css-doctor-remix` | Remix 3 asset-server middleware (ESM + DTS) |
+| `packages/css-doctor-nuxt` | Nuxt 4 module wrapping the Vite plugin (ESM + DTS) |
 | `examples/vite-react-tailwind` | React 19 + Tailwind v4 SPA build-graph demo for Vite |
 | `examples/next-app-tailwind` | Next 15 App Router + Tailwind v4 CSS Modules safety fixture |
+| `examples/rsbuild-react-tailwind` | Rsbuild 2 + React 19 + Tailwind v4 fixture |
+| `examples/astro-tailwind-sass` | Astro 5 multi-island + Tailwind v4 + SCSS stress fixture |
+| `examples/remix-tailwind-sass` | Remix 3 asset-server + Tailwind v4 + Sass fixture |
+| `examples/nuxt-tailwind-sass` | Nuxt 4 + Tailwind v4 + Sass + Vue scoped fixture |
+| `examples/vite-react-3rd-ui` | Vite + React 3rd-party UI (Antd/MUI/Chakra) fixture |
 | `monitor/` | Local Node/Rust dependency dashboard (`pnpm monitor`) |
 | `turbo.json` | Turborepo task graph, input hashing, native addon outputs |
 | `.agents/skills` | Vendor-neutral agent skills (canonical) |

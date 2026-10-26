@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #6366f1;
+  --color-brand-accent: #06b6d4;
+  --font-sans: "Inter", "Avenir", sans-serif;
+}
+
+:root {
+  --app-bg-start: #020917;
+  --app-bg-end: #101725;
+  --card-border: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  margin: 0;
+  color: #f8fafc;
+  font-family: var(--font-sans);
+  background: linear-gradient(180deg, var(--app-bg-start) 0%, var(--app-bg-end) 100%);
+  min-height: 100vh;
+}
+
+/* 1. Common Classes (Navbar, Home and Settings, Dashboard and Settings) */
+.btn-primary-action {
+  background-color: var(--color-brand-primary);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.panel-glass {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+}
+
+/* 2. Page-Specific Classes */
+/* Home only */
+.hero-gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, var(--color-brand-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Dashboard only */
+.metric-badge-live {
+  border-left: 3px solid var(--color-brand-accent);
+}
+
+/* Settings only */
+.danger-section-divider {
+  border-top: 1px dashed rgba(239, 68, 68, 0.4);
+}
+
+/* 3. Dead Code */
+.legacy-unused-table {
+  display: table;
+  width: 100%;
+}

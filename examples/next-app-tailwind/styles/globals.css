@@ -20,8 +20,16 @@
   body {
     min-height: 100vh;
     background:
-      radial-gradient(circle at 12% 8%, rgb(99 102 241 / 12%), transparent 32rem),
-      radial-gradient(circle at 88% 18%, rgb(6 182 212 / 10%), transparent 28rem),
+      radial-gradient(
+        circle at 12% 8%,
+        rgb(99 102 241 / 12%),
+        transparent 32rem
+      ),
+      radial-gradient(
+        circle at 88% 18%,
+        rgb(6 182 212 / 10%),
+        transparent 28rem
+      ),
       var(--custom-app-bg);
   }
 }
@@ -47,7 +55,11 @@
 
 /* Chỉ dùng ở app/page.tsx */
 .hero-title-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, var(--color-primary-glow) 100%);
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    var(--color-primary-glow) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -92,17 +104,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 9px 21px rgb(2 6 23 / 26%);
   backdrop-filter: blur(3px);
-  transition: transform 121ms ease, box-shadow 121ms ease;
+  transition:
+    transform 121ms ease,
+    box-shadow 121ms ease;
 }
 .shell-surface-002 {
   background:
     radial-gradient(circle at 12% 17%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(2deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 14%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 10px 22px rgb(2 6 23 / 27%);
   backdrop-filter: blur(4px);
-  transition: transform 122ms ease, box-shadow 122ms ease;
+  transition:
+    transform 122ms ease,
+    box-shadow 122ms ease;
 }
 .shell-surface-003 {
   background:
@@ -112,17 +128,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 11px 23px rgb(2 6 23 / 28%);
   backdrop-filter: blur(5px);
-  transition: transform 123ms ease, box-shadow 123ms ease;
+  transition:
+    transform 123ms ease,
+    box-shadow 123ms ease;
 }
 .shell-surface-004 {
   background:
     radial-gradient(circle at 14% 19%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(4deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 16%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 12px 24px rgb(2 6 23 / 29%);
   backdrop-filter: blur(6px);
-  transition: transform 124ms ease, box-shadow 124ms ease;
+  transition:
+    transform 124ms ease,
+    box-shadow 124ms ease;
 }
 .shell-surface-005 {
   background:
@@ -132,17 +152,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 13px 25px rgb(2 6 23 / 30%);
   backdrop-filter: blur(7px);
-  transition: transform 125ms ease, box-shadow 125ms ease;
+  transition:
+    transform 125ms ease,
+    box-shadow 125ms ease;
 }
 .shell-surface-006 {
   background:
     radial-gradient(circle at 16% 21%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(6deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 18%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 14px 26px rgb(2 6 23 / 31%);
   backdrop-filter: blur(8px);
-  transition: transform 126ms ease, box-shadow 126ms ease;
+  transition:
+    transform 126ms ease,
+    box-shadow 126ms ease;
 }
 .shell-surface-007 {
   background:
@@ -152,17 +176,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 15px 27px rgb(2 6 23 / 32%);
   backdrop-filter: blur(9px);
-  transition: transform 127ms ease, box-shadow 127ms ease;
+  transition:
+    transform 127ms ease,
+    box-shadow 127ms ease;
 }
 .shell-surface-008 {
   background:
     radial-gradient(circle at 18% 23%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(8deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 20%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 16px 28px rgb(2 6 23 / 33%);
   backdrop-filter: blur(10px);
-  transition: transform 128ms ease, box-shadow 128ms ease;
+  transition:
+    transform 128ms ease,
+    box-shadow 128ms ease;
 }
 .shell-surface-009 {
   background:
@@ -172,17 +200,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 17px 29px rgb(2 6 23 / 34%);
   backdrop-filter: blur(11px);
-  transition: transform 129ms ease, box-shadow 129ms ease;
+  transition:
+    transform 129ms ease,
+    box-shadow 129ms ease;
 }
 .shell-surface-010 {
   background:
     radial-gradient(circle at 20% 25%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(10deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 22%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 18px 30px rgb(2 6 23 / 35%);
   backdrop-filter: blur(2px);
-  transition: transform 130ms ease, box-shadow 130ms ease;
+  transition:
+    transform 130ms ease,
+    box-shadow 130ms ease;
 }
 .shell-surface-011 {
   background:
@@ -192,17 +224,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 19px 31px rgb(2 6 23 / 36%);
   backdrop-filter: blur(3px);
-  transition: transform 131ms ease, box-shadow 131ms ease;
+  transition:
+    transform 131ms ease,
+    box-shadow 131ms ease;
 }
 .shell-surface-012 {
   background:
     radial-gradient(circle at 22% 27%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(12deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 24%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 20px 32px rgb(2 6 23 / 37%);
   backdrop-filter: blur(4px);
-  transition: transform 132ms ease, box-shadow 132ms ease;
+  transition:
+    transform 132ms ease,
+    box-shadow 132ms ease;
 }
 .shell-surface-013 {
   background:
@@ -212,17 +248,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 21px 33px rgb(2 6 23 / 38%);
   backdrop-filter: blur(5px);
-  transition: transform 133ms ease, box-shadow 133ms ease;
+  transition:
+    transform 133ms ease,
+    box-shadow 133ms ease;
 }
 .shell-surface-014 {
   background:
     radial-gradient(circle at 24% 29%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(14deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 26%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 22px 34px rgb(2 6 23 / 39%);
   backdrop-filter: blur(6px);
-  transition: transform 134ms ease, box-shadow 134ms ease;
+  transition:
+    transform 134ms ease,
+    box-shadow 134ms ease;
 }
 .shell-surface-015 {
   background:
@@ -232,17 +272,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 23px 35px rgb(2 6 23 / 40%);
   backdrop-filter: blur(7px);
-  transition: transform 135ms ease, box-shadow 135ms ease;
+  transition:
+    transform 135ms ease,
+    box-shadow 135ms ease;
 }
 .shell-surface-016 {
   background:
     radial-gradient(circle at 26% 31%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(16deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 28%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 24px 36px rgb(2 6 23 / 41%);
   backdrop-filter: blur(8px);
-  transition: transform 136ms ease, box-shadow 136ms ease;
+  transition:
+    transform 136ms ease,
+    box-shadow 136ms ease;
 }
 .shell-surface-017 {
   background:
@@ -252,17 +296,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 25px 37px rgb(2 6 23 / 42%);
   backdrop-filter: blur(9px);
-  transition: transform 137ms ease, box-shadow 137ms ease;
+  transition:
+    transform 137ms ease,
+    box-shadow 137ms ease;
 }
 .shell-surface-018 {
   background:
     radial-gradient(circle at 28% 33%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(18deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 30%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 26px 38px rgb(2 6 23 / 43%);
   backdrop-filter: blur(10px);
-  transition: transform 138ms ease, box-shadow 138ms ease;
+  transition:
+    transform 138ms ease,
+    box-shadow 138ms ease;
 }
 .shell-surface-019 {
   background:
@@ -272,17 +320,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 27px 39px rgb(2 6 23 / 44%);
   backdrop-filter: blur(11px);
-  transition: transform 139ms ease, box-shadow 139ms ease;
+  transition:
+    transform 139ms ease,
+    box-shadow 139ms ease;
 }
 .shell-surface-020 {
   background:
     radial-gradient(circle at 30% 35%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(20deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 12%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 8px 40px rgb(2 6 23 / 45%);
   backdrop-filter: blur(2px);
-  transition: transform 140ms ease, box-shadow 140ms ease;
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease;
 }
 .shell-surface-021 {
   background:
@@ -292,17 +344,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 9px 41px rgb(2 6 23 / 46%);
   backdrop-filter: blur(3px);
-  transition: transform 141ms ease, box-shadow 141ms ease;
+  transition:
+    transform 141ms ease,
+    box-shadow 141ms ease;
 }
 .shell-surface-022 {
   background:
     radial-gradient(circle at 32% 37%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(22deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 14%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 10px 42px rgb(2 6 23 / 47%);
   backdrop-filter: blur(4px);
-  transition: transform 142ms ease, box-shadow 142ms ease;
+  transition:
+    transform 142ms ease,
+    box-shadow 142ms ease;
 }
 .shell-surface-023 {
   background:
@@ -312,17 +368,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 11px 43px rgb(2 6 23 / 48%);
   backdrop-filter: blur(5px);
-  transition: transform 143ms ease, box-shadow 143ms ease;
+  transition:
+    transform 143ms ease,
+    box-shadow 143ms ease;
 }
 .shell-surface-024 {
   background:
     radial-gradient(circle at 34% 39%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(24deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 16%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 12px 44px rgb(2 6 23 / 49%);
   backdrop-filter: blur(6px);
-  transition: transform 144ms ease, box-shadow 144ms ease;
+  transition:
+    transform 144ms ease,
+    box-shadow 144ms ease;
 }
 .shell-surface-025 {
   background:
@@ -332,17 +392,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 13px 45px rgb(2 6 23 / 50%);
   backdrop-filter: blur(7px);
-  transition: transform 145ms ease, box-shadow 145ms ease;
+  transition:
+    transform 145ms ease,
+    box-shadow 145ms ease;
 }
 .shell-surface-026 {
   background:
     radial-gradient(circle at 36% 41%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(26deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 18%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 14px 46px rgb(2 6 23 / 51%);
   backdrop-filter: blur(8px);
-  transition: transform 146ms ease, box-shadow 146ms ease;
+  transition:
+    transform 146ms ease,
+    box-shadow 146ms ease;
 }
 .shell-surface-027 {
   background:
@@ -352,17 +416,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 15px 47px rgb(2 6 23 / 52%);
   backdrop-filter: blur(9px);
-  transition: transform 147ms ease, box-shadow 147ms ease;
+  transition:
+    transform 147ms ease,
+    box-shadow 147ms ease;
 }
 .shell-surface-028 {
   background:
     radial-gradient(circle at 38% 43%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(28deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 20%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 16px 48px rgb(2 6 23 / 53%);
   backdrop-filter: blur(10px);
-  transition: transform 148ms ease, box-shadow 148ms ease;
+  transition:
+    transform 148ms ease,
+    box-shadow 148ms ease;
 }
 .shell-surface-029 {
   background:
@@ -372,17 +440,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 17px 49px rgb(2 6 23 / 54%);
   backdrop-filter: blur(11px);
-  transition: transform 149ms ease, box-shadow 149ms ease;
+  transition:
+    transform 149ms ease,
+    box-shadow 149ms ease;
 }
 .shell-surface-030 {
   background:
     radial-gradient(circle at 40% 45%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(30deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 22%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 18px 50px rgb(2 6 23 / 25%);
   backdrop-filter: blur(2px);
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
 }
 .shell-surface-031 {
   background:
@@ -392,17 +464,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 19px 51px rgb(2 6 23 / 26%);
   backdrop-filter: blur(3px);
-  transition: transform 151ms ease, box-shadow 151ms ease;
+  transition:
+    transform 151ms ease,
+    box-shadow 151ms ease;
 }
 .shell-surface-032 {
   background:
     radial-gradient(circle at 42% 47%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(32deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 24%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 20px 52px rgb(2 6 23 / 27%);
   backdrop-filter: blur(4px);
-  transition: transform 152ms ease, box-shadow 152ms ease;
+  transition:
+    transform 152ms ease,
+    box-shadow 152ms ease;
 }
 .shell-surface-033 {
   background:
@@ -412,17 +488,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 21px 53px rgb(2 6 23 / 28%);
   backdrop-filter: blur(5px);
-  transition: transform 153ms ease, box-shadow 153ms ease;
+  transition:
+    transform 153ms ease,
+    box-shadow 153ms ease;
 }
 .shell-surface-034 {
   background:
     radial-gradient(circle at 44% 49%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(34deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 26%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 22px 54px rgb(2 6 23 / 29%);
   backdrop-filter: blur(6px);
-  transition: transform 154ms ease, box-shadow 154ms ease;
+  transition:
+    transform 154ms ease,
+    box-shadow 154ms ease;
 }
 .shell-surface-035 {
   background:
@@ -432,17 +512,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 23px 55px rgb(2 6 23 / 30%);
   backdrop-filter: blur(7px);
-  transition: transform 155ms ease, box-shadow 155ms ease;
+  transition:
+    transform 155ms ease,
+    box-shadow 155ms ease;
 }
 .shell-surface-036 {
   background:
     radial-gradient(circle at 46% 51%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(36deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 28%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 24px 56px rgb(2 6 23 / 31%);
   backdrop-filter: blur(8px);
-  transition: transform 156ms ease, box-shadow 156ms ease;
+  transition:
+    transform 156ms ease,
+    box-shadow 156ms ease;
 }
 .shell-surface-037 {
   background:
@@ -452,17 +536,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 25px 57px rgb(2 6 23 / 32%);
   backdrop-filter: blur(9px);
-  transition: transform 157ms ease, box-shadow 157ms ease;
+  transition:
+    transform 157ms ease,
+    box-shadow 157ms ease;
 }
 .shell-surface-038 {
   background:
     radial-gradient(circle at 48% 53%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(38deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 30%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 26px 58px rgb(2 6 23 / 33%);
   backdrop-filter: blur(10px);
-  transition: transform 158ms ease, box-shadow 158ms ease;
+  transition:
+    transform 158ms ease,
+    box-shadow 158ms ease;
 }
 .shell-surface-039 {
   background:
@@ -472,17 +560,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 27px 59px rgb(2 6 23 / 34%);
   backdrop-filter: blur(11px);
-  transition: transform 159ms ease, box-shadow 159ms ease;
+  transition:
+    transform 159ms ease,
+    box-shadow 159ms ease;
 }
 .shell-surface-040 {
   background:
     radial-gradient(circle at 50% 55%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(40deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 12%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 8px 20px rgb(2 6 23 / 35%);
   backdrop-filter: blur(2px);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
 }
 .shell-surface-041 {
   background:
@@ -492,17 +584,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 9px 21px rgb(2 6 23 / 36%);
   backdrop-filter: blur(3px);
-  transition: transform 161ms ease, box-shadow 161ms ease;
+  transition:
+    transform 161ms ease,
+    box-shadow 161ms ease;
 }
 .shell-surface-042 {
   background:
     radial-gradient(circle at 52% 57%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(42deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 14%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 10px 22px rgb(2 6 23 / 37%);
   backdrop-filter: blur(4px);
-  transition: transform 162ms ease, box-shadow 162ms ease;
+  transition:
+    transform 162ms ease,
+    box-shadow 162ms ease;
 }
 .shell-surface-043 {
   background:
@@ -512,17 +608,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 11px 23px rgb(2 6 23 / 38%);
   backdrop-filter: blur(5px);
-  transition: transform 163ms ease, box-shadow 163ms ease;
+  transition:
+    transform 163ms ease,
+    box-shadow 163ms ease;
 }
 .shell-surface-044 {
   background:
     radial-gradient(circle at 54% 59%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(44deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 16%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 12px 24px rgb(2 6 23 / 39%);
   backdrop-filter: blur(6px);
-  transition: transform 164ms ease, box-shadow 164ms ease;
+  transition:
+    transform 164ms ease,
+    box-shadow 164ms ease;
 }
 .shell-surface-045 {
   background:
@@ -532,17 +632,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 13px 25px rgb(2 6 23 / 40%);
   backdrop-filter: blur(7px);
-  transition: transform 165ms ease, box-shadow 165ms ease;
+  transition:
+    transform 165ms ease,
+    box-shadow 165ms ease;
 }
 .shell-surface-046 {
   background:
     radial-gradient(circle at 56% 61%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(46deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 18%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 14px 26px rgb(2 6 23 / 41%);
   backdrop-filter: blur(8px);
-  transition: transform 166ms ease, box-shadow 166ms ease;
+  transition:
+    transform 166ms ease,
+    box-shadow 166ms ease;
 }
 .shell-surface-047 {
   background:
@@ -552,17 +656,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 15px 27px rgb(2 6 23 / 42%);
   backdrop-filter: blur(9px);
-  transition: transform 167ms ease, box-shadow 167ms ease;
+  transition:
+    transform 167ms ease,
+    box-shadow 167ms ease;
 }
 .shell-surface-048 {
   background:
     radial-gradient(circle at 58% 63%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(48deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 20%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 16px 28px rgb(2 6 23 / 43%);
   backdrop-filter: blur(10px);
-  transition: transform 168ms ease, box-shadow 168ms ease;
+  transition:
+    transform 168ms ease,
+    box-shadow 168ms ease;
 }
 .shell-surface-049 {
   background:
@@ -572,17 +680,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 17px 29px rgb(2 6 23 / 44%);
   backdrop-filter: blur(11px);
-  transition: transform 169ms ease, box-shadow 169ms ease;
+  transition:
+    transform 169ms ease,
+    box-shadow 169ms ease;
 }
 .shell-surface-050 {
   background:
     radial-gradient(circle at 60% 65%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(50deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 22%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 18px 30px rgb(2 6 23 / 45%);
   backdrop-filter: blur(2px);
-  transition: transform 170ms ease, box-shadow 170ms ease;
+  transition:
+    transform 170ms ease,
+    box-shadow 170ms ease;
 }
 .shell-surface-051 {
   background:
@@ -592,17 +704,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 19px 31px rgb(2 6 23 / 46%);
   backdrop-filter: blur(3px);
-  transition: transform 171ms ease, box-shadow 171ms ease;
+  transition:
+    transform 171ms ease,
+    box-shadow 171ms ease;
 }
 .shell-surface-052 {
   background:
     radial-gradient(circle at 62% 67%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(52deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 24%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 20px 32px rgb(2 6 23 / 47%);
   backdrop-filter: blur(4px);
-  transition: transform 172ms ease, box-shadow 172ms ease;
+  transition:
+    transform 172ms ease,
+    box-shadow 172ms ease;
 }
 .shell-surface-053 {
   background:
@@ -612,17 +728,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 21px 33px rgb(2 6 23 / 48%);
   backdrop-filter: blur(5px);
-  transition: transform 173ms ease, box-shadow 173ms ease;
+  transition:
+    transform 173ms ease,
+    box-shadow 173ms ease;
 }
 .shell-surface-054 {
   background:
     radial-gradient(circle at 64% 69%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(54deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 26%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 22px 34px rgb(2 6 23 / 49%);
   backdrop-filter: blur(6px);
-  transition: transform 174ms ease, box-shadow 174ms ease;
+  transition:
+    transform 174ms ease,
+    box-shadow 174ms ease;
 }
 .shell-surface-055 {
   background:
@@ -632,17 +752,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 23px 35px rgb(2 6 23 / 50%);
   backdrop-filter: blur(7px);
-  transition: transform 175ms ease, box-shadow 175ms ease;
+  transition:
+    transform 175ms ease,
+    box-shadow 175ms ease;
 }
 .shell-surface-056 {
   background:
     radial-gradient(circle at 66% 71%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(56deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 28%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 24px 36px rgb(2 6 23 / 51%);
   backdrop-filter: blur(8px);
-  transition: transform 176ms ease, box-shadow 176ms ease;
+  transition:
+    transform 176ms ease,
+    box-shadow 176ms ease;
 }
 .shell-surface-057 {
   background:
@@ -652,17 +776,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 25px 37px rgb(2 6 23 / 52%);
   backdrop-filter: blur(9px);
-  transition: transform 177ms ease, box-shadow 177ms ease;
+  transition:
+    transform 177ms ease,
+    box-shadow 177ms ease;
 }
 .shell-surface-058 {
   background:
     radial-gradient(circle at 68% 73%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(58deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 30%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 26px 38px rgb(2 6 23 / 53%);
   backdrop-filter: blur(10px);
-  transition: transform 178ms ease, box-shadow 178ms ease;
+  transition:
+    transform 178ms ease,
+    box-shadow 178ms ease;
 }
 .shell-surface-059 {
   background:
@@ -672,17 +800,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 27px 39px rgb(2 6 23 / 54%);
   backdrop-filter: blur(11px);
-  transition: transform 179ms ease, box-shadow 179ms ease;
+  transition:
+    transform 179ms ease,
+    box-shadow 179ms ease;
 }
 .shell-surface-060 {
   background:
     radial-gradient(circle at 70% 75%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(60deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 12%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 8px 40px rgb(2 6 23 / 25%);
   backdrop-filter: blur(2px);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 .shell-surface-061 {
   background:
@@ -692,17 +824,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 9px 41px rgb(2 6 23 / 26%);
   backdrop-filter: blur(3px);
-  transition: transform 181ms ease, box-shadow 181ms ease;
+  transition:
+    transform 181ms ease,
+    box-shadow 181ms ease;
 }
 .shell-surface-062 {
   background:
     radial-gradient(circle at 72% 77%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(62deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 14%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 10px 42px rgb(2 6 23 / 27%);
   backdrop-filter: blur(4px);
-  transition: transform 182ms ease, box-shadow 182ms ease;
+  transition:
+    transform 182ms ease,
+    box-shadow 182ms ease;
 }
 .shell-surface-063 {
   background:
@@ -712,17 +848,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 11px 43px rgb(2 6 23 / 28%);
   backdrop-filter: blur(5px);
-  transition: transform 183ms ease, box-shadow 183ms ease;
+  transition:
+    transform 183ms ease,
+    box-shadow 183ms ease;
 }
 .shell-surface-064 {
   background:
     radial-gradient(circle at 74% 79%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(64deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 16%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 12px 44px rgb(2 6 23 / 29%);
   backdrop-filter: blur(6px);
-  transition: transform 184ms ease, box-shadow 184ms ease;
+  transition:
+    transform 184ms ease,
+    box-shadow 184ms ease;
 }
 .shell-surface-065 {
   background:
@@ -732,17 +872,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 13px 45px rgb(2 6 23 / 30%);
   backdrop-filter: blur(7px);
-  transition: transform 185ms ease, box-shadow 185ms ease;
+  transition:
+    transform 185ms ease,
+    box-shadow 185ms ease;
 }
 .shell-surface-066 {
   background:
     radial-gradient(circle at 76% 81%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(66deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 18%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 14px 46px rgb(2 6 23 / 31%);
   backdrop-filter: blur(8px);
-  transition: transform 186ms ease, box-shadow 186ms ease;
+  transition:
+    transform 186ms ease,
+    box-shadow 186ms ease;
 }
 .shell-surface-067 {
   background:
@@ -752,17 +896,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 15px 47px rgb(2 6 23 / 32%);
   backdrop-filter: blur(9px);
-  transition: transform 187ms ease, box-shadow 187ms ease;
+  transition:
+    transform 187ms ease,
+    box-shadow 187ms ease;
 }
 .shell-surface-068 {
   background:
     radial-gradient(circle at 78% 83%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(68deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 20%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 16px 48px rgb(2 6 23 / 33%);
   backdrop-filter: blur(10px);
-  transition: transform 188ms ease, box-shadow 188ms ease;
+  transition:
+    transform 188ms ease,
+    box-shadow 188ms ease;
 }
 .shell-surface-069 {
   background:
@@ -772,17 +920,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 17px 49px rgb(2 6 23 / 34%);
   backdrop-filter: blur(11px);
-  transition: transform 189ms ease, box-shadow 189ms ease;
+  transition:
+    transform 189ms ease,
+    box-shadow 189ms ease;
 }
 .shell-surface-070 {
   background:
     radial-gradient(circle at 80% 15%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(70deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 22%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 18px 50px rgb(2 6 23 / 35%);
   backdrop-filter: blur(2px);
-  transition: transform 190ms ease, box-shadow 190ms ease;
+  transition:
+    transform 190ms ease,
+    box-shadow 190ms ease;
 }
 .shell-surface-071 {
   background:
@@ -792,17 +944,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 19px 51px rgb(2 6 23 / 36%);
   backdrop-filter: blur(3px);
-  transition: transform 191ms ease, box-shadow 191ms ease;
+  transition:
+    transform 191ms ease,
+    box-shadow 191ms ease;
 }
 .shell-surface-072 {
   background:
     radial-gradient(circle at 82% 17%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(72deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 24%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 20px 52px rgb(2 6 23 / 37%);
   backdrop-filter: blur(4px);
-  transition: transform 192ms ease, box-shadow 192ms ease;
+  transition:
+    transform 192ms ease,
+    box-shadow 192ms ease;
 }
 .shell-surface-073 {
   background:
@@ -812,17 +968,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 21px 53px rgb(2 6 23 / 38%);
   backdrop-filter: blur(5px);
-  transition: transform 193ms ease, box-shadow 193ms ease;
+  transition:
+    transform 193ms ease,
+    box-shadow 193ms ease;
 }
 .shell-surface-074 {
   background:
     radial-gradient(circle at 84% 19%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(74deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 26%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 22px 54px rgb(2 6 23 / 39%);
   backdrop-filter: blur(6px);
-  transition: transform 194ms ease, box-shadow 194ms ease;
+  transition:
+    transform 194ms ease,
+    box-shadow 194ms ease;
 }
 .shell-surface-075 {
   background:
@@ -832,17 +992,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 23px 55px rgb(2 6 23 / 40%);
   backdrop-filter: blur(7px);
-  transition: transform 195ms ease, box-shadow 195ms ease;
+  transition:
+    transform 195ms ease,
+    box-shadow 195ms ease;
 }
 .shell-surface-076 {
   background:
     radial-gradient(circle at 86% 21%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(76deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 28%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 24px 56px rgb(2 6 23 / 41%);
   backdrop-filter: blur(8px);
-  transition: transform 196ms ease, box-shadow 196ms ease;
+  transition:
+    transform 196ms ease,
+    box-shadow 196ms ease;
 }
 .shell-surface-077 {
   background:
@@ -852,17 +1016,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 25px 57px rgb(2 6 23 / 42%);
   backdrop-filter: blur(9px);
-  transition: transform 197ms ease, box-shadow 197ms ease;
+  transition:
+    transform 197ms ease,
+    box-shadow 197ms ease;
 }
 .shell-surface-078 {
   background:
     radial-gradient(circle at 88% 23%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(78deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 30%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 26px 58px rgb(2 6 23 / 43%);
   backdrop-filter: blur(10px);
-  transition: transform 198ms ease, box-shadow 198ms ease;
+  transition:
+    transform 198ms ease,
+    box-shadow 198ms ease;
 }
 .shell-surface-079 {
   background:
@@ -872,17 +1040,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 27px 59px rgb(2 6 23 / 44%);
   backdrop-filter: blur(11px);
-  transition: transform 199ms ease, box-shadow 199ms ease;
+  transition:
+    transform 199ms ease,
+    box-shadow 199ms ease;
 }
 .shell-surface-080 {
   background:
     radial-gradient(circle at 10% 25%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(80deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 12%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 8px 20px rgb(2 6 23 / 45%);
   backdrop-filter: blur(2px);
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
 }
 .shell-surface-081 {
   background:
@@ -892,17 +1064,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 9px 21px rgb(2 6 23 / 46%);
   backdrop-filter: blur(3px);
-  transition: transform 121ms ease, box-shadow 121ms ease;
+  transition:
+    transform 121ms ease,
+    box-shadow 121ms ease;
 }
 .shell-surface-082 {
   background:
     radial-gradient(circle at 12% 27%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(82deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 14%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 10px 22px rgb(2 6 23 / 47%);
   backdrop-filter: blur(4px);
-  transition: transform 122ms ease, box-shadow 122ms ease;
+  transition:
+    transform 122ms ease,
+    box-shadow 122ms ease;
 }
 .shell-surface-083 {
   background:
@@ -912,17 +1088,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 11px 23px rgb(2 6 23 / 48%);
   backdrop-filter: blur(5px);
-  transition: transform 123ms ease, box-shadow 123ms ease;
+  transition:
+    transform 123ms ease,
+    box-shadow 123ms ease;
 }
 .shell-surface-084 {
   background:
     radial-gradient(circle at 14% 29%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(84deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 16%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 12px 24px rgb(2 6 23 / 49%);
   backdrop-filter: blur(6px);
-  transition: transform 124ms ease, box-shadow 124ms ease;
+  transition:
+    transform 124ms ease,
+    box-shadow 124ms ease;
 }
 .shell-surface-085 {
   background:
@@ -932,17 +1112,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 13px 25px rgb(2 6 23 / 50%);
   backdrop-filter: blur(7px);
-  transition: transform 125ms ease, box-shadow 125ms ease;
+  transition:
+    transform 125ms ease,
+    box-shadow 125ms ease;
 }
 .shell-surface-086 {
   background:
     radial-gradient(circle at 16% 31%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(86deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 18%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 14px 26px rgb(2 6 23 / 51%);
   backdrop-filter: blur(8px);
-  transition: transform 126ms ease, box-shadow 126ms ease;
+  transition:
+    transform 126ms ease,
+    box-shadow 126ms ease;
 }
 .shell-surface-087 {
   background:
@@ -952,17 +1136,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 15px 27px rgb(2 6 23 / 52%);
   backdrop-filter: blur(9px);
-  transition: transform 127ms ease, box-shadow 127ms ease;
+  transition:
+    transform 127ms ease,
+    box-shadow 127ms ease;
 }
 .shell-surface-088 {
   background:
     radial-gradient(circle at 18% 33%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(88deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 20%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 16px 28px rgb(2 6 23 / 53%);
   backdrop-filter: blur(10px);
-  transition: transform 128ms ease, box-shadow 128ms ease;
+  transition:
+    transform 128ms ease,
+    box-shadow 128ms ease;
 }
 .shell-surface-089 {
   background:
@@ -972,17 +1160,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 17px 29px rgb(2 6 23 / 54%);
   backdrop-filter: blur(11px);
-  transition: transform 129ms ease, box-shadow 129ms ease;
+  transition:
+    transform 129ms ease,
+    box-shadow 129ms ease;
 }
 .shell-surface-090 {
   background:
     radial-gradient(circle at 20% 35%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(90deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 22%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 18px 30px rgb(2 6 23 / 25%);
   backdrop-filter: blur(2px);
-  transition: transform 130ms ease, box-shadow 130ms ease;
+  transition:
+    transform 130ms ease,
+    box-shadow 130ms ease;
 }
 .shell-surface-091 {
   background:
@@ -992,17 +1184,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 19px 31px rgb(2 6 23 / 26%);
   backdrop-filter: blur(3px);
-  transition: transform 131ms ease, box-shadow 131ms ease;
+  transition:
+    transform 131ms ease,
+    box-shadow 131ms ease;
 }
 .shell-surface-092 {
   background:
     radial-gradient(circle at 22% 37%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(92deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 24%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 20px 32px rgb(2 6 23 / 27%);
   backdrop-filter: blur(4px);
-  transition: transform 132ms ease, box-shadow 132ms ease;
+  transition:
+    transform 132ms ease,
+    box-shadow 132ms ease;
 }
 .shell-surface-093 {
   background:
@@ -1012,17 +1208,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 21px 33px rgb(2 6 23 / 28%);
   backdrop-filter: blur(5px);
-  transition: transform 133ms ease, box-shadow 133ms ease;
+  transition:
+    transform 133ms ease,
+    box-shadow 133ms ease;
 }
 .shell-surface-094 {
   background:
     radial-gradient(circle at 24% 39%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(94deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 26%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 22px 34px rgb(2 6 23 / 29%);
   backdrop-filter: blur(6px);
-  transition: transform 134ms ease, box-shadow 134ms ease;
+  transition:
+    transform 134ms ease,
+    box-shadow 134ms ease;
 }
 .shell-surface-095 {
   background:
@@ -1032,17 +1232,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 23px 35px rgb(2 6 23 / 30%);
   backdrop-filter: blur(7px);
-  transition: transform 135ms ease, box-shadow 135ms ease;
+  transition:
+    transform 135ms ease,
+    box-shadow 135ms ease;
 }
 .shell-surface-096 {
   background:
     radial-gradient(circle at 26% 41%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(96deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 28%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 24px 36px rgb(2 6 23 / 31%);
   backdrop-filter: blur(8px);
-  transition: transform 136ms ease, box-shadow 136ms ease;
+  transition:
+    transform 136ms ease,
+    box-shadow 136ms ease;
 }
 .shell-surface-097 {
   background:
@@ -1052,17 +1256,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 25px 37px rgb(2 6 23 / 32%);
   backdrop-filter: blur(9px);
-  transition: transform 137ms ease, box-shadow 137ms ease;
+  transition:
+    transform 137ms ease,
+    box-shadow 137ms ease;
 }
 .shell-surface-098 {
   background:
     radial-gradient(circle at 28% 43%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(98deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 30%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 26px 38px rgb(2 6 23 / 33%);
   backdrop-filter: blur(10px);
-  transition: transform 138ms ease, box-shadow 138ms ease;
+  transition:
+    transform 138ms ease,
+    box-shadow 138ms ease;
 }
 .shell-surface-099 {
   background:
@@ -1072,17 +1280,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 27px 39px rgb(2 6 23 / 34%);
   backdrop-filter: blur(11px);
-  transition: transform 139ms ease, box-shadow 139ms ease;
+  transition:
+    transform 139ms ease,
+    box-shadow 139ms ease;
 }
 .shell-surface-100 {
   background:
     radial-gradient(circle at 30% 45%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(100deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 12%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 8px 40px rgb(2 6 23 / 35%);
   backdrop-filter: blur(2px);
-  transition: transform 140ms ease, box-shadow 140ms ease;
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease;
 }
 .shell-surface-101 {
   background:
@@ -1092,17 +1304,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 9px 41px rgb(2 6 23 / 36%);
   backdrop-filter: blur(3px);
-  transition: transform 141ms ease, box-shadow 141ms ease;
+  transition:
+    transform 141ms ease,
+    box-shadow 141ms ease;
 }
 .shell-surface-102 {
   background:
     radial-gradient(circle at 32% 47%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(102deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 14%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 10px 42px rgb(2 6 23 / 37%);
   backdrop-filter: blur(4px);
-  transition: transform 142ms ease, box-shadow 142ms ease;
+  transition:
+    transform 142ms ease,
+    box-shadow 142ms ease;
 }
 .shell-surface-103 {
   background:
@@ -1112,17 +1328,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 11px 43px rgb(2 6 23 / 38%);
   backdrop-filter: blur(5px);
-  transition: transform 143ms ease, box-shadow 143ms ease;
+  transition:
+    transform 143ms ease,
+    box-shadow 143ms ease;
 }
 .shell-surface-104 {
   background:
     radial-gradient(circle at 34% 49%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(104deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 16%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 12px 44px rgb(2 6 23 / 39%);
   backdrop-filter: blur(6px);
-  transition: transform 144ms ease, box-shadow 144ms ease;
+  transition:
+    transform 144ms ease,
+    box-shadow 144ms ease;
 }
 .shell-surface-105 {
   background:
@@ -1132,17 +1352,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 13px 45px rgb(2 6 23 / 40%);
   backdrop-filter: blur(7px);
-  transition: transform 145ms ease, box-shadow 145ms ease;
+  transition:
+    transform 145ms ease,
+    box-shadow 145ms ease;
 }
 .shell-surface-106 {
   background:
     radial-gradient(circle at 36% 51%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(106deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 18%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 14px 46px rgb(2 6 23 / 41%);
   backdrop-filter: blur(8px);
-  transition: transform 146ms ease, box-shadow 146ms ease;
+  transition:
+    transform 146ms ease,
+    box-shadow 146ms ease;
 }
 .shell-surface-107 {
   background:
@@ -1152,17 +1376,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 15px 47px rgb(2 6 23 / 42%);
   backdrop-filter: blur(9px);
-  transition: transform 147ms ease, box-shadow 147ms ease;
+  transition:
+    transform 147ms ease,
+    box-shadow 147ms ease;
 }
 .shell-surface-108 {
   background:
     radial-gradient(circle at 38% 53%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(108deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 20%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 16px 48px rgb(2 6 23 / 43%);
   backdrop-filter: blur(10px);
-  transition: transform 148ms ease, box-shadow 148ms ease;
+  transition:
+    transform 148ms ease,
+    box-shadow 148ms ease;
 }
 .shell-surface-109 {
   background:
@@ -1172,17 +1400,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 17px 49px rgb(2 6 23 / 44%);
   backdrop-filter: blur(11px);
-  transition: transform 149ms ease, box-shadow 149ms ease;
+  transition:
+    transform 149ms ease,
+    box-shadow 149ms ease;
 }
 .shell-surface-110 {
   background:
     radial-gradient(circle at 40% 55%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(110deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 22%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 18px 50px rgb(2 6 23 / 45%);
   backdrop-filter: blur(2px);
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
 }
 .shell-surface-111 {
   background:
@@ -1192,17 +1424,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 19px 51px rgb(2 6 23 / 46%);
   backdrop-filter: blur(3px);
-  transition: transform 151ms ease, box-shadow 151ms ease;
+  transition:
+    transform 151ms ease,
+    box-shadow 151ms ease;
 }
 .shell-surface-112 {
   background:
     radial-gradient(circle at 42% 57%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(112deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 24%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 20px 52px rgb(2 6 23 / 47%);
   backdrop-filter: blur(4px);
-  transition: transform 152ms ease, box-shadow 152ms ease;
+  transition:
+    transform 152ms ease,
+    box-shadow 152ms ease;
 }
 .shell-surface-113 {
   background:
@@ -1212,17 +1448,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 21px 53px rgb(2 6 23 / 48%);
   backdrop-filter: blur(5px);
-  transition: transform 153ms ease, box-shadow 153ms ease;
+  transition:
+    transform 153ms ease,
+    box-shadow 153ms ease;
 }
 .shell-surface-114 {
   background:
     radial-gradient(circle at 44% 59%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(114deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 26%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 22px 54px rgb(2 6 23 / 49%);
   backdrop-filter: blur(6px);
-  transition: transform 154ms ease, box-shadow 154ms ease;
+  transition:
+    transform 154ms ease,
+    box-shadow 154ms ease;
 }
 .shell-surface-115 {
   background:
@@ -1232,17 +1472,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 23px 55px rgb(2 6 23 / 50%);
   backdrop-filter: blur(7px);
-  transition: transform 155ms ease, box-shadow 155ms ease;
+  transition:
+    transform 155ms ease,
+    box-shadow 155ms ease;
 }
 .shell-surface-116 {
   background:
     radial-gradient(circle at 46% 61%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(116deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 28%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 24px 56px rgb(2 6 23 / 51%);
   backdrop-filter: blur(8px);
-  transition: transform 156ms ease, box-shadow 156ms ease;
+  transition:
+    transform 156ms ease,
+    box-shadow 156ms ease;
 }
 .shell-surface-117 {
   background:
@@ -1252,17 +1496,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 25px 57px rgb(2 6 23 / 52%);
   backdrop-filter: blur(9px);
-  transition: transform 157ms ease, box-shadow 157ms ease;
+  transition:
+    transform 157ms ease,
+    box-shadow 157ms ease;
 }
 .shell-surface-118 {
   background:
     radial-gradient(circle at 48% 63%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(118deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 30%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 26px 58px rgb(2 6 23 / 53%);
   backdrop-filter: blur(10px);
-  transition: transform 158ms ease, box-shadow 158ms ease;
+  transition:
+    transform 158ms ease,
+    box-shadow 158ms ease;
 }
 .shell-surface-119 {
   background:
@@ -1272,17 +1520,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 27px 59px rgb(2 6 23 / 54%);
   backdrop-filter: blur(11px);
-  transition: transform 159ms ease, box-shadow 159ms ease;
+  transition:
+    transform 159ms ease,
+    box-shadow 159ms ease;
 }
 .shell-surface-120 {
   background:
     radial-gradient(circle at 50% 65%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(120deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 12%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 8px 20px rgb(2 6 23 / 25%);
   backdrop-filter: blur(2px);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
 }
 .shell-surface-121 {
   background:
@@ -1292,17 +1544,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 9px 21px rgb(2 6 23 / 26%);
   backdrop-filter: blur(3px);
-  transition: transform 161ms ease, box-shadow 161ms ease;
+  transition:
+    transform 161ms ease,
+    box-shadow 161ms ease;
 }
 .shell-surface-122 {
   background:
     radial-gradient(circle at 52% 67%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(122deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 14%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 10px 22px rgb(2 6 23 / 27%);
   backdrop-filter: blur(4px);
-  transition: transform 162ms ease, box-shadow 162ms ease;
+  transition:
+    transform 162ms ease,
+    box-shadow 162ms ease;
 }
 .shell-surface-123 {
   background:
@@ -1312,17 +1568,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 11px 23px rgb(2 6 23 / 28%);
   backdrop-filter: blur(5px);
-  transition: transform 163ms ease, box-shadow 163ms ease;
+  transition:
+    transform 163ms ease,
+    box-shadow 163ms ease;
 }
 .shell-surface-124 {
   background:
     radial-gradient(circle at 54% 69%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(124deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 16%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 12px 24px rgb(2 6 23 / 29%);
   backdrop-filter: blur(6px);
-  transition: transform 164ms ease, box-shadow 164ms ease;
+  transition:
+    transform 164ms ease,
+    box-shadow 164ms ease;
 }
 .shell-surface-125 {
   background:
@@ -1332,17 +1592,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 13px 25px rgb(2 6 23 / 30%);
   backdrop-filter: blur(7px);
-  transition: transform 165ms ease, box-shadow 165ms ease;
+  transition:
+    transform 165ms ease,
+    box-shadow 165ms ease;
 }
 .shell-surface-126 {
   background:
     radial-gradient(circle at 56% 71%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(126deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 18%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 14px 26px rgb(2 6 23 / 31%);
   backdrop-filter: blur(8px);
-  transition: transform 166ms ease, box-shadow 166ms ease;
+  transition:
+    transform 166ms ease,
+    box-shadow 166ms ease;
 }
 .shell-surface-127 {
   background:
@@ -1352,17 +1616,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 15px 27px rgb(2 6 23 / 32%);
   backdrop-filter: blur(9px);
-  transition: transform 167ms ease, box-shadow 167ms ease;
+  transition:
+    transform 167ms ease,
+    box-shadow 167ms ease;
 }
 .shell-surface-128 {
   background:
     radial-gradient(circle at 58% 73%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(128deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 20%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 16px 28px rgb(2 6 23 / 33%);
   backdrop-filter: blur(10px);
-  transition: transform 168ms ease, box-shadow 168ms ease;
+  transition:
+    transform 168ms ease,
+    box-shadow 168ms ease;
 }
 .shell-surface-129 {
   background:
@@ -1372,17 +1640,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 17px 29px rgb(2 6 23 / 34%);
   backdrop-filter: blur(11px);
-  transition: transform 169ms ease, box-shadow 169ms ease;
+  transition:
+    transform 169ms ease,
+    box-shadow 169ms ease;
 }
 .shell-surface-130 {
   background:
     radial-gradient(circle at 60% 75%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(130deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 22%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 18px 30px rgb(2 6 23 / 35%);
   backdrop-filter: blur(2px);
-  transition: transform 170ms ease, box-shadow 170ms ease;
+  transition:
+    transform 170ms ease,
+    box-shadow 170ms ease;
 }
 .shell-surface-131 {
   background:
@@ -1392,17 +1664,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 19px 31px rgb(2 6 23 / 36%);
   backdrop-filter: blur(3px);
-  transition: transform 171ms ease, box-shadow 171ms ease;
+  transition:
+    transform 171ms ease,
+    box-shadow 171ms ease;
 }
 .shell-surface-132 {
   background:
     radial-gradient(circle at 62% 77%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(132deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 24%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 20px 32px rgb(2 6 23 / 37%);
   backdrop-filter: blur(4px);
-  transition: transform 172ms ease, box-shadow 172ms ease;
+  transition:
+    transform 172ms ease,
+    box-shadow 172ms ease;
 }
 .shell-surface-133 {
   background:
@@ -1412,17 +1688,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 21px 33px rgb(2 6 23 / 38%);
   backdrop-filter: blur(5px);
-  transition: transform 173ms ease, box-shadow 173ms ease;
+  transition:
+    transform 173ms ease,
+    box-shadow 173ms ease;
 }
 .shell-surface-134 {
   background:
     radial-gradient(circle at 64% 79%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(134deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 26%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 22px 34px rgb(2 6 23 / 39%);
   backdrop-filter: blur(6px);
-  transition: transform 174ms ease, box-shadow 174ms ease;
+  transition:
+    transform 174ms ease,
+    box-shadow 174ms ease;
 }
 .shell-surface-135 {
   background:
@@ -1432,17 +1712,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 23px 35px rgb(2 6 23 / 40%);
   backdrop-filter: blur(7px);
-  transition: transform 175ms ease, box-shadow 175ms ease;
+  transition:
+    transform 175ms ease,
+    box-shadow 175ms ease;
 }
 .shell-surface-136 {
   background:
     radial-gradient(circle at 66% 81%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(136deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 28%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 24px 36px rgb(2 6 23 / 41%);
   backdrop-filter: blur(8px);
-  transition: transform 176ms ease, box-shadow 176ms ease;
+  transition:
+    transform 176ms ease,
+    box-shadow 176ms ease;
 }
 .shell-surface-137 {
   background:
@@ -1452,17 +1736,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 25px 37px rgb(2 6 23 / 42%);
   backdrop-filter: blur(9px);
-  transition: transform 177ms ease, box-shadow 177ms ease;
+  transition:
+    transform 177ms ease,
+    box-shadow 177ms ease;
 }
 .shell-surface-138 {
   background:
     radial-gradient(circle at 68% 83%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(138deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 30%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 26px 38px rgb(2 6 23 / 43%);
   backdrop-filter: blur(10px);
-  transition: transform 178ms ease, box-shadow 178ms ease;
+  transition:
+    transform 178ms ease,
+    box-shadow 178ms ease;
 }
 .shell-surface-139 {
   background:
@@ -1472,17 +1760,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 27px 39px rgb(2 6 23 / 44%);
   backdrop-filter: blur(11px);
-  transition: transform 179ms ease, box-shadow 179ms ease;
+  transition:
+    transform 179ms ease,
+    box-shadow 179ms ease;
 }
 .shell-surface-140 {
   background:
     radial-gradient(circle at 70% 15%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(140deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 12%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 8px 40px rgb(2 6 23 / 45%);
   backdrop-filter: blur(2px);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 .shell-surface-141 {
   background:
@@ -1492,17 +1784,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 9px 41px rgb(2 6 23 / 46%);
   backdrop-filter: blur(3px);
-  transition: transform 181ms ease, box-shadow 181ms ease;
+  transition:
+    transform 181ms ease,
+    box-shadow 181ms ease;
 }
 .shell-surface-142 {
   background:
     radial-gradient(circle at 72% 17%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(142deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 14%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 10px 42px rgb(2 6 23 / 47%);
   backdrop-filter: blur(4px);
-  transition: transform 182ms ease, box-shadow 182ms ease;
+  transition:
+    transform 182ms ease,
+    box-shadow 182ms ease;
 }
 .shell-surface-143 {
   background:
@@ -1512,17 +1808,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 11px 43px rgb(2 6 23 / 48%);
   backdrop-filter: blur(5px);
-  transition: transform 183ms ease, box-shadow 183ms ease;
+  transition:
+    transform 183ms ease,
+    box-shadow 183ms ease;
 }
 .shell-surface-144 {
   background:
     radial-gradient(circle at 74% 19%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(144deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 16%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 12px 44px rgb(2 6 23 / 49%);
   backdrop-filter: blur(6px);
-  transition: transform 184ms ease, box-shadow 184ms ease;
+  transition:
+    transform 184ms ease,
+    box-shadow 184ms ease;
 }
 .shell-surface-145 {
   background:
@@ -1532,17 +1832,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 13px 45px rgb(2 6 23 / 50%);
   backdrop-filter: blur(7px);
-  transition: transform 185ms ease, box-shadow 185ms ease;
+  transition:
+    transform 185ms ease,
+    box-shadow 185ms ease;
 }
 .shell-surface-146 {
   background:
     radial-gradient(circle at 76% 21%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(146deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 18%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 14px 46px rgb(2 6 23 / 51%);
   backdrop-filter: blur(8px);
-  transition: transform 186ms ease, box-shadow 186ms ease;
+  transition:
+    transform 186ms ease,
+    box-shadow 186ms ease;
 }
 .shell-surface-147 {
   background:
@@ -1552,17 +1856,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 15px 47px rgb(2 6 23 / 52%);
   backdrop-filter: blur(9px);
-  transition: transform 187ms ease, box-shadow 187ms ease;
+  transition:
+    transform 187ms ease,
+    box-shadow 187ms ease;
 }
 .shell-surface-148 {
   background:
     radial-gradient(circle at 78% 23%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(148deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 20%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 16px 48px rgb(2 6 23 / 53%);
   backdrop-filter: blur(10px);
-  transition: transform 188ms ease, box-shadow 188ms ease;
+  transition:
+    transform 188ms ease,
+    box-shadow 188ms ease;
 }
 .shell-surface-149 {
   background:
@@ -1572,17 +1880,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 17px 49px rgb(2 6 23 / 54%);
   backdrop-filter: blur(11px);
-  transition: transform 189ms ease, box-shadow 189ms ease;
+  transition:
+    transform 189ms ease,
+    box-shadow 189ms ease;
 }
 .shell-surface-150 {
   background:
     radial-gradient(circle at 80% 25%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(150deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 22%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 18px 50px rgb(2 6 23 / 25%);
   backdrop-filter: blur(2px);
-  transition: transform 190ms ease, box-shadow 190ms ease;
+  transition:
+    transform 190ms ease,
+    box-shadow 190ms ease;
 }
 .shell-surface-151 {
   background:
@@ -1592,17 +1904,21 @@
   border-radius: 1.55rem;
   box-shadow: 0 19px 51px rgb(2 6 23 / 26%);
   backdrop-filter: blur(3px);
-  transition: transform 191ms ease, box-shadow 191ms ease;
+  transition:
+    transform 191ms ease,
+    box-shadow 191ms ease;
 }
 .shell-surface-152 {
   background:
     radial-gradient(circle at 82% 27%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(152deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 24%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 20px 52px rgb(2 6 23 / 27%);
   backdrop-filter: blur(4px);
-  transition: transform 192ms ease, box-shadow 192ms ease;
+  transition:
+    transform 192ms ease,
+    box-shadow 192ms ease;
 }
 .shell-surface-153 {
   background:
@@ -1612,17 +1928,21 @@
   border-radius: 0.65rem;
   box-shadow: 0 21px 53px rgb(2 6 23 / 28%);
   backdrop-filter: blur(5px);
-  transition: transform 193ms ease, box-shadow 193ms ease;
+  transition:
+    transform 193ms ease,
+    box-shadow 193ms ease;
 }
 .shell-surface-154 {
   background:
     radial-gradient(circle at 84% 29%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(154deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 26%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 22px 54px rgb(2 6 23 / 29%);
   backdrop-filter: blur(6px);
-  transition: transform 194ms ease, box-shadow 194ms ease;
+  transition:
+    transform 194ms ease,
+    box-shadow 194ms ease;
 }
 .shell-surface-155 {
   background:
@@ -1632,17 +1952,21 @@
   border-radius: 0.95rem;
   box-shadow: 0 23px 55px rgb(2 6 23 / 30%);
   backdrop-filter: blur(7px);
-  transition: transform 195ms ease, box-shadow 195ms ease;
+  transition:
+    transform 195ms ease,
+    box-shadow 195ms ease;
 }
 .shell-surface-156 {
   background:
     radial-gradient(circle at 86% 31%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(156deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 28%);
-  border-radius: 1.10rem;
+  border-radius: 1.1rem;
   box-shadow: 0 24px 56px rgb(2 6 23 / 31%);
   backdrop-filter: blur(8px);
-  transition: transform 196ms ease, box-shadow 196ms ease;
+  transition:
+    transform 196ms ease,
+    box-shadow 196ms ease;
 }
 .shell-surface-157 {
   background:
@@ -1652,17 +1976,21 @@
   border-radius: 1.25rem;
   box-shadow: 0 25px 57px rgb(2 6 23 / 32%);
   backdrop-filter: blur(9px);
-  transition: transform 197ms ease, box-shadow 197ms ease;
+  transition:
+    transform 197ms ease,
+    box-shadow 197ms ease;
 }
 .shell-surface-158 {
   background:
     radial-gradient(circle at 88% 33%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(158deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 30%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 26px 58px rgb(2 6 23 / 33%);
   backdrop-filter: blur(10px);
-  transition: transform 198ms ease, box-shadow 198ms ease;
+  transition:
+    transform 198ms ease,
+    box-shadow 198ms ease;
 }
 .shell-surface-159 {
   background:
@@ -1672,557 +2000,981 @@
   border-radius: 1.55rem;
   box-shadow: 0 27px 59px rgb(2 6 23 / 34%);
   backdrop-filter: blur(11px);
-  transition: transform 199ms ease, box-shadow 199ms ease;
+  transition:
+    transform 199ms ease,
+    box-shadow 199ms ease;
 }
 .shell-surface-160 {
   background:
     radial-gradient(circle at 10% 35%, rgb(99 102 241 / 16%), transparent 52%),
     linear-gradient(160deg, rgb(15 23 42 / 92%), rgb(2 6 23 / 96%));
   border: 1px solid rgb(99 102 241 / 12%);
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   box-shadow: 0 8px 20px rgb(2 6 23 / 35%);
   backdrop-filter: blur(2px);
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
 }
 
 /* 6. Page-specific size-pressure fixture: 60 hero rules */
 .hero-surface-001 {
   background:
-    conic-gradient(from 7deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 7deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 11%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 7px 25px rgb(6 182 212 / 11%);
-  transition: opacity 141ms ease, transform 141ms ease;
+  transition:
+    opacity 141ms ease,
+    transform 141ms ease;
 }
 .hero-surface-002 {
   background:
-    conic-gradient(from 14deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 14deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 12%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 8px 26px rgb(6 182 212 / 12%);
-  transition: opacity 142ms ease, transform 142ms ease;
+  transition:
+    opacity 142ms ease,
+    transform 142ms ease;
 }
 .hero-surface-003 {
   background:
-    conic-gradient(from 21deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 21deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 13%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 9px 27px rgb(6 182 212 / 13%);
-  transition: opacity 143ms ease, transform 143ms ease;
+  transition:
+    opacity 143ms ease,
+    transform 143ms ease;
 }
 .hero-surface-004 {
   background:
-    conic-gradient(from 28deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 28deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 14%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 10px 28px rgb(6 182 212 / 14%);
-  transition: opacity 144ms ease, transform 144ms ease;
+  transition:
+    opacity 144ms ease,
+    transform 144ms ease;
 }
 .hero-surface-005 {
   background:
-    conic-gradient(from 35deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 35deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 15%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 11px 29px rgb(6 182 212 / 15%);
-  transition: opacity 145ms ease, transform 145ms ease;
+  transition:
+    opacity 145ms ease,
+    transform 145ms ease;
 }
 .hero-surface-006 {
   background:
-    conic-gradient(from 42deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 42deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 16%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 12px 30px rgb(6 182 212 / 16%);
-  transition: opacity 146ms ease, transform 146ms ease;
+  transition:
+    opacity 146ms ease,
+    transform 146ms ease;
 }
 .hero-surface-007 {
   background:
-    conic-gradient(from 49deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 49deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 17%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 13px 31px rgb(6 182 212 / 17%);
-  transition: opacity 147ms ease, transform 147ms ease;
+  transition:
+    opacity 147ms ease,
+    transform 147ms ease;
 }
 .hero-surface-008 {
   background:
-    conic-gradient(from 56deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 56deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 18%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 14px 32px rgb(6 182 212 / 18%);
-  transition: opacity 148ms ease, transform 148ms ease;
+  transition:
+    opacity 148ms ease,
+    transform 148ms ease;
 }
 .hero-surface-009 {
   background:
-    conic-gradient(from 63deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 63deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 19%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 15px 33px rgb(6 182 212 / 19%);
-  transition: opacity 149ms ease, transform 149ms ease;
+  transition:
+    opacity 149ms ease,
+    transform 149ms ease;
 }
 .hero-surface-010 {
   background:
-    conic-gradient(from 70deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 70deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 20%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 16px 34px rgb(6 182 212 / 20%);
-  transition: opacity 150ms ease, transform 150ms ease;
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
 }
 .hero-surface-011 {
   background:
-    conic-gradient(from 77deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 77deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 21%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 17px 35px rgb(6 182 212 / 21%);
-  transition: opacity 151ms ease, transform 151ms ease;
+  transition:
+    opacity 151ms ease,
+    transform 151ms ease;
 }
 .hero-surface-012 {
   background:
-    conic-gradient(from 84deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 84deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 22%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 18px 36px rgb(6 182 212 / 22%);
-  transition: opacity 152ms ease, transform 152ms ease;
+  transition:
+    opacity 152ms ease,
+    transform 152ms ease;
 }
 .hero-surface-013 {
   background:
-    conic-gradient(from 91deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 91deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 23%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 19px 37px rgb(6 182 212 / 23%);
-  transition: opacity 153ms ease, transform 153ms ease;
+  transition:
+    opacity 153ms ease,
+    transform 153ms ease;
 }
 .hero-surface-014 {
   background:
-    conic-gradient(from 98deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 98deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 24%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 20px 38px rgb(6 182 212 / 24%);
-  transition: opacity 154ms ease, transform 154ms ease;
+  transition:
+    opacity 154ms ease,
+    transform 154ms ease;
 }
 .hero-surface-015 {
   background:
-    conic-gradient(from 105deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 105deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 25%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 21px 39px rgb(6 182 212 / 25%);
-  transition: opacity 155ms ease, transform 155ms ease;
+  transition:
+    opacity 155ms ease,
+    transform 155ms ease;
 }
 .hero-surface-016 {
   background:
-    conic-gradient(from 112deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 112deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 26%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 22px 40px rgb(6 182 212 / 10%);
-  transition: opacity 156ms ease, transform 156ms ease;
+  transition:
+    opacity 156ms ease,
+    transform 156ms ease;
 }
 .hero-surface-017 {
   background:
-    conic-gradient(from 119deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 119deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 27%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 23px 41px rgb(6 182 212 / 11%);
-  transition: opacity 157ms ease, transform 157ms ease;
+  transition:
+    opacity 157ms ease,
+    transform 157ms ease;
 }
 .hero-surface-018 {
   background:
-    conic-gradient(from 126deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 126deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 10%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 24px 42px rgb(6 182 212 / 12%);
-  transition: opacity 158ms ease, transform 158ms ease;
+  transition:
+    opacity 158ms ease,
+    transform 158ms ease;
 }
 .hero-surface-019 {
   background:
-    conic-gradient(from 133deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 133deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 11%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 25px 43px rgb(6 182 212 / 13%);
-  transition: opacity 159ms ease, transform 159ms ease;
+  transition:
+    opacity 159ms ease,
+    transform 159ms ease;
 }
 .hero-surface-020 {
   background:
-    conic-gradient(from 140deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 140deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 12%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 26px 44px rgb(6 182 212 / 14%);
-  transition: opacity 160ms ease, transform 160ms ease;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
 }
 .hero-surface-021 {
   background:
-    conic-gradient(from 147deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 147deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 13%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 27px 45px rgb(6 182 212 / 15%);
-  transition: opacity 161ms ease, transform 161ms ease;
+  transition:
+    opacity 161ms ease,
+    transform 161ms ease;
 }
 .hero-surface-022 {
   background:
-    conic-gradient(from 154deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 154deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 14%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 28px 46px rgb(6 182 212 / 16%);
-  transition: opacity 162ms ease, transform 162ms ease;
+  transition:
+    opacity 162ms ease,
+    transform 162ms ease;
 }
 .hero-surface-023 {
   background:
-    conic-gradient(from 161deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 161deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 15%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 29px 47px rgb(6 182 212 / 17%);
-  transition: opacity 163ms ease, transform 163ms ease;
+  transition:
+    opacity 163ms ease,
+    transform 163ms ease;
 }
 .hero-surface-024 {
   background:
-    conic-gradient(from 168deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 168deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 16%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 6px 48px rgb(6 182 212 / 18%);
-  transition: opacity 164ms ease, transform 164ms ease;
+  transition:
+    opacity 164ms ease,
+    transform 164ms ease;
 }
 .hero-surface-025 {
   background:
-    conic-gradient(from 175deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 175deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 17%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 7px 49px rgb(6 182 212 / 19%);
-  transition: opacity 165ms ease, transform 165ms ease;
+  transition:
+    opacity 165ms ease,
+    transform 165ms ease;
 }
 .hero-surface-026 {
   background:
-    conic-gradient(from 182deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 182deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 18%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 8px 50px rgb(6 182 212 / 20%);
-  transition: opacity 166ms ease, transform 166ms ease;
+  transition:
+    opacity 166ms ease,
+    transform 166ms ease;
 }
 .hero-surface-027 {
   background:
-    conic-gradient(from 189deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 189deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 19%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 9px 51px rgb(6 182 212 / 21%);
-  transition: opacity 167ms ease, transform 167ms ease;
+  transition:
+    opacity 167ms ease,
+    transform 167ms ease;
 }
 .hero-surface-028 {
   background:
-    conic-gradient(from 196deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 196deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 20%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 10px 52px rgb(6 182 212 / 22%);
-  transition: opacity 168ms ease, transform 168ms ease;
+  transition:
+    opacity 168ms ease,
+    transform 168ms ease;
 }
 .hero-surface-029 {
   background:
-    conic-gradient(from 203deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 203deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 21%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 11px 53px rgb(6 182 212 / 23%);
-  transition: opacity 169ms ease, transform 169ms ease;
+  transition:
+    opacity 169ms ease,
+    transform 169ms ease;
 }
 .hero-surface-030 {
   background:
-    conic-gradient(from 210deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 210deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 22%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 12px 54px rgb(6 182 212 / 24%);
-  transition: opacity 170ms ease, transform 170ms ease;
+  transition:
+    opacity 170ms ease,
+    transform 170ms ease;
 }
 .hero-surface-031 {
   background:
-    conic-gradient(from 217deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 217deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 23%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 13px 55px rgb(6 182 212 / 25%);
-  transition: opacity 171ms ease, transform 171ms ease;
+  transition:
+    opacity 171ms ease,
+    transform 171ms ease;
 }
 .hero-surface-032 {
   background:
-    conic-gradient(from 224deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 224deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 24%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 14px 56px rgb(6 182 212 / 10%);
-  transition: opacity 172ms ease, transform 172ms ease;
+  transition:
+    opacity 172ms ease,
+    transform 172ms ease;
 }
 .hero-surface-033 {
   background:
-    conic-gradient(from 231deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 231deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 25%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 15px 57px rgb(6 182 212 / 11%);
-  transition: opacity 173ms ease, transform 173ms ease;
+  transition:
+    opacity 173ms ease,
+    transform 173ms ease;
 }
 .hero-surface-034 {
   background:
-    conic-gradient(from 238deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 238deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 26%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 16px 58px rgb(6 182 212 / 12%);
-  transition: opacity 174ms ease, transform 174ms ease;
+  transition:
+    opacity 174ms ease,
+    transform 174ms ease;
 }
 .hero-surface-035 {
   background:
-    conic-gradient(from 245deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 245deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 27%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 17px 59px rgb(6 182 212 / 13%);
-  transition: opacity 175ms ease, transform 175ms ease;
+  transition:
+    opacity 175ms ease,
+    transform 175ms ease;
 }
 .hero-surface-036 {
   background:
-    conic-gradient(from 252deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 252deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 10%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 18px 24px rgb(6 182 212 / 14%);
-  transition: opacity 176ms ease, transform 176ms ease;
+  transition:
+    opacity 176ms ease,
+    transform 176ms ease;
 }
 .hero-surface-037 {
   background:
-    conic-gradient(from 259deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 259deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 11%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 19px 25px rgb(6 182 212 / 15%);
-  transition: opacity 177ms ease, transform 177ms ease;
+  transition:
+    opacity 177ms ease,
+    transform 177ms ease;
 }
 .hero-surface-038 {
   background:
-    conic-gradient(from 266deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 266deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 12%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 20px 26px rgb(6 182 212 / 16%);
-  transition: opacity 178ms ease, transform 178ms ease;
+  transition:
+    opacity 178ms ease,
+    transform 178ms ease;
 }
 .hero-surface-039 {
   background:
-    conic-gradient(from 273deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 273deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 13%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 21px 27px rgb(6 182 212 / 17%);
-  transition: opacity 179ms ease, transform 179ms ease;
+  transition:
+    opacity 179ms ease,
+    transform 179ms ease;
 }
 .hero-surface-040 {
   background:
-    conic-gradient(from 280deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 280deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 14%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 22px 28px rgb(6 182 212 / 18%);
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
 }
 .hero-surface-041 {
   background:
-    conic-gradient(from 287deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 287deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 15%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 23px 29px rgb(6 182 212 / 19%);
-  transition: opacity 181ms ease, transform 181ms ease;
+  transition:
+    opacity 181ms ease,
+    transform 181ms ease;
 }
 .hero-surface-042 {
   background:
-    conic-gradient(from 294deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 294deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 16%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 24px 30px rgb(6 182 212 / 20%);
-  transition: opacity 182ms ease, transform 182ms ease;
+  transition:
+    opacity 182ms ease,
+    transform 182ms ease;
 }
 .hero-surface-043 {
   background:
-    conic-gradient(from 301deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 301deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 17%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 25px 31px rgb(6 182 212 / 21%);
-  transition: opacity 183ms ease, transform 183ms ease;
+  transition:
+    opacity 183ms ease,
+    transform 183ms ease;
 }
 .hero-surface-044 {
   background:
-    conic-gradient(from 308deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 308deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 18%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 26px 32px rgb(6 182 212 / 22%);
-  transition: opacity 184ms ease, transform 184ms ease;
+  transition:
+    opacity 184ms ease,
+    transform 184ms ease;
 }
 .hero-surface-045 {
   background:
-    conic-gradient(from 315deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 315deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 19%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 27px 33px rgb(6 182 212 / 23%);
-  transition: opacity 185ms ease, transform 185ms ease;
+  transition:
+    opacity 185ms ease,
+    transform 185ms ease;
 }
 .hero-surface-046 {
   background:
-    conic-gradient(from 322deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 322deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 20%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 28px 34px rgb(6 182 212 / 24%);
-  transition: opacity 186ms ease, transform 186ms ease;
+  transition:
+    opacity 186ms ease,
+    transform 186ms ease;
 }
 .hero-surface-047 {
   background:
-    conic-gradient(from 329deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 329deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 21%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 29px 35px rgb(6 182 212 / 25%);
-  transition: opacity 187ms ease, transform 187ms ease;
+  transition:
+    opacity 187ms ease,
+    transform 187ms ease;
 }
 .hero-surface-048 {
   background:
-    conic-gradient(from 336deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 336deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 22%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 6px 36px rgb(6 182 212 / 10%);
-  transition: opacity 188ms ease, transform 188ms ease;
+  transition:
+    opacity 188ms ease,
+    transform 188ms ease;
 }
 .hero-surface-049 {
   background:
-    conic-gradient(from 343deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 343deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 23%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 7px 37px rgb(6 182 212 / 11%);
-  transition: opacity 189ms ease, transform 189ms ease;
+  transition:
+    opacity 189ms ease,
+    transform 189ms ease;
 }
 .hero-surface-050 {
   background:
-    conic-gradient(from 350deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 350deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 24%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 8px 38px rgb(6 182 212 / 12%);
-  transition: opacity 190ms ease, transform 190ms ease;
+  transition:
+    opacity 190ms ease,
+    transform 190ms ease;
 }
 .hero-surface-051 {
   background:
-    conic-gradient(from 357deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 357deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 25%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 9px 39px rgb(6 182 212 / 13%);
-  transition: opacity 191ms ease, transform 191ms ease;
+  transition:
+    opacity 191ms ease,
+    transform 191ms ease;
 }
 .hero-surface-052 {
   background:
-    conic-gradient(from 364deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 364deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 26%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 10px 40px rgb(6 182 212 / 14%);
-  transition: opacity 192ms ease, transform 192ms ease;
+  transition:
+    opacity 192ms ease,
+    transform 192ms ease;
 }
 .hero-surface-053 {
   background:
-    conic-gradient(from 371deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 371deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 27%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 11px 41px rgb(6 182 212 / 15%);
-  transition: opacity 193ms ease, transform 193ms ease;
+  transition:
+    opacity 193ms ease,
+    transform 193ms ease;
 }
 .hero-surface-054 {
   background:
-    conic-gradient(from 378deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 378deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 10%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 12px 42px rgb(6 182 212 / 16%);
-  transition: opacity 194ms ease, transform 194ms ease;
+  transition:
+    opacity 194ms ease,
+    transform 194ms ease;
 }
 .hero-surface-055 {
   background:
-    conic-gradient(from 385deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 385deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 11%);
-  border-radius: 0.80rem;
+  border-radius: 0.8rem;
   box-shadow: 0 13px 43px rgb(6 182 212 / 17%);
-  transition: opacity 195ms ease, transform 195ms ease;
+  transition:
+    opacity 195ms ease,
+    transform 195ms ease;
 }
 .hero-surface-056 {
   background:
-    conic-gradient(from 392deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 392deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 12%);
-  border-radius: 1.00rem;
+  border-radius: 1rem;
   box-shadow: 0 14px 44px rgb(6 182 212 / 18%);
-  transition: opacity 196ms ease, transform 196ms ease;
+  transition:
+    opacity 196ms ease,
+    transform 196ms ease;
 }
 .hero-surface-057 {
   background:
-    conic-gradient(from 399deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 399deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 13%);
-  border-radius: 1.20rem;
+  border-radius: 1.2rem;
   box-shadow: 0 15px 45px rgb(6 182 212 / 19%);
-  transition: opacity 197ms ease, transform 197ms ease;
+  transition:
+    opacity 197ms ease,
+    transform 197ms ease;
 }
 .hero-surface-058 {
   background:
-    conic-gradient(from 406deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 406deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 14%);
-  border-radius: 1.40rem;
+  border-radius: 1.4rem;
   box-shadow: 0 16px 46px rgb(6 182 212 / 20%);
-  transition: opacity 198ms ease, transform 198ms ease;
+  transition:
+    opacity 198ms ease,
+    transform 198ms ease;
 }
 .hero-surface-059 {
   background:
-    conic-gradient(from 413deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 413deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 15%);
-  border-radius: 1.60rem;
+  border-radius: 1.6rem;
   box-shadow: 0 17px 47px rgb(6 182 212 / 21%);
-  transition: opacity 199ms ease, transform 199ms ease;
+  transition:
+    opacity 199ms ease,
+    transform 199ms ease;
 }
 .hero-surface-060 {
   background:
-    conic-gradient(from 420deg at 50% 50%, rgb(6 182 212 / 24%), rgb(99 102 241 / 22%), transparent 70%),
+    conic-gradient(
+      from 420deg at 50% 50%,
+      rgb(6 182 212 / 24%),
+      rgb(99 102 241 / 22%),
+      transparent 70%
+    ),
     rgb(15 23 42 / 85%);
   border: 1px solid rgb(34 211 238 / 16%);
-  border-radius: 0.60rem;
+  border-radius: 0.6rem;
   box-shadow: 0 18px 48px rgb(6 182 212 / 22%);
-  transition: opacity 140ms ease, transform 140ms ease;
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
 }

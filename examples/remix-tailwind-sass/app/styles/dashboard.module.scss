@@ -1,0 +1,12 @@
+.dashboard-module-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 223, 216, 0.3);
+
+  .dashboard-module-live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #00dfd8;
+  }
+}

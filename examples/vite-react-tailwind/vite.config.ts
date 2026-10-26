@@ -1,8 +1,8 @@
-import tailwindcss from '@tailwindcss/vite';
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
-import { cssDoctor } from '@zealamic/css-doctor-vite';
+import { cssDoctor } from "@zealamic/css-doctor-vite";
 
 export default defineConfig({
   plugins: [
@@ -27,8 +27,8 @@ export default defineConfig({
     cssCodeSplit: true,
     rollupOptions: {
       output: {
-        chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
       },
     },
   },

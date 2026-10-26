@@ -1,0 +1,344 @@
+:root {
+  --app-bg: #090d16;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --color-accent-pure: #10b981;
+}
+
+body {
+  margin: 0;
+  background-color: var(--app-bg);
+  color: #f8fafc;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+.app-shell-header {
+  border-bottom: 1px solid var(--card-border);
+  background: rgba(9, 13, 22, 0.85);
+  backdrop-filter: blur(12px);
+}
+
+.nav-pill-item {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.home-pure-hero-card {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.home-pure-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-accent-pure);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.home-pure-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--color-accent-pure);
+  color: #030712;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.home-pure-btn:hover {
+  opacity: 0.9;
+}
+
+.unused-legacy-table-v4 {
+  display: table;
+  width: 100%;
+}
+
+.antd-showcase-shell {
+  border-top: 2px solid rgba(59, 130, 246, 0.35);
+  padding-top: 1.25rem;
+}
+
+.mui-showcase-shell {
+  border-top: 2px solid rgba(168, 85, 247, 0.35);
+  padding-top: 1.25rem;
+}
+
+.chakra-showcase-shell {
+  border-top: 2px solid rgba(20, 184, 166, 0.35);
+  padding-top: 1.25rem;
+}
+.stress-surface-1 { background: linear-gradient(1deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-2 { background: linear-gradient(2deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-3 { background: linear-gradient(3deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-4 { background: linear-gradient(4deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-5 { background: linear-gradient(5deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-6 { background: linear-gradient(6deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-7 { background: linear-gradient(7deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-8 { background: linear-gradient(8deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-9 { background: linear-gradient(9deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-10 { background: linear-gradient(10deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-11 { background: linear-gradient(11deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-12 { background: linear-gradient(12deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-13 { background: linear-gradient(13deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-14 { background: linear-gradient(14deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-15 { background: linear-gradient(15deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-16 { background: linear-gradient(16deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-17 { background: linear-gradient(17deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-18 { background: linear-gradient(18deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-19 { background: linear-gradient(19deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-20 { background: linear-gradient(20deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-21 { background: linear-gradient(21deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-22 { background: linear-gradient(22deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-23 { background: linear-gradient(23deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-24 { background: linear-gradient(24deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-25 { background: linear-gradient(25deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-26 { background: linear-gradient(26deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-27 { background: linear-gradient(27deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-28 { background: linear-gradient(28deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-29 { background: linear-gradient(29deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-30 { background: linear-gradient(30deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-31 { background: linear-gradient(31deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-32 { background: linear-gradient(32deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-33 { background: linear-gradient(33deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-34 { background: linear-gradient(34deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-35 { background: linear-gradient(35deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-36 { background: linear-gradient(36deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-37 { background: linear-gradient(37deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-38 { background: linear-gradient(38deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-39 { background: linear-gradient(39deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-40 { background: linear-gradient(40deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-41 { background: linear-gradient(41deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-42 { background: linear-gradient(42deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-43 { background: linear-gradient(43deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-44 { background: linear-gradient(44deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-45 { background: linear-gradient(45deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-46 { background: linear-gradient(46deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-47 { background: linear-gradient(47deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-48 { background: linear-gradient(48deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-49 { background: linear-gradient(49deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-50 { background: linear-gradient(50deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-51 { background: linear-gradient(51deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-52 { background: linear-gradient(52deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-53 { background: linear-gradient(53deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-54 { background: linear-gradient(54deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-55 { background: linear-gradient(55deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-56 { background: linear-gradient(56deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-57 { background: linear-gradient(57deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-58 { background: linear-gradient(58deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-59 { background: linear-gradient(59deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-60 { background: linear-gradient(60deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-61 { background: linear-gradient(61deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-62 { background: linear-gradient(62deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-63 { background: linear-gradient(63deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-64 { background: linear-gradient(64deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-65 { background: linear-gradient(65deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-66 { background: linear-gradient(66deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-67 { background: linear-gradient(67deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-68 { background: linear-gradient(68deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-69 { background: linear-gradient(69deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-70 { background: linear-gradient(70deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-71 { background: linear-gradient(71deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-72 { background: linear-gradient(72deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-73 { background: linear-gradient(73deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-74 { background: linear-gradient(74deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-75 { background: linear-gradient(75deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-76 { background: linear-gradient(76deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-77 { background: linear-gradient(77deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-78 { background: linear-gradient(78deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-79 { background: linear-gradient(79deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-80 { background: linear-gradient(80deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-81 { background: linear-gradient(81deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-82 { background: linear-gradient(82deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-83 { background: linear-gradient(83deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-84 { background: linear-gradient(84deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-85 { background: linear-gradient(85deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-86 { background: linear-gradient(86deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-87 { background: linear-gradient(87deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-88 { background: linear-gradient(88deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-89 { background: linear-gradient(89deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-90 { background: linear-gradient(90deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-91 { background: linear-gradient(91deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-92 { background: linear-gradient(92deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-93 { background: linear-gradient(93deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-94 { background: linear-gradient(94deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-95 { background: linear-gradient(95deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-96 { background: linear-gradient(96deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-97 { background: linear-gradient(97deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-98 { background: linear-gradient(98deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-99 { background: linear-gradient(99deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-100 { background: linear-gradient(100deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-101 { background: linear-gradient(101deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-102 { background: linear-gradient(102deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-103 { background: linear-gradient(103deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-104 { background: linear-gradient(104deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-105 { background: linear-gradient(105deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-106 { background: linear-gradient(106deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-107 { background: linear-gradient(107deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-108 { background: linear-gradient(108deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-109 { background: linear-gradient(109deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-110 { background: linear-gradient(110deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-111 { background: linear-gradient(111deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-112 { background: linear-gradient(112deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-113 { background: linear-gradient(113deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-114 { background: linear-gradient(114deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-115 { background: linear-gradient(115deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-116 { background: linear-gradient(116deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-117 { background: linear-gradient(117deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-118 { background: linear-gradient(118deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-119 { background: linear-gradient(119deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-120 { background: linear-gradient(120deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-121 { background: linear-gradient(121deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-122 { background: linear-gradient(122deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-123 { background: linear-gradient(123deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-124 { background: linear-gradient(124deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-125 { background: linear-gradient(125deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-126 { background: linear-gradient(126deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-127 { background: linear-gradient(127deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-128 { background: linear-gradient(128deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-129 { background: linear-gradient(129deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-130 { background: linear-gradient(130deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-131 { background: linear-gradient(131deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-132 { background: linear-gradient(132deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-133 { background: linear-gradient(133deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-134 { background: linear-gradient(134deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-135 { background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-136 { background: linear-gradient(136deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-137 { background: linear-gradient(137deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-138 { background: linear-gradient(138deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-139 { background: linear-gradient(139deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-140 { background: linear-gradient(140deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-141 { background: linear-gradient(141deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-142 { background: linear-gradient(142deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-143 { background: linear-gradient(143deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-144 { background: linear-gradient(144deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-145 { background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-146 { background: linear-gradient(146deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-147 { background: linear-gradient(147deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-148 { background: linear-gradient(148deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-149 { background: linear-gradient(149deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-150 { background: linear-gradient(150deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-151 { background: linear-gradient(151deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-152 { background: linear-gradient(152deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-153 { background: linear-gradient(153deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-154 { background: linear-gradient(154deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-155 { background: linear-gradient(155deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-156 { background: linear-gradient(156deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-157 { background: linear-gradient(157deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-158 { background: linear-gradient(158deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-159 { background: linear-gradient(159deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-160 { background: linear-gradient(160deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-161 { background: linear-gradient(161deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-162 { background: linear-gradient(162deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-163 { background: linear-gradient(163deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-164 { background: linear-gradient(164deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-165 { background: linear-gradient(165deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-166 { background: linear-gradient(166deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-167 { background: linear-gradient(167deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-168 { background: linear-gradient(168deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-169 { background: linear-gradient(169deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-170 { background: linear-gradient(170deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-171 { background: linear-gradient(171deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-172 { background: linear-gradient(172deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-173 { background: linear-gradient(173deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-174 { background: linear-gradient(174deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-175 { background: linear-gradient(175deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-176 { background: linear-gradient(176deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-177 { background: linear-gradient(177deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-178 { background: linear-gradient(178deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-179 { background: linear-gradient(179deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-180 { background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-181 { background: linear-gradient(181deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-182 { background: linear-gradient(182deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-183 { background: linear-gradient(183deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-184 { background: linear-gradient(184deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-185 { background: linear-gradient(185deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-186 { background: linear-gradient(186deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-187 { background: linear-gradient(187deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-188 { background: linear-gradient(188deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-189 { background: linear-gradient(189deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-190 { background: linear-gradient(190deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-191 { background: linear-gradient(191deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-192 { background: linear-gradient(192deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-193 { background: linear-gradient(193deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-194 { background: linear-gradient(194deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-195 { background: linear-gradient(195deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-196 { background: linear-gradient(196deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-197 { background: linear-gradient(197deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-198 { background: linear-gradient(198deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-199 { background: linear-gradient(199deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-200 { background: linear-gradient(200deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-201 { background: linear-gradient(201deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-202 { background: linear-gradient(202deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-203 { background: linear-gradient(203deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-204 { background: linear-gradient(204deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-205 { background: linear-gradient(205deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-206 { background: linear-gradient(206deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-207 { background: linear-gradient(207deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-208 { background: linear-gradient(208deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-209 { background: linear-gradient(209deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-210 { background: linear-gradient(210deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-211 { background: linear-gradient(211deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-212 { background: linear-gradient(212deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-213 { background: linear-gradient(213deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-214 { background: linear-gradient(214deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-215 { background: linear-gradient(215deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-216 { background: linear-gradient(216deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-217 { background: linear-gradient(217deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-218 { background: linear-gradient(218deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-219 { background: linear-gradient(219deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-220 { background: linear-gradient(220deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-221 { background: linear-gradient(221deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-222 { background: linear-gradient(222deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-223 { background: linear-gradient(223deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-224 { background: linear-gradient(224deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-225 { background: linear-gradient(225deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-226 { background: linear-gradient(226deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-227 { background: linear-gradient(227deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-228 { background: linear-gradient(228deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-229 { background: linear-gradient(229deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-230 { background: linear-gradient(230deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-231 { background: linear-gradient(231deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-232 { background: linear-gradient(232deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-233 { background: linear-gradient(233deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-234 { background: linear-gradient(234deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-235 { background: linear-gradient(235deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-236 { background: linear-gradient(236deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-237 { background: linear-gradient(237deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-238 { background: linear-gradient(238deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-239 { background: linear-gradient(239deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-240 { background: linear-gradient(240deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-241 { background: linear-gradient(241deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-242 { background: linear-gradient(242deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-243 { background: linear-gradient(243deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-244 { background: linear-gradient(244deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-245 { background: linear-gradient(245deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-246 { background: linear-gradient(246deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-247 { background: linear-gradient(247deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-248 { background: linear-gradient(248deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-249 { background: linear-gradient(249deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-250 { background: linear-gradient(250deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-251 { background: linear-gradient(251deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-252 { background: linear-gradient(252deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-253 { background: linear-gradient(253deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-254 { background: linear-gradient(254deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-255 { background: linear-gradient(255deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-256 { background: linear-gradient(256deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-257 { background: linear-gradient(257deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-258 { background: linear-gradient(258deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-259 { background: linear-gradient(259deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }
+.stress-surface-260 { background: linear-gradient(260deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96)); border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 0.75rem; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); padding: 1rem; }

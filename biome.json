@@ -19,7 +19,10 @@
       "!**/node_modules",
       "!**/fixtures",
       "!**/.next",
-      "!**/coverage"
+      "!**/coverage",
+      "!**/.nuxt",
+      "!**/.output",
+      "!**/.svelte-kit"
     ]
   },
   "formatter": {

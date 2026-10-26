@@ -1,0 +1,13 @@
+.card {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: rgba(30, 41, 59, 0.5);
+}
+
+.statusIndicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: #22c55e;
+}

@@ -158,6 +158,8 @@ export function cssDoctor(options: CssDoctorViteOptions = {}): Plugin {
             directPageUsage: options.pageUsage,
             base,
             minify,
+            skipVueScopedStyles: options.skipVueScopedStyles ?? false,
+            wrapCommonImports: options.wrapCommonImports ?? false,
           },
         );
 
@@ -193,6 +195,8 @@ type SplitOptions = {
   directPageUsage: Record<string, string[]> | undefined;
   base: string;
   minify: boolean;
+  skipVueScopedStyles: boolean;
+  wrapCommonImports: boolean;
 };
 
 async function analyzeAndSplit(
@@ -265,6 +269,7 @@ async function analyzeAndSplit(
 
   const matrix = new Map<string, JsSelectorStat>();
   const htmlLinks: string[] = [];
+  const commonFileNames: string[] = [];
   const pageCssFiles = new Map<string, string[]>();
 
   for (const output of Object.values(bundle)) {
@@ -275,6 +280,19 @@ async function analyzeAndSplit(
     diagnostics.totalCssAssets += 1;
 
     if (!options.filter(output.fileName)) {
+      diagnostics.skippedCssAssets += 1;
+      continue;
+    }
+
+    if (isCssModuleAsset(output.fileName, sourceToCss(output.source))) {
+      diagnostics.skippedCssAssets += 1;
+      continue;
+    }
+
+    if (
+      options.skipVueScopedStyles &&
+      isVueScopedAsset(sourceToCss(output.source))
+    ) {
       diagnostics.skippedCssAssets += 1;
       continue;
     }
@@ -337,6 +355,7 @@ async function analyzeAndSplit(
 
         if (!embedded) {
           htmlLinks.push(fileName);
+          commonFileNames.push(fileName);
         }
 
         diagnostics.emittedCssChunks.push({
@@ -359,6 +378,12 @@ async function analyzeAndSplit(
         if (chunk.oversized) {
           diagnostics.sizeBudget.oversizedChunks += 1;
         }
+      }
+
+      if (options.wrapCommonImports && commonWasSplit) {
+        output.source = commonFileNames
+          .map((fileName) => `@import "./${basename(fileName)}";`)
+          .join("\n");
       }
 
       for (const chunk of pageChunks) {
@@ -486,14 +511,29 @@ function injectPageChunkStyles(
     }
 
     const chunkFile = chunkByPage.get(page);
-    const output = chunkFile ? bundle[chunkFile] : undefined;
+    const hrefs = fileNames.map((fileName) => `${normalizedBase}${fileName}`);
+    const htmlOutput = findPageHtmlAsset(bundle, page);
+    const output = htmlOutput ?? (chunkFile ? bundle[chunkFile] : undefined);
+
+    if (isHtmlAsset(output)) {
+      const tags = hrefs
+        .map(
+          (href) =>
+            `    <link rel="stylesheet" href="${href}" data-css-doctor-page>`,
+        )
+        .join("\n");
+
+      if (!output.source.includes(tags) && output.source.includes("</head>")) {
+        output.source = output.source.replace("</head>", `${tags}\n  </head>`);
+      }
+      continue;
+    }
 
     if (!isChunk(output)) {
       continue;
     }
 
-    const hrefs = fileNames.map((fileName) => `${normalizedBase}${fileName}`);
-    const snippet = `const __cssDoctorPageStyles=${JSON.stringify(hrefs)};if(typeof document!=="undefined"){for(const __cssDoctorPageHref of __cssDoctorPageStyles){if(!Array.from(document.querySelectorAll("link[data-css-doctor-page]")).some((link)=>link.dataset.cssDoctorPage===__cssDoctorPageHref)){const __cssDoctorPageLink=document.createElement("link");__cssDoctorPageLink.rel="stylesheet";__cssDoctorPageLink.href=__cssDoctorPageHref;__cssDoctorPageLink.dataset.cssDoctorPage=__cssDoctorPageHref;document.head.append(__cssDoctorPageLink);}}}\n`;
+    const snippet = `(()=>{const __cssDoctorPageStyles=${JSON.stringify(hrefs)};if(typeof document!=="undefined"){for(const __cssDoctorPageHref of __cssDoctorPageStyles){if(!Array.from(document.querySelectorAll("link[data-css-doctor-page]")).some((link)=>link.dataset.cssDoctorPage===__cssDoctorPageHref)){const __cssDoctorPageLink=document.createElement("link");__cssDoctorPageLink.rel="stylesheet";__cssDoctorPageLink.href=__cssDoctorPageHref;__cssDoctorPageLink.dataset.cssDoctorPage=__cssDoctorPageHref;document.head.append(__cssDoctorPageLink);}}}})();\n`;
 
     output.code = snippet + output.code;
   }
@@ -521,6 +561,31 @@ function injectStylesheetLinks(
       output.source = output.source.replace("</head>", `${tags}\n  </head>`);
     }
   }
+}
+
+function findPageHtmlAsset(
+  bundle: Record<string, unknown>,
+  page: string,
+): unknown {
+  const names =
+    page === "index"
+      ? ["index.html"]
+      : [
+          `page-${page}/index.html`,
+          `page-${page}.html`,
+          `${page}/index.html`,
+          `${page}.html`,
+        ];
+
+  for (const name of names) {
+    const output = bundle[name];
+
+    if (isHtmlAsset(output)) {
+      return output;
+    }
+  }
+
+  return undefined;
 }
 
 function isHtmlAsset(
@@ -621,6 +686,10 @@ async function collectPages(
   );
 
   for (const entry of chunks.filter((chunk) => chunk.isEntry)) {
+    if (isInternalPageEntry(entry)) {
+      continue;
+    }
+
     const shell = collectChunkContent(
       entry,
       chunksByFileName,
@@ -651,7 +720,7 @@ async function collectPages(
       // routes into the single index entry.
       for (const routeChunk of routeChunks) {
         const page: PageInfo = {
-          name: uniquePageName(pageNameFor(routeChunk).toLowerCase(), pages),
+          name: uniquePageName(cleanPageName(routePageName(routeChunk)), pages),
           classes: new Set(shell.classes),
           cssFiles: new Set(shell.cssFiles),
           chunkFile: routeChunk.fileName,
@@ -679,7 +748,7 @@ async function collectPages(
     }
 
     const page: PageInfo = {
-      name: uniquePageName(pageNameFor(entry), pages),
+      name: uniquePageName(cleanPageName(pageNameFor(entry)), pages),
       classes: new Set(shell.classes),
       cssFiles: new Set(shell.cssFiles),
       chunkFile: entry.fileName,
@@ -810,6 +879,47 @@ function scanClasses(source: string, classes: Set<string>): void {
       }
     }
   }
+}
+
+function isInternalPageEntry(chunk: ViteChunkLike): boolean {
+  const name = pageNameFor(chunk);
+
+  return (
+    name.startsWith("_") ||
+    name.startsWith("noop-") ||
+    name.includes("@astro-renderers")
+  );
+}
+
+function cleanPageName(name: string): string {
+  const normalized = name
+    .trim()
+    .toLowerCase()
+    .replace(/@_@[a-z]+$/i, "")
+    .replace(/^page-/, "");
+
+  return normalized || "page";
+}
+
+function routePageName(chunk: ViteChunkLike): string {
+  const name = pageNameFor(chunk).toLowerCase();
+
+  return name.startsWith("page-") ? name.slice("page-".length) : name;
+}
+
+function isCssModuleAsset(fileName: string, css: string): boolean {
+  if (/\.module\.(css|scss|sass|less|styl|stylus)$/i.test(fileName)) {
+    return true;
+  }
+
+  // Vite's default CSS Modules local identifier is `_local_hash_index`
+  // (for example `_card_1udun_1`). The emitted asset name is hashed, so
+  // detect the scoped class shape in the source as a safety boundary.
+  return /\.[A-Za-z0-9_-]+_[A-Za-z0-9]{5,}_[0-9]+/.test(css);
+}
+
+function isVueScopedAsset(css: string): boolean {
+  return /\[data-v-[0-9a-f]+\]/.test(css);
 }
 
 function pageNameFor(chunk: ViteChunkLike): string {

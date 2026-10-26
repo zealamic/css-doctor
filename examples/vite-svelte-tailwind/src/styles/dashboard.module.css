@@ -1,0 +1,13 @@
+.card {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: rgba(51, 65, 85, 0.5);
+}
+
+.statusDot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background-color: #ff3e00;
+}

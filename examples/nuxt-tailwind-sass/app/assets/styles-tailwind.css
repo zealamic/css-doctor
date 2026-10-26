@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-nuxt-green: #00dc82;
+  --color-nuxt-dark: #020420;
+  --color-accent-emerald: #10b981;
+  --font-display: "Inter", system-ui, sans-serif;
+}
+
+:root {
+  --app-bg-canvas: #030712;
+  --panel-border: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  margin: 0;
+  background-color: var(--app-bg-canvas);
+  color: #f9fafb;
+  font-family: var(--font-display);
+  min-height: 100vh;
+}

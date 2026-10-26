@@ -27,6 +27,6 @@
     "@zealamic/css-doctor-vite": "workspace:*",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
-    "vite": "^5.4.21"
+    "vite": "^6.0.0"
   }
 }

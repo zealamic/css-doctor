@@ -1,0 +1,42 @@
+:root {
+  --app-bg: #0b0f19;
+  --card-border: rgba(255, 255, 255, 0.08);
+}
+
+@mixin glass-effect {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+}
+
+.panel-card-glass {
+  @include glass-effect;
+  padding: 1.5rem;
+}
+
+.hero-gradient-title {
+  background: linear-gradient(135deg, #ffffff 0%, var(--color-remix-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Size pressure for the Remix asset adapter test. */
+@for $index from 1 through 120 {
+  .stress-surface-#{$index} {
+    background:
+      radial-gradient(
+        circle at 50% 20%,
+        rgba(57, 146, 255, 0.2),
+        transparent 55%
+      ),
+      linear-gradient(#{$index}deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.95));
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 0.75rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease;
+  }
+}

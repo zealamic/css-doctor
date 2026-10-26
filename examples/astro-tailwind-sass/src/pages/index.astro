@@ -1,0 +1,28 @@
+---
+import LayoutBase from "../layouts/layout-base.astro";
+---
+
+<LayoutBase title="Astro Home">
+  <section class="glass-panel-box hero-astro-glow">
+    <span class="common-badge-text">Astro static home</span>
+    <h1 class="mt-4 text-4xl font-extrabold text-white">
+      Multi-framework CSS stress test
+    </h1>
+    <p class="mt-4 max-w-2xl text-slate-400">
+      This page is rendered by Astro and shares Tailwind, SCSS and scoped styles
+      with five framework islands.
+    </p>
+    <a
+      class="mt-6 inline-block rounded-md bg-purple-600 px-4 py-2 font-semibold text-white"
+      href="/page-react"
+    >
+      Open React island
+    </a>
+  </section>
+</LayoutBase>
+
+<style>
+  .hero-astro-glow {
+    padding: 3rem;
+  }
+</style>
