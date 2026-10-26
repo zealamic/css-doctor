@@ -1,6 +1,6 @@
 {
   "name": "@zealamic/css-doctor-workspace",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "Smart CSS diagnostics, dead code elimination, and intelligent chunk splitting tool.",
   "author": "Zealamic (nqhed - Huy Edward Nguyen)",
   "private": true,

@@ -34,8 +34,8 @@
     "@rsbuild/core": ">=1.0.0"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.0.0",
-    "@rspack/core": "^2.0.0",
+    "@rsbuild/core": "^1.7.6",
+    "@rspack/core": "^2.2.9",
     "@types/node": "^22.20.5",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
