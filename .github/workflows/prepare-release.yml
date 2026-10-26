@@ -87,8 +87,8 @@ jobs:
       - name: Install Zig and cargo-zigbuild for musl
         if: matrix.settings.target == 'x86_64-unknown-linux-musl'
         run: |
-          python3 -m pip install --user ziglang cargo-zigbuild
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          pip install ziglang cargo-zigbuild
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Build native binding
         shell: bash
