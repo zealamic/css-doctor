@@ -87,27 +87,25 @@ jobs:
       - name: Install Zig and cargo-zigbuild for musl
         if: matrix.settings.target == 'x86_64-unknown-linux-musl'
         run: |
-          if ! sudo pip install ziglang cargo-zigbuild; then
-            sudo pip install --break-system-packages ziglang cargo-zigbuild
-          fi
+          sudo pip install --break-system-packages ziglang cargo-zigbuild
           if ! which zig >/dev/null 2>&1; then
             ZIG_BIN="$(python3 -m site --user-base)/bin/zig"
-            if [ -x "$ZIG_BIN" ]; then
-              sudo ln -sf "$ZIG_BIN" /usr/local/bin/zig
-            fi
+            test -x "$ZIG_BIN"
+            sudo ln -sf "$ZIG_BIN" /usr/local/bin/zig
           fi
           which zig
           zig version
-          USER_BIN="$(python3 -m site --user-base)/bin"
-          mkdir -p "$USER_BIN"
+          cargo-zigbuild --version
+
+      - name: Expose Node and Rust tools on system PATH
+        if: matrix.settings.target == 'x86_64-unknown-linux-musl'
+        run: |
           for tool in node pnpm cargo rustc rustup; do
-            TOOL_PATH="$(command -v "$tool" || true)"
-            if [ -n "$TOOL_PATH" ]; then
-              ln -sf "$TOOL_PATH" "$USER_BIN/$tool"
+            tool_path="$(command -v "$tool" || true)"
+            if [ -n "$tool_path" ]; then
+              sudo ln -sf "$tool_path" "/usr/local/bin/$tool"
             fi
           done
-          echo "$USER_BIN" >> $GITHUB_PATH
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Build native binding (musl)
         if: matrix.settings.target == 'x86_64-unknown-linux-musl'
