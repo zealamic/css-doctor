@@ -1,0 +1,4 @@
+[build]
+# Cargo uses all available CPUs by default. CARGO_BUILD_JOBS can override this
+# locally and in CI without editing this file.
+incremental = true

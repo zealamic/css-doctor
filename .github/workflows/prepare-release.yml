@@ -35,7 +35,7 @@ jobs:
             runner: macos-latest
           - target: x86_64-apple-darwin
             platform: darwin-x64
-            runner: macos-13
+            runner: macos-latest
           - target: x86_64-unknown-linux-gnu
             platform: linux-x64-gnu
             runner: ubuntu-latest
@@ -64,12 +64,18 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install Node dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline
+        run: >-
+          pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+          --filter "@zealamic/*..." --filter "."
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.settings.target }}
+
+      - name: Add macOS x64 Rust target
+        if: matrix.settings.target == 'x86_64-apple-darwin'
+        run: rustup target add x86_64-apple-darwin
 
       - name: Cache Cargo
         uses: Swatinem/rust-cache@v2
@@ -78,23 +84,29 @@ jobs:
           shared-key: release-${{ matrix.settings.target }}
           cache-on-failure: true
 
-      - name: Install musl toolchain
+      - name: Setup Zig for musl
         if: matrix.settings.target == 'x86_64-unknown-linux-musl'
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes musl-tools
+        uses: mlugg/setup-zig@v1
+        with:
+          version: latest
+
+      - name: Install cargo-zigbuild for musl
+        if: matrix.settings.target == 'x86_64-unknown-linux-musl'
+        run: cargo install cargo-zigbuild --locked
 
       - name: Build native binding
         shell: bash
-        env:
-          CC_x86_64_unknown_linux_musl: ${{ matrix.settings.target == 'x86_64-unknown-linux-musl' && 'musl-gcc' || '' }}
-          CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER: ${{ matrix.settings.target == 'x86_64-unknown-linux-musl' && 'musl-gcc' || '' }}
         run: |
           set -euo pipefail
-          pnpm --filter @zealamic/css-doctor-binding exec napi build \
-            --platform \
-            --release \
+          args=(
+            --platform
+            --release
             --target "${{ matrix.settings.target }}"
+          )
+          if [ "${{ matrix.settings.target }}" = "x86_64-unknown-linux-musl" ]; then
+            args+=(--zig)
+          fi
+          pnpm --filter @zealamic/css-doctor-binding exec napi build "${args[@]}"
 
       - name: Verify native output
         shell: bash
@@ -133,7 +145,9 @@ jobs:
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install Node dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline
+        run: >-
+          pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+          --filter "@zealamic/*..." --filter "."
 
       - name: Download all native binaries
         uses: actions/download-artifact@v4

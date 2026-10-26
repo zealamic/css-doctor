@@ -6,10 +6,13 @@
     "pnpm-workspace.yaml",
     "pnpm-lock.yaml",
     "turbo.json",
-    "biome.json"
+    "biome.json",
+    ".cargo/config.toml"
   ],
   "globalEnv": [
     "CARGO_BUILD_TARGET",
+    "CARGO_BUILD_JOBS",
+    "CARGO_INCREMENTAL",
     "RUSTFLAGS",
     "RUSTUP_TOOLCHAIN",
     "NAPI_RS_FORCE_WASI",
@@ -20,6 +23,7 @@
       "dependsOn": [
         "^build"
       ],
+      "cache": true,
       "inputs": [
         "$TURBO_DEFAULT$",
         "src/**",
@@ -29,8 +33,10 @@
         "tsup.config.*",
         "vite.config.*",
         "next.config.*",
+        "nuxt.config.*",
         "build.rs",
         "Cargo.toml",
+        "package.json",
         "!node_modules/**",
         "!.turbo/**",
         "!dist/**",
@@ -53,9 +59,29 @@
         "index.d.cts"
       ]
     },
+    "typecheck": {
+      "dependsOn": [],
+      "cache": true,
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "src/**",
+        "test/**",
+        "tests/**",
+        "*.ts",
+        "*.tsx",
+        "tsconfig.json",
+        "package.json",
+        "!node_modules/**",
+        "!.turbo/**",
+        "!dist/**",
+        "!coverage/**",
+        "!examples/**"
+      ],
+      "outputs": []
+    },
     "test": {
       "dependsOn": [
-        "^build"
+        "build"
       ],
       "cache": true,
       "inputs": [
@@ -104,6 +130,10 @@
       ],
       "outputs": []
     },
+    "clean": {
+      "cache": false,
+      "outputs": []
+    },
     "dev": {
       "cache": false,
       "persistent": true
@@ -127,6 +157,7 @@
     "HOME",
     "PNPM_HOME",
     "XDG_DATA_HOME",
+    "XDG_CACHE_HOME",
     "npm_config_store_dir"
   ]
 }

@@ -9,20 +9,23 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "turbo build",
+    "build": "turbo run build --filter=\"./packages/**\"",
     "dev": "turbo dev",
-    "test": "turbo test",
+    "test": "turbo run test --filter=\"./packages/**\"",
     "test:cargo": "cargo test --workspace",
     "lint": "turbo lint",
     "format": "turbo format",
     "format:check": "turbo format:check",
     "check": "turbo check",
-    "clean": "tsx scripts/clean.ts",
+    "clean": "turbo run clean && rm -rf node_modules",
     "monitor": "tsx monitor/server.ts",
-    "typecheck": "pnpm -r --filter \"./packages/*\" --if-present typecheck",
-    "build:packages": "pnpm --filter \"@zealamic/*\" build",
+    "typecheck": "turbo run typecheck --filter=\"./packages/**\"",
+    "build:packages": "turbo run build --filter=\"./packages/**\"",
     "prepare:examples": "pnpm --filter \"./examples/*\" postinstall",
-    "prepare": "pnpm build:packages && pnpm prepare:examples"
+    "prepare": "pnpm build:packages && pnpm prepare:examples",
+    "build:fast": "pnpm --filter=\"./packages/**\" --parallel run build",
+    "build:examples": "turbo run build --filter=\"./examples/**\"",
+    "build:all": "turbo run build"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.3",
