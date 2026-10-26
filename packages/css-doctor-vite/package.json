@@ -1,0 +1,51 @@
+{
+  "name": "@zealamic/css-doctor-vite",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Vite plugin that analyzes emitted CSS assets with the css-doctor native engine",
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm typecheck && pnpm build && tsx --test test/vite-plugin.test.ts",
+    "lint": "biome lint src test/vite-plugin.test.ts",
+    "format": "biome format --write src test/vite-plugin.test.ts",
+    "format:check": "biome format src test/vite-plugin.test.ts",
+    "check": "biome check src test/vite-plugin.test.ts"
+  },
+  "dependencies": {
+    "@rollup/pluginutils": "^5.5.1",
+    "@zealamic/css-doctor-binding": "workspace:*",
+    "picocolors": "^1.1.1"
+  },
+  "peerDependencies": {
+    "vite": ">=4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vite": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

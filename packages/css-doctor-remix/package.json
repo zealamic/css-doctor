@@ -1,0 +1,39 @@
+{
+  "name": "@zealamic/css-doctor-remix",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Remix 3 asset-server middleware for css-doctor CSS optimization",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src",
+    "format": "biome format --write src",
+    "format:check": "biome format src",
+    "check": "biome check src"
+  },
+  "dependencies": {
+    "@zealamic/css-doctor-binding": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

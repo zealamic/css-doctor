@@ -1,0 +1,27 @@
+{
+  "name": "remix-tailwind-sass",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.3.0"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development node --watch --import remix/node-tsx server.ts",
+    "build": "tsc --noEmit",
+    "start": "NODE_ENV=production node --import remix/node-tsx server.ts",
+    "typecheck": "tsc --noEmit",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "check": "biome check ."
+  },
+  "dependencies": {
+    "@zealamic/css-doctor-remix": "workspace:*",
+    "remix": "^3.1.0",
+    "sass": "^1.83.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "typescript": "^6.0.3"
+  }
+}

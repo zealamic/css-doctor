@@ -1,0 +1,25 @@
+[package]
+name = "css_doctor_core"
+description = "CSS AST analysis engine for css-doctor: selector extraction, usage metrics, and diagnostics"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/zealamic/css-doctor"
+keywords = ["css", "ast", "analysis", "linter"]
+categories = ["development-tools", "parser-implementations"]
+
+[dependencies]
+# `cssparser` is the trait crate that `lightningcss` uses for selector
+# serialization (`ToCss`). It is pinned to the version required by the selected
+# `lightningcss` release (0.38 is incompatible with lightningcss alpha.72).
+cssparser = "0.37"
+# The Rust `lightningcss` crate is still published as 1.0.0-alpha.72 on
+# crates.io. The NPM package numbered 1.33.0 is a separate JS/native package,
+# not a newer Rust crate version. Exact pinning keeps this alpha AST API stable.
+# Only the visitor feature is needed for CSS parsing/AST traversal. Disabling
+# default features avoids pulling in the bundler, source map and Node.js
+# integrations.
+lightningcss = { version = "=1.0.0-alpha.72", default-features = false, features = ["visitor"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

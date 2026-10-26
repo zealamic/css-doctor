@@ -1,0 +1,19 @@
+---
+description: Rust core and page-coverage splitter rules for crates/core changes.
+globs: crates/**/*.rs
+---
+
+# Rust core rules
+
+- Read `.agents/skills/css-doctor-core/SKILL.md` and `AGENTS.md`.
+- Class matching is case-insensitive; any matching class marks a selector used
+  by a page (conservative DCE).
+- Selectors without classes are global → common.
+- `coverage >= min_page_ratio` → common; `0` → dead; otherwise page-specific,
+  copied to each using page.
+- Keep `@font-face`, `@keyframes`, `@import` in common. Recursively split
+  conditional at-rules and nested style rules.
+- Use `BTreeMap`/`BTreeSet` for deterministic output; never panic on user input.
+- Run `cargo fmt --all -- --check`, `cargo clippy --all-targets --all-features
+  -- -D warnings`, `cargo test`.
+- If public types/functions change, update `packages/binding` and rebuild it.

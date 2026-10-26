@@ -1,0 +1,17 @@
+.card {
+  color: red;
+
+  .title {
+    font-weight: bold;
+  }
+
+  &:hover {
+    color: blue;
+  }
+}
+
+@media (min-width: 768px) {
+  .card--wide {
+    width: 100%;
+  }
+}

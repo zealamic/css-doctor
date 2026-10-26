@@ -1,0 +1,14 @@
+---
+import LayoutBase from "../layouts/layout-base.astro";
+import { IslandReact } from "../components/island-react";
+---
+
+<LayoutBase title="React Island">
+  <IslandReact client:load />
+</LayoutBase>
+
+<style>
+  .glass-panel-box {
+    min-height: 18rem;
+  }
+</style>

@@ -1,0 +1,11 @@
+.page-a {
+  color: #646cff;
+}
+
+.page-a:hover {
+  text-decoration: underline;
+}
+
+.legacy-popup {
+  display: none;
+}

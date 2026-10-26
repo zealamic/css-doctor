@@ -1,0 +1,93 @@
+/* 1. SCSS Mixins & Global Styles */
+@mixin card-glass {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: 1rem;
+}
+
+/* 2. Common Selector (>= 50% routes) */
+.glass-panel-box {
+  @include card-glass;
+  padding: 1.5rem;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.common-badge-text {
+  font-family: var(--font-mono-code);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* 3. Page-Specific Selectors */
+.hero-astro-glow {
+  background: radial-gradient(
+    circle,
+    rgba(136, 58, 234, 0.3) 0%,
+    transparent 70%
+  );
+}
+
+.react-spin-border {
+  border: 1px solid var(--color-react-cyan);
+}
+
+.vue-glow-text {
+  color: var(--color-vue-emerald);
+  text-shadow: 0 0 12px rgba(66, 184, 131, 0.4);
+}
+
+.svelte-badge-indicator {
+  background-color: var(--color-svelte-orange);
+}
+
+.preact-accent-bar {
+  border-left: 4px solid var(--color-preact-violet);
+}
+
+.solid-metric-number {
+  color: var(--color-solid-blue);
+  font-weight: 800;
+}
+
+/* 4. Dead Code */
+.unused-legacy-table-v1 {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.deprecated-old-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ff0000;
+}
+
+/* 5. Size pressure: shared rules used by the layout on every route. */
+@for $index from 1 through 80 {
+  .stress-surface-#{$index} {
+    background:
+      radial-gradient(
+        circle at 50% 20%,
+        rgba(136, 58, 234, 0.2),
+        transparent 55%
+      ),
+      linear-gradient(#{$index}deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.95));
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 0.75rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease;
+  }
+}

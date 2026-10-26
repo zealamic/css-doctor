@@ -1,0 +1,35 @@
+.metricCard {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid rgb(51 65 85 / 80%);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(circle at top right, rgb(6 182 212 / 18%), transparent 55%),
+    rgb(15 23 42 / 88%);
+  box-shadow: 0 24px 60px rgb(2 6 23 / 45%);
+}
+
+.chartPlaceholder {
+  height: 9rem;
+  border-radius: 0.9rem;
+  background:
+    linear-gradient(135deg, rgb(6 182 212 / 30%), transparent 60%),
+    repeating-linear-gradient(
+      90deg,
+      rgb(148 163 184 / 14%) 0 1px,
+      transparent 1px 2rem
+    );
+}
+
+.badgeLive {
+  border: 1px solid rgb(34 211 238 / 50%);
+  border-radius: 999px;
+  background: rgb(8 145 178 / 18%);
+  color: rgb(165 243 252);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  padding: 0.25rem 0.6rem;
+  text-transform: uppercase;
+}

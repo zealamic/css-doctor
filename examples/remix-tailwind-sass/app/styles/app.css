@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-remix-blue: #3992ff;
+  --color-remix-purple: #7928ca;
+  --color-metric-teal: #00dfd8;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+:root {
+  --app-bg: #0b0f19;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --color-remix-blue: #3992ff;
+  --color-remix-purple: #7928ca;
+  --color-metric-teal: #00dfd8;
+  --font-sans: "Inter", system-ui, sans-serif;
+}

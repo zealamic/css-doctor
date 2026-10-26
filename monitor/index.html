@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>css-doctor Dependency Monitor</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <style>
+      :root {
+        --monitor-green: #1f9d55;
+        --monitor-red: #c53030;
+        --monitor-amber: #b7791f;
+      }
+
+      body {
+        min-height: 100vh;
+      }
+
+      .monitor-header {
+        align-items: flex-start;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+
+      .monitor-header h1 {
+        margin-bottom: 0.25rem;
+      }
+
+      .monitor-header p {
+        color: var(--pico-muted-color);
+        margin: 0;
+      }
+
+      .monitor-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .monitor-actions button {
+        margin: 0;
+        width: auto;
+      }
+
+      .monitor-stats {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        margin-bottom: 1.5rem;
+      }
+
+      .monitor-stat {
+        background: var(--pico-card-background-color);
+        border: 1px solid var(--pico-card-border-color);
+        border-radius: var(--pico-border-radius);
+        padding: 0.7rem 0.85rem;
+      }
+
+      .monitor-stat span {
+        color: var(--pico-muted-color);
+        display: block;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .monitor-stat strong {
+        display: block;
+        font-size: 1.35rem;
+        margin-top: 0.15rem;
+      }
+
+      .monitor-filters {
+        align-items: end;
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        margin-bottom: 1.5rem;
+      }
+
+      .monitor-filters label {
+        margin: 0;
+      }
+
+      .monitor-filters select,
+      .monitor-filters button {
+        margin: 0;
+      }
+
+      .monitor-checkbox {
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+        min-height: 2.5rem;
+      }
+
+      .monitor-table-wrap {
+        overflow-x: auto;
+      }
+
+      .monitor-table {
+        font-size: 0.76rem;
+        line-height: 1.25;
+      }
+
+      .monitor-table td,
+      .monitor-table th {
+        padding: 0.38rem 0.5rem;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+
+      .monitor-table th {
+        font-size: 0.64rem;
+        letter-spacing: 0.055em;
+        padding-bottom: 0.45rem;
+        padding-top: 0.45rem;
+        text-transform: uppercase;
+      }
+
+      .monitor-table code {
+        background: none;
+        font-size: 0.72rem;
+        padding: 0;
+      }
+
+      .monitor-table small {
+        color: var(--pico-muted-color);
+        display: block;
+        font-size: 0.66rem;
+        line-height: 1.2;
+      }
+
+      .badge {
+        border-radius: 999px;
+        display: inline-block;
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.035em;
+        padding: 0.12rem 0.45rem;
+        text-transform: uppercase;
+      }
+
+      .badge-up-to-date {
+        background: color-mix(in srgb, var(--monitor-green) 16%, transparent);
+        color: var(--monitor-green);
+      }
+
+      .badge-outdated {
+        background: color-mix(in srgb, var(--monitor-amber) 18%, transparent);
+        color: var(--monitor-amber);
+      }
+
+      .badge-error {
+        background: color-mix(in srgb, var(--monitor-red) 16%, transparent);
+        color: var(--monitor-red);
+      }
+
+      .monitor-upgrade {
+        font-size: 0.65rem;
+        line-height: 1.1;
+        margin: 0;
+        padding: 0.22rem 0.55rem;
+        width: auto;
+      }
+
+      .local-label {
+        color: #8b5cf6;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      #prompt-text {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.72rem;
+        line-height: 1.35;
+        min-height: 20rem;
+        resize: vertical;
+      }
+
+      #prompt-dialog article {
+        max-width: 72rem;
+        width: min(72rem, 92vw);
+      }
+
+      #prompt-dialog header {
+        margin-bottom: 0.75rem;
+      }
+
+      #monitor-message {
+        margin-bottom: 1rem;
+      }
+
+      #monitor-message:empty {
+        display: none;
+      }
+
+      @media (max-width: 720px) {
+        .monitor-header {
+          align-items: stretch;
+        }
+
+        .monitor-actions {
+          width: 100%;
+        }
+
+        .monitor-actions button {
+          flex: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <header class="monitor-header">
+        <div>
+          <h1>css-doctor Dependency Monitor</h1>
+          <p>Rust crates and Node packages outside <code>examples/</code>.</p>
+        </div>
+        <div class="monitor-actions">
+          <button id="refresh-button" type="button">Refresh Data</button>
+          <button id="prompt-button" class="contrast" type="button">
+            Get AI Prompt
+          </button>
+          <button id="upgrade-all-button" class="secondary" type="button">
+            Upgrade All Outdated
+          </button>
+        </div>
+      </header>
+
+      <div id="monitor-message" role="alert"></div>
+
+      <section class="monitor-stats" aria-label="Dependency summary">
+        <article class="monitor-stat">
+          <span>Total</span>
+          <strong id="stat-total">0</strong>
+        </article>
+        <article class="monitor-stat">
+          <span>Outdated</span>
+          <strong id="stat-outdated">0</strong>
+        </article>
+        <article class="monitor-stat">
+          <span>Up to date</span>
+          <strong id="stat-current">0</strong>
+        </article>
+        <article class="monitor-stat">
+          <span>Errors</span>
+          <strong id="stat-errors">0</strong>
+        </article>
+      </section>
+
+      <form class="monitor-filters" onsubmit="return false">
+        <label>
+          Ecosystem
+          <select id="ecosystem-filter">
+            <option value="all">All</option>
+            <option value="rust">Rust (Cargo)</option>
+            <option value="node">Node (npm/pnpm)</option>
+          </select>
+        </label>
+        <label>
+          Sub-repo / Workspace Package
+          <select id="subrepo-filter">
+            <option value="all">All</option>
+          </select>
+        </label>
+        <label class="monitor-checkbox">
+          <input id="outdated-filter" type="checkbox" />
+          Only outdated
+        </label>
+      </form>
+
+      <div class="monitor-table-wrap">
+        <table class="monitor-table">
+          <thead>
+            <tr>
+              <th>Package</th>
+              <th>Type</th>
+              <th>Current</th>
+              <th>Latest</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="dependency-rows">
+            <tr>
+              <td colspan="6">Loading dependencies…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <dialog id="prompt-dialog">
+      <article>
+        <header>
+          <h3>AI Upgrade Prompt</h3>
+        </header>
+        <p>
+          Copy this prompt into your AI coding assistant. It contains the full
+          dependency inventory, including local/workspace entries and current
+          registry status.
+        </p>
+        <textarea id="prompt-text" readonly spellcheck="false"></textarea>
+        <footer>
+          <button id="copy-prompt" type="button">Copy Prompt</button>
+          <button id="prompt-close" class="secondary" type="button">Close</button>
+        </footer>
+      </article>
+    </dialog>
+
+    <script>
+      const state = {
+        dependencies: [],
+        generatedAt: null,
+        loading: false,
+        upgrading: false,
+      };
+
+      const elements = {
+        ecosystem: document.querySelector("#ecosystem-filter"),
+        subrepo: document.querySelector("#subrepo-filter"),
+        outdated: document.querySelector("#outdated-filter"),
+        rows: document.querySelector("#dependency-rows"),
+        refresh: document.querySelector("#refresh-button"),
+        prompt: document.querySelector("#prompt-button"),
+        promptDialog: document.querySelector("#prompt-dialog"),
+        promptText: document.querySelector("#prompt-text"),
+        copyPrompt: document.querySelector("#copy-prompt"),
+        closePrompt: document.querySelector("#prompt-close"),
+        upgradeAll: document.querySelector("#upgrade-all-button"),
+        message: document.querySelector("#monitor-message"),
+        total: document.querySelector("#stat-total"),
+        outdatedCount: document.querySelector("#stat-outdated"),
+        current: document.querySelector("#stat-current"),
+        errors: document.querySelector("#stat-errors"),
+      };
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function showMessage(text, kind = "info") {
+        elements.message.textContent = text;
+        elements.message.className = kind === "error" ? "mark" : "";
+      }
+
+      async function load(force = false) {
+        if (state.loading) return;
+        state.loading = true;
+        elements.refresh.disabled = true;
+        elements.refresh.textContent = "Loading…";
+        showMessage("");
+
+        try {
+          const response = await fetch(`/api/deps${force ? "?refresh=1" : ""}`);
+          if (!response.ok) {
+            throw new Error(`Request failed with ${response.status}`);
+          }
+          const data = await response.json();
+          state.dependencies = Array.isArray(data.dependencies)
+            ? data.dependencies
+            : [];
+          state.generatedAt = data.generatedAt ?? null;
+          renderSubRepos();
+          render();
+        } catch (error) {
+          showMessage(`Could not load dependencies: ${error.message}`, "error");
+        } finally {
+          state.loading = false;
+          elements.refresh.disabled = false;
+          elements.refresh.textContent = "Refresh Data";
+        }
+      }
+
+      function ecosystemDependencies() {
+        const ecosystem = elements.ecosystem.value;
+        return ecosystem === "all"
+          ? state.dependencies
+          : state.dependencies.filter((item) => item.ecosystem === ecosystem);
+      }
+
+      function renderSubRepos() {
+        const previous = elements.subrepo.value;
+        const repos = [
+          ...new Set(ecosystemDependencies().map((item) => item.subRepo)),
+        ].sort((left, right) => left.localeCompare(right));
+        elements.subrepo.innerHTML = [
+          '<option value="all">All</option>',
+          ...repos.map(
+            (repo) =>
+              `<option value="${escapeHtml(repo)}">${escapeHtml(repo)}</option>`,
+          ),
+        ].join("");
+
+        if (previous !== "all" && repos.includes(previous)) {
+          elements.subrepo.value = previous;
+        }
+      }
+
+      function filteredDependencies() {
+        const ecosystem = elements.ecosystem.value;
+        const subrepo = elements.subrepo.value;
+        const onlyOutdated = elements.outdated.checked;
+
+        return state.dependencies.filter((item) => {
+          if (ecosystem !== "all" && item.ecosystem !== ecosystem) return false;
+          if (subrepo !== "all" && item.subRepo !== subrepo) return false;
+          if (onlyOutdated && item.status !== "outdated") return false;
+          return true;
+        });
+      }
+
+      function typeLabel(type) {
+        return type
+          .replace("devDependencies", "devDependencies")
+          .replace("peerDependencies", "peerDependencies")
+          .replace("dev-dependencies", "dev-dependencies")
+          .replace("build-dependencies", "build-dependencies");
+      }
+
+      function statusLabel(status) {
+        if (status === "up-to-date") return "Up to date";
+        if (status === "outdated") return "Outdated";
+        return "Error";
+      }
+
+      function promptCell(value) {
+        const text = value === null || value === undefined ? "—" : String(value);
+        return text.replaceAll("|", "\\|").replace(/\s+/g, " ").trim() || "—";
+      }
+
+      function buildPrompt() {
+        const all = state.dependencies;
+        const outdated = all.filter((item) => item.status === "outdated");
+        const errors = all.filter((item) => item.status === "error");
+        const local = all.filter((item) => item.local);
+        const generatedAt = state.generatedAt
+          ? new Date(state.generatedAt).toISOString()
+          : new Date().toISOString();
+        const rows = [...all].sort((left, right) => {
+          const subRepo = left.subRepo.localeCompare(right.subRepo);
+          return subRepo !== 0 ? subRepo : left.name.localeCompare(right.name);
+        });
+        const inventory = rows
+          .map(
+            (item) =>
+              `| ${promptCell(item.ecosystem)} | ${promptCell(item.subRepo)} | ${promptCell(item.name)} | ${promptCell(item.type)} | ${promptCell(item.current)} | ${promptCell(item.latest)} | ${promptCell(item.status)} | ${item.local ? "yes" : "no"} | ${promptCell(item.note)} |`,
+          )
+          .join("\n");
+
+        return `You are a senior monorepo dependency-upgrade engineer working on the css-doctor repository.
+
+## Context
+- Repository: css-doctor (Rust workspace + pnpm monorepo).
+- Scan time: ${generatedAt}
+- Scope: root package.json and packages/** (excluding examples/**), plus root Cargo.toml and the crates/ and packages/binding Rust crates.
+- Inventory: ${all.length} dependencies; ${outdated.length} outdated; ${local.length} local/workspace entries; ${errors.length} registry lookup errors.
+
+## Task
+Review every dependency in the inventory below and produce a safe, prioritized upgrade plan. Then apply the approved upgrades directly in the repository.
+
+## Rules and constraints
+1. Never modify anything under examples/**. They are intentionally excluded from dependency monitoring.
+2. Never replace or upgrade workspace:* dependencies, path dependencies, git dependencies, or other local entries. Leave them unchanged and explain why.
+3. Prefer compatible patch/minor upgrades. Treat every major-version bump as a migration task: explain breaking changes, required code/config changes, and verification steps before applying it.
+4. If the latest version is incompatible with the current stack (for example Next.js 15, React 19, NAPI-RS 2.x, or lightningcss alpha.72), do not upgrade it blindly. Keep the current version and propose a separate migration.
+5. Upgrade only the packages where a newer version is the best fit for this repository and its supported consumers. Do not chase every "latest" version:
+   - Keep broad peerDependency ranges broad. For example, next >=13 and vite >=4 intentionally support older consumer majors; do not narrow them to the latest major just because the monitor reports a difference.
+   - Keep compatibility-test devDependencies on their supported major (Next 15, React 19, NAPI-RS 2.x) unless the task explicitly includes a migration.
+   - A range such as serde = "1.0", napi-build = "2", or a peer range that already accepts the latest compatible release does not need a manifest change even if a naive string comparison marks it outdated.
+   - Explain every skip: compatibility, peer-range policy, upstream constraints, or migration risk.
+6. Preserve the repository conventions and file layout. Update only the relevant package.json or Cargo.toml entries.
+7. Keep pnpm-lock.yaml and Cargo.lock consistent after Node/Rust changes.
+8. Do not touch generated assets, dist/, .next/, target/, or lockfile noise unrelated to these upgrades.
+9. Run the appropriate verification after changes:
+   - pnpm install --frozen-lockfile (or pnpm install when the lockfile was intentionally updated)
+   - pnpm check
+   - pnpm test
+   - cargo check --workspace
+   - cargo test --workspace
+   - cargo clippy --all-targets --all-features -- -D warnings
+10. If a command fails, report the exact failure and either fix the upgrade or revert only that dependency change.
+11. Separate safe upgrades from risky major upgrades. Do not mix unrelated migrations in one change set.
+
+## Required response
+1. A summary table of safe upgrades, migrations, and skipped/local dependencies, including why each skip is intentional.
+2. An ordered execution plan with exact files and commands.
+3. The actual patch or commands for the safe upgrades.
+4. Verification results.
+5. A concise risk list for major upgrades that still need human approval.
+6. A compatibility note explaining any peerDependency range that was deliberately left broad.
+
+## Dependency inventory
+| Ecosystem | Sub-repo | Package | Type | Current | Latest | Status | Local | Note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+${inventory || "| — | — | — | — | — | — | — | — | No dependencies found |"}
+`;
+      }
+
+      function openPrompt() {
+        elements.promptText.value = buildPrompt();
+        elements.promptDialog.showModal();
+        elements.promptText.focus();
+      }
+
+      async function copyPrompt() {
+        const text = elements.promptText.value;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          showMessage("AI prompt copied to clipboard.");
+        } catch {
+          elements.promptText.focus();
+          elements.promptText.select();
+          document.execCommand("copy");
+          showMessage("AI prompt selected and copied.");
+        }
+      }
+
+      function render() {
+        const rows = filteredDependencies();
+        const allOutdated = state.dependencies.filter(
+          (item) => item.status === "outdated",
+        );
+
+        elements.total.textContent = String(state.dependencies.length);
+        elements.outdatedCount.textContent = String(allOutdated.length);
+        elements.current.textContent = String(
+          state.dependencies.filter((item) => item.status === "up-to-date")
+            .length,
+        );
+        elements.errors.textContent = String(
+          state.dependencies.filter((item) => item.status === "error").length,
+        );
+
+        elements.prompt.disabled = state.dependencies.length === 0;
+        elements.upgradeAll.disabled =
+          state.upgrading ||
+          rows.filter((item) => item.status === "outdated" && !item.local)
+            .length === 0;
+
+        if (rows.length === 0) {
+          elements.rows.innerHTML =
+            '<tr><td colspan="6">No dependencies match the current filters.</td></tr>';
+          return;
+        }
+
+        elements.rows.innerHTML = rows
+          .map((item, index) => {
+            const canUpgrade =
+              item.status === "outdated" && !item.local && item.latest;
+            return `
+              <tr>
+                <td>
+                  <strong>${escapeHtml(item.name)}</strong><br />
+                  <small>${escapeHtml(item.subRepo)}</small>
+                  ${item.note ? `<br /><small>${escapeHtml(item.note)}</small>` : ""}
+                </td>
+                <td><code>${escapeHtml(typeLabel(item.type))}</code></td>
+                <td><code>${escapeHtml(item.current)}</code></td>
+                <td><code>${escapeHtml(item.latest ?? "—")}</code></td>
+                <td>
+                  <span class="badge badge-${escapeHtml(item.status)}">
+                    ${escapeHtml(statusLabel(item.status))}
+                  </span>
+                </td>
+                <td>
+                  ${
+                    item.local
+                      ? '<span class="local-label">local</span>'
+                      : `<button
+                          class="monitor-upgrade outline"
+                          data-index="${index}"
+                          type="button"
+                          ${canUpgrade ? "" : "disabled"}
+                        >
+                          Upgrade
+                        </button>`
+                  }
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+      }
+
+      async function upgrade(item, button) {
+        if (state.upgrading || !item.latest) return;
+
+        state.upgrading = true;
+        if (button) {
+          button.disabled = true;
+          button.textContent = "Upgrading…";
+        }
+        elements.upgradeAll.disabled = true;
+        showMessage(`Upgrading ${item.name} to ${item.latest}…`);
+
+        try {
+          const response = await fetch("/api/upgrade", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              ecosystem: item.ecosystem,
+              subRepo: item.subRepo,
+              package: item.name,
+              type: item.type,
+              latestVersion: item.latest,
+            }),
+          });
+          const result = await response.json();
+
+          if (!response.ok || !result.ok) {
+            throw new Error(result.error || `Request failed with ${response.status}`);
+          }
+
+          showMessage(
+            `${result.message}${result.output ? `\n${result.output}` : ""}`,
+          );
+          await load(true);
+        } catch (error) {
+          showMessage(`Upgrade failed: ${error.message}`, "error");
+        } finally {
+          state.upgrading = false;
+          if (button) {
+            button.disabled = false;
+            button.textContent = "Upgrade";
+          }
+          render();
+        }
+      }
+
+      elements.prompt.addEventListener("click", openPrompt);
+      elements.copyPrompt.addEventListener("click", copyPrompt);
+      elements.closePrompt.addEventListener("click", () => {
+        elements.promptDialog.close();
+      });
+      elements.promptDialog.addEventListener("click", (event) => {
+        if (event.target === elements.promptDialog) {
+          elements.promptDialog.close();
+        }
+      });
+
+      elements.rows.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-index]");
+        if (!button) return;
+        const index = Number(button.dataset.index);
+        const item = filteredDependencies()[index];
+        if (item) upgrade(item, button);
+      });
+
+      elements.refresh.addEventListener("click", () => load(true));
+
+      elements.ecosystem.addEventListener("change", () => {
+        renderSubRepos();
+        render();
+      });
+
+      elements.subrepo.addEventListener("change", render);
+      elements.outdated.addEventListener("change", render);
+
+      elements.upgradeAll.addEventListener("click", async () => {
+        const outdated = filteredDependencies().filter(
+          (item) => item.status === "outdated" && !item.local && item.latest,
+        );
+
+        if (outdated.length === 0 || state.upgrading) return;
+        if (!window.confirm(`Upgrade ${outdated.length} outdated dependencies?`)) {
+          return;
+        }
+
+        for (const item of outdated) {
+          await upgrade(item);
+        }
+
+        await load(true);
+      });
+
+      load();
+    </script>
+  </body>
+</html>

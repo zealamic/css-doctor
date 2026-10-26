@@ -1,0 +1,13 @@
+.wrapper {
+  padding: 1.75rem;
+  border: 1px dashed rgba(0, 220, 130, 0.3);
+  border-radius: 0.5rem;
+
+  .pulseCircle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #00dc82;
+  }
+}

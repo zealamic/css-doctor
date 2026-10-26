@@ -1,0 +1,12 @@
+:root {
+  --brand: #646cff;
+}
+
+#app .card:hover {
+  color: var(--brand);
+}
+
+.card__title,
+.card__body {
+  padding: 1rem;
+}

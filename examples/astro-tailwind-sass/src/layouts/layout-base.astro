@@ -1,0 +1,30 @@
+---
+import NavBar from "../components/nav-bar.astro";
+import "../styles/app.css";
+import "../styles/styles-global.scss";
+
+type Props = {
+  title: string;
+};
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | css-doctor test</title>
+  </head>
+  <body>
+    <div
+      aria-hidden
+      class="hidden stress-surface-1 stress-surface-2 stress-surface-3 stress-surface-4 stress-surface-5 stress-surface-6 stress-surface-7 stress-surface-8 stress-surface-9 stress-surface-10 stress-surface-11 stress-surface-12 stress-surface-13 stress-surface-14 stress-surface-15 stress-surface-16 stress-surface-17 stress-surface-18 stress-surface-19 stress-surface-20 stress-surface-21 stress-surface-22 stress-surface-23 stress-surface-24 stress-surface-25 stress-surface-26 stress-surface-27 stress-surface-28 stress-surface-29 stress-surface-30 stress-surface-31 stress-surface-32 stress-surface-33 stress-surface-34 stress-surface-35 stress-surface-36 stress-surface-37 stress-surface-38 stress-surface-39 stress-surface-40 stress-surface-41 stress-surface-42 stress-surface-43 stress-surface-44 stress-surface-45 stress-surface-46 stress-surface-47 stress-surface-48 stress-surface-49 stress-surface-50 stress-surface-51 stress-surface-52 stress-surface-53 stress-surface-54 stress-surface-55 stress-surface-56 stress-surface-57 stress-surface-58 stress-surface-59 stress-surface-60 stress-surface-61 stress-surface-62 stress-surface-63 stress-surface-64 stress-surface-65 stress-surface-66 stress-surface-67 stress-surface-68 stress-surface-69 stress-surface-70 stress-surface-71 stress-surface-72 stress-surface-73 stress-surface-74 stress-surface-75 stress-surface-76 stress-surface-77 stress-surface-78 stress-surface-79 stress-surface-80"
+    ></div>
+    <NavBar />
+    <main class="mx-auto max-w-5xl px-4 py-12">
+      <slot />
+    </main>
+  </body>
+</html>

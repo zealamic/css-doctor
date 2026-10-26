@@ -1,0 +1,19 @@
+.shared {
+  box-sizing: border-box;
+}
+
+.layout-shell {
+  min-height: 100vh;
+}
+
+.home-hero {
+  color: #646cff;
+}
+
+.about-card {
+  color: #213547;
+}
+
+.legacy-popup {
+  display: none;
+}

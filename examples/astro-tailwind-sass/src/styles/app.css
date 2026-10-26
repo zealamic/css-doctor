@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-astro-purple: #883aea;
+  --color-react-cyan: #61dafb;
+  --color-vue-emerald: #42b883;
+  --color-svelte-orange: #ff3e00;
+  --color-preact-violet: #673ab8;
+  --color-solid-blue: #2c4f7c;
+  --font-mono-code: "JetBrains Mono", monospace;
+}
+
+:root {
+  --app-bg-dark: #07090e;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  /* Keep custom CSS var() references resolvable even when Tailwind tree-shakes
+     unused theme utilities. */
+  --color-astro-purple: #883aea;
+  --color-react-cyan: #61dafb;
+  --color-vue-emerald: #42b883;
+  --color-svelte-orange: #ff3e00;
+  --color-preact-violet: #673ab8;
+  --color-solid-blue: #2c4f7c;
+  --font-mono-code: "JetBrains Mono", monospace;
+}
+
+body {
+  margin: 0;
+  background-color: var(--app-bg-dark);
+  color: #f1f5f9;
+  min-height: 100vh;
+}

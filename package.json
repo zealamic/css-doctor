@@ -1,0 +1,32 @@
+{
+  "name": "@zealamic/css-doctor-workspace",
+  "version": "1.0.0",
+  "description": "Smart CSS diagnostics, dead code elimination, and intelligent chunk splitting tool.",
+  "author": "Zealamic (nqhed - Huy Edward Nguyen)",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "test": "turbo test",
+    "test:cargo": "cargo test --workspace",
+    "lint": "turbo lint",
+    "format": "turbo format",
+    "format:check": "turbo format:check",
+    "check": "turbo check",
+    "clean": "tsx scripts/clean.ts",
+    "monitor": "tsx monitor/server.ts",
+    "typecheck": "pnpm -r --filter \"./packages/*\" --if-present typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.3",
+    "@types/node": "^22.20.5",
+    "smol-toml": "^1.9.1",
+    "tsx": "^4.23.15",
+    "turbo": "^2.11.10",
+    "typescript": "^5.9.3"
+  }
+}

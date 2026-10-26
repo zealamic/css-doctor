@@ -1,0 +1,42 @@
+{
+  "name": "@zealamic/css-doctor-cli",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Command line interface for css-doctor: CSS diagnostics from the terminal",
+  "license": "MIT",
+  "bin": {
+    "css-doctor": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm typecheck && pnpm build && tsx --test test/cli.test.ts",
+    "lint": "biome lint src test/cli.test.ts",
+    "format": "biome format --write src test/cli.test.ts",
+    "format:check": "biome format src test/cli.test.ts",
+    "check": "biome check src test/cli.test.ts"
+  },
+  "dependencies": {
+    "@zealamic/css-doctor-binding": "workspace:*",
+    "commander": "^12.1.0",
+    "fast-glob": "^3.3.3",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

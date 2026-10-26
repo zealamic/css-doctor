@@ -1,0 +1,45 @@
+{
+  "name": "@zealamic/css-doctor-rsbuild",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Rsbuild/Rspack integration for css-doctor page-coverage and size-budget CSS splitting",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src",
+    "format": "biome format --write src",
+    "format:check": "biome format src",
+    "check": "biome check src"
+  },
+  "dependencies": {
+    "@zealamic/css-doctor-binding": "workspace:*",
+    "picocolors": "^1.1.1"
+  },
+  "peerDependencies": {
+    "@rsbuild/core": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.7.6",
+    "@rspack/core": "^2.2.9",
+    "@types/node": "^22.20.5",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

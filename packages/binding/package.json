@@ -1,0 +1,41 @@
+{
+  "name": "@zealamic/css-doctor-binding",
+  "version": "1.0.0",
+  "description": "Native Node.js bindings for the css-doctor CSS analysis engine",
+  "license": "MIT",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "*.node"
+  ],
+  "napi": {
+    "name": "css-doctor-binding",
+    "triples": {
+      "defaults": true
+    }
+  },
+  "scripts": {
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "test": "pnpm build && pnpm typecheck && tsx test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "biome lint src test.ts",
+    "format": "biome format --write src test.ts",
+    "format:check": "biome format src test.ts",
+    "check": "biome check src test.ts"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^2.18.4",
+    "@types/node": "^22.20.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
