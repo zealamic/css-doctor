@@ -1,7 +1,6 @@
 {
   "name": "@zealamic/css-doctor-next",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "type": "module",
   "description": "Next.js integration for css-doctor page-coverage CSS splitting",
   "license": "MIT",
@@ -51,5 +50,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

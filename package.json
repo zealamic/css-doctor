@@ -18,7 +18,8 @@
     "format:check": "turbo format:check",
     "check": "turbo check",
     "clean": "tsx scripts/clean.ts",
-    "monitor": "tsx monitor/server.ts"
+    "monitor": "tsx monitor/server.ts",
+    "typecheck": "pnpm -r --filter \"./packages/*\" --if-present typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.3",

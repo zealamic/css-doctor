@@ -1,7 +1,6 @@
 {
   "name": "@zealamic/css-doctor-rsbuild",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "type": "module",
   "description": "Rsbuild/Rspack integration for css-doctor page-coverage and size-budget CSS splitting",
   "license": "MIT",
@@ -39,5 +38,8 @@
     "@types/node": "^22.20.5",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

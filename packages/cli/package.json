@@ -1,7 +1,6 @@
 {
   "name": "@zealamic/css-doctor-cli",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "type": "module",
   "description": "Command line interface for css-doctor: CSS diagnostics from the terminal",
   "license": "MIT",
@@ -36,5 +35,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

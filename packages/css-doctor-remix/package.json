@@ -1,7 +1,6 @@
 {
   "name": "@zealamic/css-doctor-remix",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "type": "module",
   "description": "Remix 3 asset-server middleware for css-doctor CSS optimization",
   "license": "MIT",
@@ -14,7 +13,9 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -31,5 +32,8 @@
     "@types/node": "^22.20.5",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

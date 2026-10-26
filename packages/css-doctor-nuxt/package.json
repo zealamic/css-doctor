@@ -1,7 +1,6 @@
 {
   "name": "@zealamic/css-doctor-nuxt",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "type": "module",
   "description": "Official Nuxt 4 module for css-doctor",
   "license": "MIT",
@@ -40,5 +39,8 @@
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "@nuxt/schema": "^4.6.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

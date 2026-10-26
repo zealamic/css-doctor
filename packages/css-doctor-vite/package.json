@@ -1,7 +1,6 @@
 {
   "name": "@zealamic/css-doctor-vite",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "type": "module",
   "description": "Vite plugin that analyzes emitted CSS assets with the css-doctor native engine",
   "license": "MIT",
@@ -45,5 +44,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
