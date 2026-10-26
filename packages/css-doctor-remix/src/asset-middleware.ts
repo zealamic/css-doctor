@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 
 import { optimizeCss } from "@zealamic/css-doctor-binding";
+import type { JsChunkOutput } from "@zealamic/css-doctor-binding";
 
 import { CssCacheManager } from "./cache-manager";
 import type {
@@ -100,8 +101,8 @@ export const withCssDoctorAssets = <T extends RemixAssetServerLike>(
         minify: resolved.minify,
       });
       const optimizedCss = pipeline.chunks
-        .filter((chunk) => chunk.page === undefined)
-        .map((chunk) => chunk.css)
+        .filter((chunk: JsChunkOutput) => chunk.page === undefined)
+        .map((chunk: JsChunkOutput) => chunk.css)
         .join("\n");
 
       if (optimizedCss.length === 0) {
