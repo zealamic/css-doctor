@@ -1,6 +1,6 @@
 {
   "name": "@zealamic/css-doctor-remix",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "type": "module",
   "description": "Remix 3 asset-server middleware for css-doctor CSS optimization",
   "license": "MIT",

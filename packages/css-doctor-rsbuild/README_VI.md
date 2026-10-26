@@ -1,0 +1,62 @@
+<div align="center">
+
+# @zealamic/css-doctor-rsbuild
+
+**Tích hợp Rsbuild/Rspack phân tách CSS theo page coverage và size budget.**
+
+Phiên bản 1.0.0-beta.1
+
+[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+
+</div>
+
+---
+
+## Cài đặt
+
+```bash
+pnpm add -D @zealamic/css-doctor-rsbuild
+```
+
+## Sử dụng
+
+```ts
+import { defineConfig } from "@rsbuild/core";
+import { pluginReact } from "@rsbuild/plugin-react";
+import { pluginCssDoctor } from "@zealamic/css-doctor-rsbuild";
+
+export default defineConfig({
+  plugins: [
+    pluginReact(),
+    pluginCssDoctor({
+      pageCoverage: { enabled: true, minPageRatio: 0.5 },
+      sizeBudget: { enabled: true, maxChunkSize: 40 * 1024, isolateVariables: true },
+      report: true,
+    }),
+  ],
+});
+```
+
+## Tùy chọn
+
+| Tùy chọn | Mặc định | Mô tả |
+| --- | --- | --- |
+| `pageCoverage.enabled` | `true` | Bật phân loại page/class coverage. |
+| `pageCoverage.minPageRatio` | `0.5` | Tỷ lệ tối thiểu (0.0-1.0) để vào common chunk. |
+| `pageCoverage.forceCommon` | `[]` | Selector/class luôn giữ trong common CSS. |
+| `sizeBudget.enabled` | `true` | Bật chia nhỏ theo byte budget. |
+| `sizeBudget.maxChunkSize` | `60 * 1024` | Số byte tối đa mỗi chunk. |
+| `sizeBudget.isolateVariables` | `true` | Tách biến `:root` và `@theme` trước. |
+| `minify` | production | Minify CSS bằng LightningCSS. |
+| `report` | `true` | In chẩn đoán coverage và chunk. |
+| `exclude` | CSS Modules safety | Bỏ qua asset CSS khớp mẫu. |
+
+## An toàn và giới hạn
+
+- Chỉ production build; hoạt động với Rspack bundler.
+- Peer range @rsbuild/core >=1 được giữ rộng.
+- CSS Modules và scoped styles của framework không bị động tới.
+
+## Tài liệu đầy đủ
+
+README dự án: [English](../../README.md) | [Tiếng Việt](../../README_VI.md) | [简体中文](../../README_CN.md)

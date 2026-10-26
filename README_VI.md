@@ -632,6 +632,23 @@ pnpm --filter vite-react-3rd-ui build
 
 ---
 
+## Tài liệu từng package
+
+Mỗi README package có link chuyển sang bản tiếng Việt và tiếng Trung.
+
+| Package | README |
+| --- | --- |
+| `@zealamic/css-doctor-binding` | [README](packages/binding/README.md) |
+| `@zealamic/css-doctor-cli` | [README](packages/cli/README.md) |
+| `@zealamic/css-doctor-vite` | [README](packages/css-doctor-vite/README.md) |
+| `@zealamic/css-doctor-next` | [README](packages/css-doctor-next/README.md) |
+| `@zealamic/css-doctor-rsbuild` | [README](packages/css-doctor-rsbuild/README.md) |
+| `@zealamic/css-doctor-nuxt` | [README](packages/css-doctor-nuxt/README.md) |
+| `@zealamic/css-doctor-remix` | [README](packages/css-doctor-remix/README.md) |
+
+
+---
+
 ## Giấy phép
 
 MIT. Xem [LICENSE](./LICENSE).
