@@ -87,7 +87,17 @@ jobs:
       - name: Install Zig and cargo-zigbuild for musl
         if: matrix.settings.target == 'x86_64-unknown-linux-musl'
         run: |
-          pip install --user ziglang cargo-zigbuild
+          if ! sudo pip install ziglang cargo-zigbuild; then
+            sudo pip install --break-system-packages ziglang cargo-zigbuild
+          fi
+          if ! which zig >/dev/null 2>&1; then
+            ZIG_BIN="$(python3 -m site --user-base)/bin/zig"
+            if [ -x "$ZIG_BIN" ]; then
+              sudo ln -sf "$ZIG_BIN" /usr/local/bin/zig
+            fi
+          fi
+          which zig
+          zig version
           USER_BIN="$(python3 -m site --user-base)/bin"
           mkdir -p "$USER_BIN"
           for tool in node pnpm cargo rustc rustup; do
