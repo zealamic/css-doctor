@@ -87,13 +87,10 @@ jobs:
       - name: Install Zig and cargo-zigbuild for musl
         if: matrix.settings.target == 'x86_64-unknown-linux-musl'
         run: |
-          sudo pip install --break-system-packages ziglang cargo-zigbuild
-          if ! which zig >/dev/null 2>&1; then
-            ZIG_BIN="$(python3 -m site --user-base)/bin/zig"
-            test -x "$ZIG_BIN"
-            sudo ln -sf "$ZIG_BIN" /usr/local/bin/zig
-          fi
-          which zig
+          pipx install ziglang
+          pipx install cargo-zigbuild
+          pipx ensurepath
+          export PATH="$HOME/.local/bin:$PATH"
           zig version
           cargo-zigbuild --version
 
