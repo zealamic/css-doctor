@@ -91,6 +91,7 @@ jobs:
           pipx install cargo-zigbuild
           pipx ensurepath
           export PATH="$HOME/.local/bin:$PATH"
+          sudo ln -sf "$(which python-zig)" /usr/local/bin/zig
           zig version
           cargo-zigbuild --version
 
