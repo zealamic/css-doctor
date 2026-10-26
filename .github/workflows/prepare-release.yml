@@ -84,15 +84,11 @@ jobs:
           shared-key: release-${{ matrix.settings.target }}
           cache-on-failure: true
 
-      - name: Setup Zig for musl
+      - name: Install Zig and cargo-zigbuild for musl
         if: matrix.settings.target == 'x86_64-unknown-linux-musl'
-        uses: mlugg/setup-zig@v1
-        with:
-          version: latest
-
-      - name: Install cargo-zigbuild for musl
-        if: matrix.settings.target == 'x86_64-unknown-linux-musl'
-        run: cargo install cargo-zigbuild --locked
+        run: |
+          python3 -m pip install --user ziglang cargo-zigbuild
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Build native binding
         shell: bash
