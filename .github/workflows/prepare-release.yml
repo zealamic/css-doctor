@@ -87,22 +87,37 @@ jobs:
       - name: Install Zig and cargo-zigbuild for musl
         if: matrix.settings.target == 'x86_64-unknown-linux-musl'
         run: |
-          pip install ziglang cargo-zigbuild
+          pip install --user ziglang cargo-zigbuild
+          USER_BIN="$(python3 -m site --user-base)/bin"
+          mkdir -p "$USER_BIN"
+          for tool in node pnpm cargo rustc rustup; do
+            TOOL_PATH="$(command -v "$tool" || true)"
+            if [ -n "$TOOL_PATH" ]; then
+              ln -sf "$TOOL_PATH" "$USER_BIN/$tool"
+            fi
+          done
+          echo "$USER_BIN" >> $GITHUB_PATH
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Build native binding
+      - name: Build native binding (musl)
+        if: matrix.settings.target == 'x86_64-unknown-linux-musl'
+        shell: bash
+        env:
+          PATH: /home/runner/.local/bin:/home/runner/.cargo/bin:/home/runner/setup-pnpm/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
+        run: |
+          set -euo pipefail
+          zig version
+          pnpm --filter @zealamic/css-doctor-binding build \
+            --target "${{ matrix.settings.target }}" \
+            --zig
+
+      - name: Build native binding (non-musl)
+        if: matrix.settings.target != 'x86_64-unknown-linux-musl'
         shell: bash
         run: |
           set -euo pipefail
-          args=(
-            --platform
-            --release
+          pnpm --filter @zealamic/css-doctor-binding build \
             --target "${{ matrix.settings.target }}"
-          )
-          if [ "${{ matrix.settings.target }}" = "x86_64-unknown-linux-musl" ]; then
-            args+=(--zig)
-          fi
-          pnpm --filter @zealamic/css-doctor-binding exec napi build "${args[@]}"
 
       - name: Verify native output
         shell: bash
