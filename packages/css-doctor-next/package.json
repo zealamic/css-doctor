@@ -1,6 +1,6 @@
 {
   "name": "@zealamic/css-doctor-next",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Next.js integration for css-doctor page-coverage CSS splitting",
   "license": "MIT",
@@ -56,5 +56,14 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zealamic/css-doctor.git",
+    "directory": "packages/css-doctor-next"
+  },
+  "bugs": {
+    "url": "https://github.com/zealamic/css-doctor/issues"
+  },
+  "homepage": "https://github.com/zealamic/css-doctor#readme"
 }

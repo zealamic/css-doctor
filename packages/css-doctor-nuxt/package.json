@@ -1,6 +1,6 @@
 {
   "name": "@zealamic/css-doctor-nuxt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Official Nuxt 4 module for css-doctor",
   "license": "MIT",
@@ -50,5 +50,14 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zealamic/css-doctor.git",
+    "directory": "packages/css-doctor-nuxt"
+  },
+  "bugs": {
+    "url": "https://github.com/zealamic/css-doctor/issues"
+  },
+  "homepage": "https://github.com/zealamic/css-doctor#readme"
 }

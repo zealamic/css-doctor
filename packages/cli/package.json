@@ -1,6 +1,6 @@
 {
   "name": "@zealamic/css-doctor-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Command line interface for css-doctor: CSS diagnostics from the terminal",
   "license": "MIT",
@@ -41,5 +41,14 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zealamic/css-doctor.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/zealamic/css-doctor/issues"
+  },
+  "homepage": "https://github.com/zealamic/css-doctor#readme"
 }

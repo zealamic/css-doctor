@@ -1,6 +1,6 @@
 {
   "name": "@zealamic/css-doctor-binding-win32-x64-msvc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Prebuilt css-doctor native binding for win32-x64-msvc",
   "license": "MIT",
   "main": "css-doctor-binding.win32-x64-msvc.node",
@@ -15,5 +15,14 @@
   ],
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zealamic/css-doctor.git",
+    "directory": "packages/binding/npm/css-doctor-binding-win32-x64-msvc"
+  },
+  "bugs": {
+    "url": "https://github.com/zealamic/css-doctor/issues"
+  },
+  "homepage": "https://github.com/zealamic/css-doctor#readme"
 }

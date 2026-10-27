@@ -10,6 +10,8 @@
 
 ---
 
+![css doctor](https://github.com/zealamic/css-doctor/blob/main/assets/images/css-doctor.jpg)
+
 ## Installation
 
 ```bash
@@ -37,4 +39,4 @@ pnpm exec css-doctor check "src/**/*.css" --threshold 500
 
 ## Full documentation
 
-Project README: [English](../../README.md) | [Tiếng Việt](../../README_VI.md) | [简体中文](../../README_CN.md)
+Project README: [English](https://github.com/zealamic/css-doctor/blob/main/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/README_CN.md)

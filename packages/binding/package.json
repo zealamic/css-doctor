@@ -1,10 +1,15 @@
 {
   "name": "@zealamic/css-doctor-binding",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Native Node.js bindings for the css-doctor CSS analysis engine",
   "license": "MIT",
   "main": "index.js",
   "types": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zealamic/css-doctor.git",
+    "directory": "packages/binding"
+  },
   "files": [
     "index.js",
     "index.d.ts",
@@ -47,5 +52,9 @@
     "@zealamic/css-doctor-binding-linux-x64-gnu": "workspace:*",
     "@zealamic/css-doctor-binding-linux-x64-musl": "workspace:*",
     "@zealamic/css-doctor-binding-win32-x64-msvc": "workspace:*"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/zealamic/css-doctor/issues"
+  },
+  "homepage": "https://github.com/zealamic/css-doctor#readme"
 }

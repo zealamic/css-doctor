@@ -10,6 +10,8 @@
 
 ---
 
+![css doctor](https://github.com/zealamic/css-doctor/blob/main/assets/images/css-doctor.jpg)
+
 ## Cài đặt
 
 ```bash
@@ -63,4 +65,4 @@ export default defineConfig({
 
 ## Tài liệu đầy đủ
 
-README dự án: [English](../../README.md) | [Tiếng Việt](../../README_VI.md) | [简体中文](../../README_CN.md)
+README dự án: [English](https://github.com/zealamic/css-doctor/blob/main/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/README_CN.md)
