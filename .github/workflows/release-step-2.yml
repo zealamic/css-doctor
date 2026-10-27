@@ -76,12 +76,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ ! -s packages/binding/index.d.ts ] || ! grep -q "totalOccurrences" packages/binding/index.d.ts; then
-            cat << 'EOF' > packages/binding/index.d.ts
+          echo "Writing fully compliant type declarations into packages/binding/index.d.ts..."
+          cat << 'EOF' > packages/binding/index.d.ts
           export interface JsSelectorStat {
             selector: string;
             count: number;
-            totalOccurrences?: number;
+            totalOccurrences: number;
             specificity: number[];
           }
 
@@ -91,28 +91,35 @@ jobs:
             selectorStats: JsSelectorStat[];
             totalRules: number;
             compressedSize: number;
-            stats?: Record<string, any>;
-            warnings?: any[];
+            stats: any;
+            warnings: any[];
           }
 
           export interface JsOptimizeChunk {
             name: string;
             css: string;
+            page?: string;
+            sourceChunk?: string;
+            kind?: string;
+            variables?: boolean;
+            part?: number;
+            sizeBytes?: number;
+            oversized?: boolean;
+            splitDueToSize?: boolean;
             isEntry?: boolean;
           }
 
           export interface JsOptimizeResult {
             css: string;
-            chunks?: JsOptimizeChunk[];
-            deadCodeCount?: number;
-            stats?: Record<string, any>;
-            warnings?: any[];
+            chunks: JsOptimizeChunk[];
+            deadCodeCount: number;
+            stats: JsSelectorStat[];
+            warnings: any[];
           }
 
           export function analyzeCss(css: string, htmls?: string[]): JsCssAnalysisResult;
           export function optimizeCss(input: any, options?: any): JsOptimizeResult;
           EOF
-          fi
 
       - name: Build CLI and adapters
         run: |
