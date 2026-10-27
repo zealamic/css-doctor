@@ -1,4 +1,4 @@
-name: Release
+name: Publish Binding Only
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: publish-binding-${{ github.ref }}
   cancel-in-progress: false
 
 env:
@@ -81,7 +81,7 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: "."
-          shared-key: release-${{ matrix.settings.target }}
+          shared-key: binding-${{ matrix.settings.target }}
           cache-on-failure: true
 
       - name: Install Zig and cargo-zigbuild for musl
@@ -139,147 +139,9 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  build-adapters:
-    name: Build CLI and adapters
-    needs: build-native
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-          run_install: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-
-      - name: Install dependencies
-        run: >-
-          pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
-          --filter "@zealamic/*..." --filter "."
-
-      - name: Download native artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: binding-*
-          path: native-binaries
-          merge-multiple: true
-
-      - name: Stage platform packages
-        shell: bash
-        run: |
-          set -euo pipefail
-          version=$(node -p "require('./packages/binding/package.json').version")
-          targets=(
-            "aarch64-apple-darwin"
-            "x86_64-apple-darwin"
-            "x86_64-unknown-linux-gnu"
-            "x86_64-unknown-linux-musl"
-            "x86_64-pc-windows-msvc"
-          )
-          platforms=(
-            "darwin-arm64"
-            "darwin-x64"
-            "linux-x64-gnu"
-            "linux-x64-musl"
-            "win32-x64-msvc"
-          )
-
-          for index in "${!targets[@]}"; do
-            target="${targets[$index]}"
-            platform="${platforms[$index]}"
-            package_dir="packages/binding/npm/css-doctor-binding-${platform}"
-            binary="${package_dir}/css-doctor-binding.${platform}.node"
-            mkdir -p "${package_dir}"
-
-            artifact=$(find native-binaries -maxdepth 1 -type f -name "*${platform}*.node" -print -quit)
-            if [ -z "${artifact}" ]; then
-              echo "::error::Missing native binary for ${target} (${platform})"
-              exit 1
-            fi
-
-            cp "${artifact}" "${binary}"
-
-            case "${platform}" in
-              darwin-*)
-                os_name="darwin"
-                cpu_name="${platform#darwin-}"
-                ;;
-              linux-*)
-                os_name="linux"
-                cpu_name="x64"
-                ;;
-              win32-*)
-                os_name="win32"
-                cpu_name="x64"
-                ;;
-              *)
-                exit 1
-                ;;
-            esac
-
-            cat > "${package_dir}/package.json" <<JSON
-          {
-            "name": "@zealamic/css-doctor-binding-${platform}",
-            "version": "${version}",
-            "description": "Prebuilt css-doctor native binding for ${platform}",
-            "license": "MIT",
-            "main": "css-doctor-binding.${platform}.node",
-            "files": ["css-doctor-binding.${platform}.node"],
-            "os": ["${os_name}"],
-            "cpu": ["${cpu_name}"],
-            "publishConfig": { "access": "public" }
-          }
-          JSON
-          done
-
-      - name: Typecheck packages
-        run: pnpm typecheck
-
-      - name: Build CLI and adapters
-        run: |
-          set -euo pipefail
-          pnpm --filter @zealamic/css-doctor-cli build
-          pnpm --filter @zealamic/css-doctor-vite build
-          pnpm --filter @zealamic/css-doctor-rsbuild build
-          pnpm --filter @zealamic/css-doctor-remix build
-          pnpm --filter @zealamic/css-doctor-nuxt build
-          pnpm --filter @zealamic/css-doctor-next build
-
-      - name: Verify dist and CLI bundle
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -x packages/cli/dist/index.js
-          head -1 packages/cli/dist/index.js | grep -Fx '#!/usr/bin/env node'
-          node packages/cli/dist/index.js --help >/dev/null
-
-      - name: Package release artifact
-        shell: bash
-        run: |
-          set -euo pipefail
-          zip -rq -o ready-to-publish-packages.zip packages
-
-      - name: Upload release packages
-        uses: actions/upload-artifact@v4
-        with:
-          name: ready-to-publish-packages
-          path: ready-to-publish-packages.zip
-          retention-days: 7
-
   publish-binding:
-    name: 1. Publish Native Bindings
-    needs:
-      - build-native
-      - build-adapters
+    name: Stage and Publish Binding Packages
+    needs: build-native
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -291,20 +153,14 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: https://registry.npmjs.org
 
-      - name: Download release packages
+      - name: Download all native artifacts
         uses: actions/download-artifact@v4
         with:
-          name: ready-to-publish-packages
-          path: release-download
+          pattern: binding-*
+          path: native-binaries
+          merge-multiple: true
 
-      - name: Unpack release packages
-        shell: bash
-        run: |
-          set -euo pipefail
-          unzip -q -o release-download/ready-to-publish-packages.zip -d .
-          test -d packages/binding/npm
-
-      - name: Resolve Tag & Sync Binding Versions
+      - name: Resolve Version & Stage Platform Packages
         shell: bash
         env:
           REF_NAME: ${{ github.ref_name }}
@@ -312,7 +168,7 @@ jobs:
           set -euo pipefail
 
           release_version="${REF_NAME#v}"
-          if [ -z "${release_version}" ] || [ "${release_version}" = "main" ]; then
+          if [ -z "${release_version}" ] \vert{}\vert{} [ "${release_version}" = "main" ]; then
             release_version=$(node -p "require('./packages/binding/package.json').version")
           fi
 
@@ -324,18 +180,20 @@ jobs:
 
           echo "RELEASE_VERSION=${release_version}" >> "$GITHUB_ENV"
           echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
-          echo "Syncing binding packages to version: ${release_version} (dist-tag: ${npm_tag})"
+          echo "Staging packages with version: ${release_version} and dist-tag:${npm_tag}"
 
           TARGET_VERSION="${release_version}" node <<'NODE'
           const fs = require("node:fs");
           const path = require("node:path");
+
           const version = process.env.TARGET_VERSION;
-
-          if (!version) {
-            console.error("TARGET_VERSION is missing");
-            process.exit(1);
-          }
-
+          const targets = [
+            "aarch64-apple-darwin",
+            "x86_64-apple-darwin",
+            "x86_64-unknown-linux-gnu",
+            "x86_64-unknown-linux-musl",
+            "x86_64-pc-windows-msvc"
+          ];
           const platforms = [
             "darwin-arm64",
             "darwin-x64",
@@ -344,38 +202,65 @@ jobs:
             "win32-x64-msvc"
           ];
 
-          for (const platform of platforms) {
-            const manifestPath = path.join(
-              "packages",
-              "binding",
-              "npm",
-              `css-doctor-binding-${platform}`,
-              "package.json"
-            );
-            if (!fs.existsSync(manifestPath)) {
-              console.warn(`Manifest missing: ${manifestPath}`);
-              continue;
+          for (let i = 0; i < targets.length; i++) {
+            const platform = platforms[i];
+            const target = targets[i];
+            const packageDir = path.join("packages", "binding", "npm", `css-doctor-binding-${platform}`);
+            const binaryName = `css-doctor-binding.${platform}.node`;
+            const destBinary = path.join(packageDir, binaryName);
+
+            fs.mkdirSync(packageDir, { recursive: true });
+
+            // Tìm file binary tương ứng từ native-binaries
+            const binaryFiles = fs.readdirSync("native-binaries");
+            const matchedFile = binaryFiles.find((f) => f.includes(platform) && f.endsWith(".node"));
+            if (!matchedFile) {
+              console.error(`Missing binary for ${platform}`);
+              process.exit(1);
             }
-            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-            manifest.version = version;
-            fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
-            console.log(`Updated ${manifest.name} -> ${manifest.version}`);
+
+            fs.copyFileSync(path.join("native-binaries", matchedFile), destBinary);
+
+            let osName = "linux";
+            let cpuName = "x64";
+            if (platform.startsWith("darwin")) {
+              osName = "darwin";
+              cpuName = platform.replace("darwin-", "");
+            } else if (platform.startsWith("win32")) {
+              osName = "win32";
+            }
+
+            const manifest = {
+              name: `@zealamic/css-doctor-binding-${platform}`,
+              version: version,
+              description: `Prebuilt css-doctor native binding for ${platform}`,
+              license: "MIT",
+              main: binaryName,
+              files: [binaryName],
+              os: [osName],
+              cpu: [cpuName],
+              publishConfig: { access: "public" }
+            };
+
+            fs.writeFileSync(
+              path.join(packageDir, "package.json"),
+              `${JSON.stringify(manifest, null, 2)}\n`
+            );
+            console.log(`Staged ${manifest.name} -> ${manifest.version}`);
           }
 
-          const bindingPath = path.join("packages", "binding", "package.json");
-          const binding = JSON.parse(fs.readFileSync(bindingPath, "utf8"));
-          binding.version = version;
-          delete binding.private;
-          binding.publishConfig = binding.publishConfig ?? {};
-          binding.publishConfig.access = "public";
-          binding.optionalDependencies = Object.fromEntries(
-            platforms.map((platform) => [
-              `@zealamic/css-doctor-binding-${platform}`,
-              version
-            ])
+          // Cập nhật package loader chính: packages/binding/package.json
+          const mainBindingPath = path.join("packages", "binding", "package.json");
+          const mainManifest = JSON.parse(fs.readFileSync(mainBindingPath, "utf8"));
+          mainManifest.version = version;
+          delete mainManifest.private;
+          mainManifest.publishConfig = mainManifest.publishConfig ?? {};
+          mainManifest.publishConfig.access = "public";
+          mainManifest.optionalDependencies = Object.fromEntries(
+            platforms.map((p) => [`@zealamic/css-doctor-binding-${p}`, version])
           );
-          fs.writeFileSync(bindingPath, `${JSON.stringify(binding, null, 2)}\n`);
-          console.log(`Updated ${binding.name} -> ${binding.version}`);
+          fs.writeFileSync(mainBindingPath, `${JSON.stringify(mainManifest, null, 2)}\n`);
+          console.log(`Updated loader ${mainManifest.name} -> ${mainManifest.version}`);
           NODE
 
       - name: Configure npm auth
@@ -394,140 +279,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for platform in darwin-arm64 darwin-x64 linux-x64-gnu linux-x64-musl win32-x64-msvc; do
-            dir="packages/binding/npm/css-doctor-binding-${platform}"
-            if [ -d "$dir" ]; then
-              echo "Publishing ${dir}..."
-              (cd "$dir" && npm publish --access public --tag "${NPM_TAG}" --ignore-scripts)
-            fi
-          done
-
-      - name: Publish Main Binding Loader
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "Publishing packages/binding..."
-          (cd packages/binding && npm publish --access public --tag "${NPM_TAG}" --ignore-scripts)
-
-  publish-ecosystem:
-    name: 2. Publish Adapters & CLI
-    needs: publish-binding
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          registry-url: https://registry.npmjs.org
-
-      - name: Download release packages
-        uses: actions/download-artifact@v4
-        with:
-          name: ready-to-publish-packages
-          path: release-download
-
-      - name: Unpack release packages
-        shell: bash
-        run: |
-          set -euo pipefail
-          unzip -q -o release-download/ready-to-publish-packages.zip -d .
-
-      - name: Resolve Tag & Sync Ecosystem Versions
-        shell: bash
-        env:
-          REF_NAME: ${{ github.ref_name }}
-        run: |
-          set -euo pipefail
-
-          release_version="${REF_NAME#v}"
-          if [ -z "${release_version}" ] || [ "${release_version}" = "main" ]; then
-            release_version=$(node -p "require('./packages/binding/package.json').version")
-          fi
-
-          if [[ "${release_version}" =~ (alpha|beta|rc) ]]; then
-            npm_tag="beta"
-          else
-            npm_tag="latest"
-          fi
-
-          echo "RELEASE_VERSION=${release_version}" >> "$GITHUB_ENV"
-          echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
-          echo "Syncing ecosystem packages to version: ${release_version} (dist-tag: ${npm_tag})"
-
-          TARGET_VERSION="${release_version}" node <<'NODE'
-          const fs = require("node:fs");
-          const path = require("node:path");
-          const version = process.env.TARGET_VERSION;
-
-          if (!version) {
-            console.error("TARGET_VERSION is missing");
-            process.exit(1);
-          }
-
-          const packageDirs = [
-            "css-doctor-vite",
-            "css-doctor-rsbuild",
-            "css-doctor-remix",
-            "css-doctor-nuxt",
-            "css-doctor-next",
-            "cli"
-          ];
-
-          for (const dir of packageDirs) {
-            const manifestPath = path.join("packages", dir, "package.json");
-            if (!fs.existsSync(manifestPath)) continue;
-            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-            manifest.version = version;
-            delete manifest.private;
-            manifest.publishConfig = manifest.publishConfig ?? {};
-            manifest.publishConfig.access = "public";
-
-            if (manifest.dependencies && manifest.dependencies["@zealamic/css-doctor-binding"]) {
-              manifest.dependencies["@zealamic/css-doctor-binding"] = version;
-            }
-            if (manifest.dependencies && manifest.dependencies["@zealamic/css-doctor-vite"]) {
-              manifest.dependencies["@zealamic/css-doctor-vite"] = version;
-            }
-
-            fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
-            console.log(`Updated ${manifest.name} -> ${manifest.version}`);
-          }
-          NODE
-
-      - name: Configure npm auth
-        shell: bash
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          set -euo pipefail
-          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
-
-      - name: Publish Adapters and CLI in Topological Order
-        shell: bash
-        run: |
-          set -euo pipefail
-          order=(
-            "css-doctor-vite"
-            "css-doctor-rsbuild"
-            "css-doctor-remix"
-            "css-doctor-nuxt"
-            "css-doctor-next"
-            "cli"
+          platforms=(
+            "darwin-arm64"
+            "darwin-x64"
+            "linux-x64-gnu"
+            "linux-x64-musl"
+            "win32-x64-msvc"
           )
-          for pkg in "${order[@]}"; do
-            echo "Publishing packages/${pkg}..."
-            (cd "packages/${pkg}" && npm publish --access public --tag "${NPM_TAG}" --ignore-scripts)
-          done
-
-      - name: Publish Summary
-        run: |
-          {
-            echo "## Release Finished Successfully 🎉"
-            echo "- Version: \`${RELEASE_VERSION}\`"
-            echo "- Tag: \`${NPM_TAG}\`"
-            echo "- 5 Native bindings published first"
-            echo "- Adapters & CLI published in topological order"
-          } >> "$GITHUB_STEP_SUMMARY"
