@@ -4,17 +4,17 @@
 
 **Bộ công cụ chẩn đoán, phân tách và tối ưu CSS native cho các ứng dụng web hiện đại.**
 
-[![npm version](https://img.shields.io/npm/v/@zealamic/css-doctor-cli.svg)](https://www.npmjs.com/package/@zealamic/css-doctor-cli)
-[![CI](https://github.com/zealamic/css-doctor/actions/workflows/release.yml/badge.svg)](https://github.com/zealamic/css-doctor/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![Rust](https://img.shields.io/badge/rust-stable-b7410e?logo=rust&logoColor=white)](https://www.rust-lang.org)
 
-[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+[English](https://github.com/zealamic/css-doctor/blob/main/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/README_CN.md)
 
 </div>
 
 ---
+
+![css doctor](https://github.com/zealamic/css-doctor/blob/main/assets/images/css-doctor.jpg)
 
 ## Tổng quan
 
@@ -117,7 +117,7 @@ css-doctor check "src/**/*.css" --threshold 500
 Ví dụ output:
 
 ```text
-css-doctor v1.0.0-beta-2 · check
+css-doctor v1.0.0 · check
 patterns src/**/*.css
 ────────────────────────────────────────────────────────────
  SUCCESS  src/styles/app.css · 12.4 KB
@@ -288,7 +288,7 @@ cargo fmt --all -- --check
 
 ### Release
 
-Push tag như `v1.0.0-beta-2` sẽ kích hoạt release workflow:
+Push tag như `v1.0.0` sẽ kích hoạt release workflow:
 
 1. Build 5 native targets.
 2. Build CLI và toàn bộ adapter.

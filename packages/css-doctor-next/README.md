@@ -4,9 +4,7 @@
 
 **Next.js App Router and Pages Router integration for css-doctor.**
 
-Version 1.0.0-beta-2
-
-[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+[English](https://github.com/zealamic/css-doctor/blob/main/packages/css-doctor-next/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/packages/css-doctor-next/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/packages/css-doctor-next/README_CN.md)
 
 </div>
 

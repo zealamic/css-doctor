@@ -4,9 +4,7 @@
 
 **css-doctor LightningCSS 引擎的原生 NAPI-RS 桥接层。**
 
-版本 1.0.0-beta-2
-
-[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+[English](https://github.com/zealamic/css-doctor/blob/main/packages/binding/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/packages/binding/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/packages/binding/README_CN.md)
 
 </div>
 

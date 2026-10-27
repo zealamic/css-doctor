@@ -4,9 +4,7 @@
 
 **Vite/Rollup plugin for page-coverage and size-budget CSS optimization.**
 
-Version 1.0.0-beta-2
-
-[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+[English](https://github.com/zealamic/css-doctor/blob/main/packages/css-doctor-vite/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/packages/css-doctor-vite/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/packages/css-doctor-vite/README_CN.md)
 
 </div>
 

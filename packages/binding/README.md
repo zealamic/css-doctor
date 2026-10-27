@@ -2,11 +2,9 @@
 
 # @zealamic/css-doctor-binding
 
-**Native NAPI-RS bridge for the css-doctor LightningCSS engine.**
+**Native NAPI-RS bridge for the css-doctor LightningCSS engine.** 
 
-Version 1.0.0-beta-2
-
-[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+[English](https://github.com/zealamic/css-doctor/blob/main/packages/binding/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/packages/binding/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/packages/binding/README_CN.md)
 
 </div>
 

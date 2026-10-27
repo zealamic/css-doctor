@@ -1,6 +1,6 @@
 {
   "name": "@zealamic/css-doctor-binding",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "Native Node.js bindings for the css-doctor CSS analysis engine",
   "license": "MIT",
   "main": "index.js",

@@ -4,17 +4,17 @@
 
 **面向现代 Web 应用的原生 CSS 诊断、智能分割与生产级优化工具链。**
 
-[![npm version](https://img.shields.io/npm/v/@zealamic/css-doctor-cli.svg)](https://www.npmjs.com/package/@zealamic/css-doctor-cli)
-[![CI](https://github.com/zealamic/css-doctor/actions/workflows/release.yml/badge.svg)](https://github.com/zealamic/css-doctor/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![Rust](https://img.shields.io/badge/rust-stable-b7410e?logo=rust&logoColor=white)](https://www.rust-lang.org)
 
-[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+[English](https://github.com/zealamic/css-doctor/blob/main/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/README_CN.md)
 
 </div>
 
 ---
+
+![css doctor](https://github.com/zealamic/css-doctor/blob/main/assets/images/css-doctor.jpg)
 
 ## 概述
 
@@ -113,7 +113,7 @@ css-doctor check "src/**/*.css" --threshold 500
 示例输出：
 
 ```text
-css-doctor v1.0.0-beta-2 · check
+css-doctor v1.0.0 · check
 patterns src/**/*.css
 ────────────────────────────────────────────────────────────
  SUCCESS  src/styles/app.css · 12.4 KB
@@ -283,7 +283,7 @@ cargo fmt --all -- --check
 
 ### Release
 
-推送类似 `v1.0.0-beta-2` 的 tag 会触发 release workflow：
+推送类似 `v1.0.0` 的 tag 会触发 release workflow：
 
 1. 构建 5 个 native target。
 2. 构建 CLI 与全部 adapter。

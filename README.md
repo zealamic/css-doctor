@@ -4,17 +4,17 @@
 
 **Native CSS diagnostics, intelligent splitting, and production-grade optimization for modern web applications.**
 
-[![npm version](https://img.shields.io/npm/v/@zealamic/css-doctor-cli.svg)](https://www.npmjs.com/package/@zealamic/css-doctor-cli)
-[![CI](https://github.com/zealamic/css-doctor/actions/workflows/release.yml/badge.svg)](https://github.com/zealamic/css-doctor/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![Rust](https://img.shields.io/badge/rust-stable-b7410e?logo=rust&logoColor=white)](https://www.rust-lang.org)
 
-[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+[English](https://github.com/zealamic/css-doctor/blob/main/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/README_CN.md)
 
 </div>
 
 ---
+
+![css doctor](https://github.com/zealamic/css-doctor/blob/main/assets/images/css-doctor.jpg)
 
 ## Overview
 
@@ -59,13 +59,13 @@ The CLI reports:
 
 `@zealamic/css-doctor-binding` resolves prebuilt NAPI binaries for:
 
-| Platform | Architecture | Target |
-| --- | --- | --- |
-| macOS | Apple Silicon | `darwin-arm64` |
-| macOS | Intel | `darwin-x64` |
-| Linux | x64 glibc | `linux-x64-gnu` |
-| Linux | x64 musl | `linux-x64-musl` |
-| Windows | x64 MSVC | `win32-x64-msvc` |
+| Platform | Architecture  | Target           |
+| -------- | ------------- | ---------------- |
+| macOS    | Apple Silicon | `darwin-arm64`   |
+| macOS    | Intel         | `darwin-x64`     |
+| Linux    | x64 glibc     | `linux-x64-gnu`  |
+| Linux    | x64 musl      | `linux-x64-musl` |
+| Windows  | x64 MSVC      | `win32-x64-msvc` |
 
 No Rust toolchain is required on supported platforms.
 
@@ -117,7 +117,7 @@ css-doctor check "src/**/*.css" --threshold 500
 Example output:
 
 ```text
-css-doctor v1.0.0-beta-2 · check
+css-doctor v1.0.0 · check
 patterns src/**/*.css
 ────────────────────────────────────────────────────────────
  SUCCESS  src/styles/app.css · 12.4 KB
@@ -129,15 +129,15 @@ patterns src/**/*.css
 
 ## Framework integrations
 
-| Framework / tool | Package | Install |
-| --- | --- | --- |
-| Vite, React, Vue, Svelte, TanStack | [`@zealamic/css-doctor-vite`](https://www.npmjs.com/package/@zealamic/css-doctor-vite) | `pnpm add -D @zealamic/css-doctor-vite` |
-| Next.js App/Pages Router | [`@zealamic/css-doctor-next`](https://www.npmjs.com/package/@zealamic/css-doctor-next) | `pnpm add -D @zealamic/css-doctor-next` |
-| Nuxt 4 | [`@zealamic/css-doctor-nuxt`](https://www.npmjs.com/package/@zealamic/css-doctor-nuxt) | `pnpm add -D @zealamic/css-doctor-nuxt` |
-| Remix 3 | [`@zealamic/css-doctor-remix`](https://www.npmjs.com/package/@zealamic/css-doctor-remix) | `pnpm add @zealamic/css-doctor-remix` |
-| Rsbuild / Rspack | [`@zealamic/css-doctor-rsbuild`](https://www.npmjs.com/package/@zealamic/css-doctor-rsbuild) | `pnpm add -D @zealamic/css-doctor-rsbuild` |
-| CLI | [`@zealamic/css-doctor-cli`](https://www.npmjs.com/package/@zealamic/css-doctor-cli) | `pnpm add -D @zealamic/css-doctor-cli` |
-| Native binding | [`@zealamic/css-doctor-binding`](https://www.npmjs.com/package/@zealamic/css-doctor-binding) | Installed transitively |
+| Framework / tool                   | Package                                                                                      | Install                                    |
+| ---------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Vite, React, Vue, Svelte, TanStack | [`@zealamic/css-doctor-vite`](https://www.npmjs.com/package/@zealamic/css-doctor-vite)       | `pnpm add -D @zealamic/css-doctor-vite`    |
+| Next.js App/Pages Router           | [`@zealamic/css-doctor-next`](https://www.npmjs.com/package/@zealamic/css-doctor-next)       | `pnpm add -D @zealamic/css-doctor-next`    |
+| Nuxt 4                             | [`@zealamic/css-doctor-nuxt`](https://www.npmjs.com/package/@zealamic/css-doctor-nuxt)       | `pnpm add -D @zealamic/css-doctor-nuxt`    |
+| Remix 3                            | [`@zealamic/css-doctor-remix`](https://www.npmjs.com/package/@zealamic/css-doctor-remix)     | `pnpm add @zealamic/css-doctor-remix`      |
+| Rsbuild / Rspack                   | [`@zealamic/css-doctor-rsbuild`](https://www.npmjs.com/package/@zealamic/css-doctor-rsbuild) | `pnpm add -D @zealamic/css-doctor-rsbuild` |
+| CLI                                | [`@zealamic/css-doctor-cli`](https://www.npmjs.com/package/@zealamic/css-doctor-cli)         | `pnpm add -D @zealamic/css-doctor-cli`     |
+| Native binding                     | [`@zealamic/css-doctor-binding`](https://www.npmjs.com/package/@zealamic/css-doctor-binding) | Installed transitively                     |
 
 Each package directory contains English, Vietnamese, and Simplified Chinese
 README files. The root translations remain available at
@@ -199,13 +199,13 @@ export default withCssDoctor(
 
 ### Adapter capabilities
 
-| Adapter | Page coverage | Size budget | Variables isolation | Dead code |
-| --- | --- | --- | --- | --- |
-| Vite / Astro / TanStack | Yes | Yes | Yes | Yes |
-| Next.js | Yes | Yes | Yes | Yes |
-| Nuxt 4 | Yes | Yes | Yes | Yes |
-| Rsbuild / Rspack | Yes | Yes | Yes | Yes |
-| Remix 3 runtime | No | Yes | Yes | No |
+| Adapter                 | Page coverage | Size budget | Variables isolation | Dead code |
+| ----------------------- | ------------- | ----------- | ------------------- | --------- |
+| Vite / Astro / TanStack | Yes           | Yes         | Yes                 | Yes       |
+| Next.js                 | Yes           | Yes         | Yes                 | Yes       |
+| Nuxt 4                  | Yes           | Yes         | Yes                 | Yes       |
+| Rsbuild / Rspack        | Yes           | Yes         | Yes                 | Yes       |
+| Remix 3 runtime         | No            | Yes         | Yes                 | No        |
 
 Remix 3 has no build-time page-to-CSS dependency graph. Its middleware uses
 `sizeBudget`, `isolateVariables`, `minify`, and a response cache instead of
@@ -215,17 +215,17 @@ runtime page coverage.
 
 ## Configuration reference
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `pageCoverage.enabled` | `boolean` | `true` | Enable route-based coverage classification. |
-| `pageCoverage.minPageRatio` | `number` | `0.5` | Minimum page ratio (`0.0`–`1.0`) for common CSS. |
-| `pageCoverage.forceCommon` | `string[]` | `[]` | Selectors or classes forced into the common chunk. |
-| `sizeBudget.enabled` | `boolean` | `true` | Enable byte-budget splitting. |
-| `sizeBudget.maxChunkSize` | `number` | `60 * 1024` | Maximum bytes per emitted chunk. |
-| `sizeBudget.isolateVariables` | `boolean` | `true` | Extract `:root` and Tailwind `@theme` variables first. |
-| `minify` | `boolean` | production/build value | Minify emitted CSS with LightningCSS. |
-| `report` | `boolean` | `true` | Print coverage and split diagnostics. |
-| `exclude` | `(string \| RegExp)[]` | CSS Modules safety rules | Skip matching assets. |
+| Option                        | Type                   | Default                  | Description                                            |
+| ----------------------------- | ---------------------- | ------------------------ | ------------------------------------------------------ |
+| `pageCoverage.enabled`        | `boolean`              | `true`                   | Enable route-based coverage classification.            |
+| `pageCoverage.minPageRatio`   | `number`               | `0.5`                    | Minimum page ratio (`0.0`–`1.0`) for common CSS.       |
+| `pageCoverage.forceCommon`    | `string[]`             | `[]`                     | Selectors or classes forced into the common chunk.     |
+| `sizeBudget.enabled`          | `boolean`              | `true`                   | Enable byte-budget splitting.                          |
+| `sizeBudget.maxChunkSize`     | `number`               | `60 * 1024`              | Maximum bytes per emitted chunk.                       |
+| `sizeBudget.isolateVariables` | `boolean`              | `true`                   | Extract `:root` and Tailwind `@theme` variables first. |
+| `minify`                      | `boolean`              | production/build value   | Minify emitted CSS with LightningCSS.                  |
+| `report`                      | `boolean`              | `true`                   | Print coverage and split diagnostics.                  |
+| `exclude`                     | `(string \| RegExp)[]` | CSS Modules safety rules | Skip matching assets.                                  |
 
 See the individual adapter README files for the complete option set.
 
@@ -289,7 +289,7 @@ cargo fmt --all -- --check
 
 ### Release
 
-Pushing a tag such as `v1.0.0-beta-2` triggers the release workflow:
+Pushing a tag such as `v1.0.0` triggers the release workflow:
 
 1. Build five native targets.
 2. Build the CLI and all framework adapters.

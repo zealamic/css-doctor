@@ -1,6 +1,6 @@
 {
   "name": "@zealamic/css-doctor-nuxt",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "type": "module",
   "description": "Official Nuxt 4 module for css-doctor",
   "license": "MIT",

@@ -4,9 +4,7 @@
 
 **使用原生 css-doctor 引擎的命令行 CSS 诊断工具。**
 
-版本 1.0.0-beta-2
-
-[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+[English](https://github.com/zealamic/css-doctor/blob/main/packages/cli/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/packages/cli/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/packages/cli/README_CN.md)
 
 </div>
 

@@ -4,9 +4,7 @@
 
 **Official Nuxt 4 module for css-doctor.**
 
-Version 1.0.0-beta-2
-
-[English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
+[English](https://github.com/zealamic/css-doctor/blob/main/packages/css-doctor-nuxt/README.md) | [Tiếng Việt](https://github.com/zealamic/css-doctor/blob/main/packages/css-doctor-nuxt/README_VI.md) | [简体中文](https://github.com/zealamic/css-doctor/blob/main/packages/css-doctor-nuxt/README_CN.md)
 
 </div>
 
