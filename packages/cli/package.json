@@ -9,7 +9,10 @@
   },
   "main": "./dist/index.js",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "README_VI.md",
+    "README_CN.md"
   ],
   "scripts": {
     "build": "tsup && node -e \"require('node:fs').chmodSync('dist/index.js', 0o755)\"",

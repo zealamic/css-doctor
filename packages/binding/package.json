@@ -8,7 +8,10 @@
   "files": [
     "index.js",
     "index.d.ts",
-    "*.node"
+    "*.node",
+    "README.md",
+    "README_VI.md",
+    "README_CN.md"
   ],
   "napi": {
     "name": "css-doctor-binding",
