@@ -19,6 +19,8 @@ env:
   PNPM_VERSION: 9.0.0
   NODE_VERSION: 24
   ACTIONS_NODE20_DEPRECATION_WARNING: "false"
+  CARGO_BUILD_JOBS: 4
+  CARGO_INCREMENTAL: 1
 
 jobs:
   build-native:
@@ -273,7 +275,6 @@ jobs:
           path: ready-to-publish-packages.zip
           retention-days: 7
 
-  # BƯỚC 1: Publish các native packages & binding loader trước
   publish-binding:
     name: 1. Publish Native Bindings
     needs:
@@ -301,24 +302,40 @@ jobs:
         run: |
           set -euo pipefail
           unzip -q -o release-download/ready-to-publish-packages.zip -d .
+          test -d packages/binding/npm
 
       - name: Resolve Tag & Sync Binding Versions
         shell: bash
+        env:
+          REF_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          release_version="${GITHUB_REF_NAME#v}"
+
+          release_version="${REF_NAME#v}"
+          if [ -z "${release_version}" ] || [ "${release_version}" = "main" ]; then
+            release_version=$(node -p "require('./packages/binding/package.json').version")
+          fi
+
           if [[ "${release_version}" =~ (alpha|beta|rc) ]]; then
             npm_tag="beta"
           else
             npm_tag="latest"
           fi
+
           echo "RELEASE_VERSION=${release_version}" >> "$GITHUB_ENV"
           echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
+          echo "Syncing binding packages to version: ${release_version} (dist-tag: ${npm_tag})"
 
-          node <<'NODE'
+          TARGET_VERSION="${release_version}" node <<'NODE'
           const fs = require("node:fs");
           const path = require("node:path");
-          const version = process.env.RELEASE_VERSION;
+          const version = process.env.TARGET_VERSION;
+
+          if (!version) {
+            console.error("TARGET_VERSION is missing");
+            process.exit(1);
+          }
+
           const platforms = [
             "darwin-arm64",
             "darwin-x64",
@@ -335,10 +352,14 @@ jobs:
               `css-doctor-binding-${platform}`,
               "package.json"
             );
-            if (!fs.existsSync(manifestPath)) continue;
+            if (!fs.existsSync(manifestPath)) {
+              console.warn(`Manifest missing: ${manifestPath}`);
+              continue;
+            }
             const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
             manifest.version = version;
             fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+            console.log(`Updated ${manifest.name} -> ${manifest.version}`);
           }
 
           const bindingPath = path.join("packages", "binding", "package.json");
@@ -354,6 +375,7 @@ jobs:
             ])
           );
           fs.writeFileSync(bindingPath, `${JSON.stringify(binding, null, 2)}\n`);
+          console.log(`Updated ${binding.name} -> ${binding.version}`);
           NODE
 
       - name: Configure npm auth
@@ -361,6 +383,11 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          set -euo pipefail
+          if [ -z "${NODE_AUTH_TOKEN}" ]; then
+            echo "::error::NPM_TOKEN secret is missing"
+            exit 1
+          fi
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
 
       - name: Publish 5 Platform Binaries
@@ -378,10 +405,10 @@ jobs:
       - name: Publish Main Binding Loader
         shell: bash
         run: |
-          echo "Publishing main binding loader..."
+          set -euo pipefail
+          echo "Publishing packages/binding..."
           (cd packages/binding && npm publish --access public --tag "${NPM_TAG}" --ignore-scripts)
 
-  # BƯỚC 2: Publish adapters và CLI sau khi binding đã hoàn tất
   publish-ecosystem:
     name: 2. Publish Adapters & CLI
     needs: publish-binding
@@ -410,20 +437,36 @@ jobs:
 
       - name: Resolve Tag & Sync Ecosystem Versions
         shell: bash
+        env:
+          REF_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          release_version="${GITHUB_REF_NAME#v}"
+
+          release_version="${REF_NAME#v}"
+          if [ -z "${release_version}" ] || [ "${release_version}" = "main" ]; then
+            release_version=$(node -p "require('./packages/binding/package.json').version")
+          fi
+
           if [[ "${release_version}" =~ (alpha|beta|rc) ]]; then
             npm_tag="beta"
           else
             npm_tag="latest"
           fi
-          echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
 
-          node <<'NODE'
+          echo "RELEASE_VERSION=${release_version}" >> "$GITHUB_ENV"
+          echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
+          echo "Syncing ecosystem packages to version: ${release_version} (dist-tag: ${npm_tag})"
+
+          TARGET_VERSION="${release_version}" node <<'NODE'
           const fs = require("node:fs");
           const path = require("node:path");
-          const version = process.env.RELEASE_VERSION;
+          const version = process.env.TARGET_VERSION;
+
+          if (!version) {
+            console.error("TARGET_VERSION is missing");
+            process.exit(1);
+          }
+
           const packageDirs = [
             "css-doctor-vite",
             "css-doctor-rsbuild",
@@ -442,7 +485,6 @@ jobs:
             manifest.publishConfig = manifest.publishConfig ?? {};
             manifest.publishConfig.access = "public";
 
-            // Đảm bảo trỏ binding phụ thuộc về đúng version vừa publish
             if (manifest.dependencies && manifest.dependencies["@zealamic/css-doctor-binding"]) {
               manifest.dependencies["@zealamic/css-doctor-binding"] = version;
             }
@@ -451,6 +493,7 @@ jobs:
             }
 
             fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+            console.log(`Updated ${manifest.name} -> ${manifest.version}`);
           }
           NODE
 
@@ -459,6 +502,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          set -euo pipefail
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
 
       - name: Publish Adapters and CLI in Topological Order
@@ -477,3 +521,13 @@ jobs:
             echo "Publishing packages/${pkg}..."
             (cd "packages/${pkg}" && npm publish --access public --tag "${NPM_TAG}" --ignore-scripts)
           done
+
+      - name: Publish Summary
+        run: |
+          {
+            echo "## Release Finished Successfully 🎉"
+            echo "- Version: \`${RELEASE_VERSION}\`"
+            echo "- Tag: \`${NPM_TAG}\`"
+            echo "- 5 Native bindings published first"
+            echo "- Adapters & CLI published in topological order"
+          } >> "$GITHUB_STEP_SUMMARY"
