@@ -4,7 +4,7 @@
 
 **用于运行时 CSS 优化的 Remix 3 Asset Server 中间件。**
 
-版本 1.0.0-beta.1
+版本 1.0.0-beta-2
 
 [English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
 

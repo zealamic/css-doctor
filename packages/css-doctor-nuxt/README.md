@@ -4,7 +4,7 @@
 
 **Official Nuxt 4 module for css-doctor.**
 
-Version 1.0.0-beta.1
+Version 1.0.0-beta-2
 
 [English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
 

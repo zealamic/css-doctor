@@ -1,0 +1,19 @@
+{
+  "name": "@zealamic/css-doctor-binding-linux-x64-musl",
+  "version": "1.0.0-beta-2",
+  "description": "Prebuilt css-doctor native binding for linux-x64-musl",
+  "license": "MIT",
+  "main": "css-doctor-binding.linux-x64-musl.node",
+  "files": [
+    "css-doctor-binding.linux-x64-musl.node"
+  ],
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

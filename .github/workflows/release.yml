@@ -1,0 +1,470 @@
+name: Release
+
+# Tag-driven release pipeline. Publishing is automatic only from a pushed v*
+# tag and only after native binaries and every adapter bundle are verified.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+  PNPM_VERSION: 9.0.0
+  NODE_VERSION: 22
+  ACTIONS_NODE20_DEPRECATION_WARNING: "false"
+  CARGO_BUILD_JOBS: 4
+  CARGO_INCREMENTAL: 1
+
+jobs:
+  build-native:
+    name: Native ${{ matrix.settings.target }}
+    runs-on: ${{ matrix.settings.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - target: aarch64-apple-darwin
+            platform: darwin-arm64
+            runner: macos-latest
+          - target: x86_64-apple-darwin
+            platform: darwin-x64
+            runner: macos-latest
+          - target: x86_64-unknown-linux-gnu
+            platform: linux-x64-gnu
+            runner: ubuntu-latest
+          - target: x86_64-unknown-linux-musl
+            platform: linux-x64-musl
+            runner: ubuntu-latest
+          - target: x86_64-pc-windows-msvc
+            platform: win32-x64-msvc
+            runner: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install Node dependencies
+        run: >-
+          pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+          --filter "@zealamic/*..." --filter "."
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.settings.target }}
+
+      - name: Ensure macOS x64 Rust target
+        if: matrix.settings.target == 'x86_64-apple-darwin'
+        run: rustup target add x86_64-apple-darwin
+
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "."
+          shared-key: release-${{ matrix.settings.target }}
+          cache-on-failure: true
+
+      - name: Install Zig and cargo-zigbuild for musl
+        if: matrix.settings.target == 'x86_64-unknown-linux-musl'
+        run: |
+          pipx install ziglang
+          pipx install cargo-zigbuild
+          pipx ensurepath
+          export PATH="$HOME/.local/bin:$PATH"
+          sudo ln -sf "$(which python-zig)" /usr/local/bin/zig
+          zig version
+          cargo-zigbuild --version
+
+      - name: Expose Node and Rust tools on system PATH
+        if: matrix.settings.target == 'x86_64-unknown-linux-musl'
+        run: |
+          for tool in node pnpm cargo rustc rustup; do
+            tool_path="$(command -v "$tool" || true)"
+            if [ -n "$tool_path" ]; then
+              sudo ln -sf "$tool_path" "/usr/local/bin/$tool"
+            fi
+          done
+
+      - name: Build native binding (musl)
+        if: matrix.settings.target == 'x86_64-unknown-linux-musl'
+        shell: bash
+        env:
+          PATH: /home/runner/.local/bin:/home/runner/.cargo/bin:/home/runner/setup-pnpm/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
+        run: |
+          set -euo pipefail
+          zig version
+          pnpm --filter @zealamic/css-doctor-binding build \
+            --target "${{ matrix.settings.target }}" \
+            --zig
+
+      - name: Build native binding (non-musl)
+        if: matrix.settings.target != 'x86_64-unknown-linux-musl'
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm --filter @zealamic/css-doctor-binding build \
+            --target "${{ matrix.settings.target }}"
+
+      - name: Verify native output
+        shell: bash
+        run: |
+          set -euo pipefail
+          ls -la packages/binding/*.node
+
+      - name: Upload native artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: binding-${{ matrix.settings.target }}
+          path: packages/binding/*.node
+          if-no-files-found: error
+          retention-days: 14
+
+  build-adapters:
+    name: Build CLI and adapters
+    needs: build-native
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install optimized workspace dependencies
+        run: >-
+          pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+          --filter "@zealamic/*..." --filter "."
+
+      - name: Download native artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: binding-*
+          path: native-binaries
+          merge-multiple: true
+
+      - name: Stage platform packages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "::group::Downloaded native files"
+          find native-binaries -maxdepth 3 -type f -print | sort
+          echo "::endgroup::"
+
+          version=$(node -p "require('./packages/binding/package.json').version")
+          targets=(
+            "aarch64-apple-darwin"
+            "x86_64-apple-darwin"
+            "x86_64-unknown-linux-gnu"
+            "x86_64-unknown-linux-musl"
+            "x86_64-pc-windows-msvc"
+          )
+          platforms=(
+            "darwin-arm64"
+            "darwin-x64"
+            "linux-x64-gnu"
+            "linux-x64-musl"
+            "win32-x64-msvc"
+          )
+
+          for index in "${!targets[@]}"; do
+            target="${targets[$index]}"
+            platform="${platforms[$index]}"
+            package_dir="packages/binding/npm/css-doctor-binding-${platform}"
+            binary="${package_dir}/css-doctor-binding.${platform}.node"
+            mkdir -p "${package_dir}"
+
+            artifact=$(find native-binaries -maxdepth 1 -type f -name "*.${platform}.node" -print -quit)
+            if [ -z "${artifact}" ]; then
+              artifact=$(find native-binaries -maxdepth 1 -type f -name "*${platform}*.node" -print -quit)
+            fi
+            if [ -z "${artifact}" ]; then
+              echo "::error::Missing native binary for ${target} (${platform})"
+              exit 1
+            fi
+
+            cp "${artifact}" "${binary}"
+
+            case "${platform}" in
+              darwin-*)
+                os_name="darwin"
+                cpu_name="${platform#darwin-}"
+                ;;
+              linux-*)
+                os_name="linux"
+                cpu_name="x64"
+                ;;
+              win32-*)
+                os_name="win32"
+                cpu_name="x64"
+                ;;
+              *)
+                echo "::error::Unsupported platform: ${platform}"
+                exit 1
+                ;;
+            esac
+
+            cat > "${package_dir}/package.json" <<JSON
+          {
+            "name": "@zealamic/css-doctor-binding-${platform}",
+            "version": "${version}",
+            "description": "Prebuilt css-doctor native binding for ${platform}",
+            "license": "MIT",
+            "main": "css-doctor-binding.${platform}.node",
+            "files": ["css-doctor-binding.${platform}.node"],
+            "os": ["${os_name}"],
+            "cpu": ["${cpu_name}"],
+            "publishConfig": { "access": "public" }
+          }
+          JSON
+          done
+
+          count=$(find packages/binding/npm -type f -name '*.node' | wc -l | tr -d ' ')
+          echo "Staged native binaries: ${count}"
+          find packages/binding/npm -type f -name '*.node' -print | sort
+          if [ "${count}" -ne 5 ]; then
+            echo "::error::Expected 5 native binaries, found ${count}"
+            exit 1
+          fi
+
+      - name: Typecheck packages
+        run: pnpm typecheck
+
+      - name: Build CLI and adapters
+        run: |
+          set -euo pipefail
+          pnpm --filter @zealamic/css-doctor-cli build
+          pnpm --filter @zealamic/css-doctor-vite build
+          pnpm --filter @zealamic/css-doctor-rsbuild build
+          pnpm --filter @zealamic/css-doctor-remix build
+          pnpm --filter @zealamic/css-doctor-nuxt build
+          pnpm --filter @zealamic/css-doctor-next build
+
+      - name: Verify dist and CLI bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for package_dir in packages/*; do
+            if [ ! -d "${package_dir}/dist" ]; then
+              continue
+            fi
+            test -f "${package_dir}/dist/index.js"
+            if [ "${package_dir}" != "packages/cli" ]; then
+              test -f "${package_dir}/dist/index.d.ts"
+            fi
+            echo "Verified ${package_dir}/dist"
+          done
+
+          test -f packages/binding/index.js
+          test -f packages/binding/index.d.ts
+          test -x packages/cli/dist/index.js
+          head -1 packages/cli/dist/index.js | grep -Fx '#!/usr/bin/env node'
+          node packages/cli/dist/index.js --help >/dev/null
+          ! grep -q 'require("fast-glob")' packages/cli/dist/index.js
+          ! grep -q 'require("commander")' packages/cli/dist/index.js
+          ! grep -q 'require("picocolors")' packages/cli/dist/index.js
+
+      - name: Package release artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f ready-to-publish-packages.zip
+          zip -rq ready-to-publish-packages.zip packages
+          ls -lh ready-to-publish-packages.zip
+
+      - name: Upload release packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: ready-to-publish-packages
+          path: ready-to-publish-packages.zip
+          if-no-files-found: error
+          retention-days: 14
+
+  publish:
+    name: Publish npm packages
+    needs:
+      - build-native
+      - build-adapters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Download release packages
+        uses: actions/download-artifact@v4
+        with:
+          name: ready-to-publish-packages
+          path: release-download
+
+      - name: Unpack release packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          unzip -q release-download/ready-to-publish-packages.zip -d .
+          test -d packages/binding/npm
+
+      - name: Detect release version and npm dist-tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          release_version="${GITHUB_REF_NAME#v}"
+          if ! [[ "${release_version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Tag ${GITHUB_REF_NAME} is not a valid semver version"
+            exit 1
+          fi
+
+          if [[ "${release_version}" =~ (alpha|beta|rc) ]]; then
+            npm_tag="beta"
+          else
+            npm_tag="latest"
+          fi
+
+          echo "RELEASE_VERSION=${release_version}" >> "$GITHUB_ENV"
+          echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
+          echo "Releasing ${release_version} with npm tag ${npm_tag}"
+
+      - name: Synchronize published versions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+
+          const version = process.env.RELEASE_VERSION;
+          const packageDirs = [
+            "binding",
+            "cli",
+            "css-doctor-vite",
+            "css-doctor-next",
+            "css-doctor-rsbuild",
+            "css-doctor-nuxt",
+            "css-doctor-remix"
+          ];
+          const platforms = [
+            "darwin-arm64",
+            "darwin-x64",
+            "linux-x64-gnu",
+            "linux-x64-musl",
+            "win32-x64-msvc"
+          ];
+
+          for (const directory of packageDirs) {
+            const manifestPath = path.join("packages", directory, "package.json");
+            if (!fs.existsSync(manifestPath)) continue;
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+            manifest.version = version;
+            delete manifest.private;
+            manifest.publishConfig = manifest.publishConfig ?? {};
+            manifest.publishConfig.access = "public";
+            fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+          }
+
+          for (const platform of platforms) {
+            const manifestPath = path.join(
+              "packages",
+              "binding",
+              "npm",
+              `css-doctor-binding-${platform}`,
+              "package.json"
+            );
+            if (!fs.existsSync(manifestPath)) continue;
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+            manifest.version = version;
+            fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+          }
+
+          const bindingPath = path.join("packages", "binding", "package.json");
+          const binding = JSON.parse(fs.readFileSync(bindingPath, "utf8"));
+          binding.optionalDependencies = Object.fromEntries(
+            platforms.map((platform) => [
+              `@zealamic/css-doctor-binding-${platform}`,
+              version
+            ])
+          );
+          fs.writeFileSync(bindingPath, `${JSON.stringify(binding, null, 2)}\n`);
+          NODE
+
+      - name: Configure npm authentication
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${NODE_AUTH_TOKEN}" ]; then
+            echo "::error::NPM_TOKEN secret is missing"
+            exit 1
+          fi
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
+
+      - name: Publish packages in dependency order
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          pnpm -r publish \
+            --access public \
+            --tag "${NPM_TAG}" \
+            --no-git-checks \
+            --ignore-scripts
+
+      - name: Write publish summary
+        run: |
+          {
+            echo "## Published ${RELEASE_VERSION}"
+            echo ""
+            echo "- npm dist-tag: ${NPM_TAG}"
+            echo "- Native targets: 5"
+            echo "- CLI: standalone bundle"
+            echo "- Publish command used pnpm -r in topological order"
+          } >> "$GITHUB_STEP_SUMMARY"

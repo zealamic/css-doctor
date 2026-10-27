@@ -4,7 +4,7 @@
 
 **Tích hợp Rsbuild/Rspack phân tách CSS theo page coverage và size budget.**
 
-Phiên bản 1.0.0-beta.1
+Phiên bản 1.0.0-beta-2
 
 [English](./README.md) | [Tiếng Việt](./README_VI.md) | [简体中文](./README_CN.md)
 
