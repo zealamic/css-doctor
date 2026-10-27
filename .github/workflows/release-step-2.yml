@@ -38,7 +38,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: https://registry.npmjs.org
+          registry-url: "https://registry.npmjs.org"
+          scope: "@zealamic"
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
@@ -71,17 +72,10 @@ jobs:
           echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
           echo "Target Release Version: ${release_version} (dist-tag: ${npm_tag})"
 
-      # Tự động build ra index.d.ts chuẩn từ Rust crate trên chính runner Ubuntu
-      - name: Generate True Binding DTS from NAPI
+      - name: Ensure Complete Binding Declarations
         shell: bash
         run: |
           set -euo pipefail
-          # Kiểm tra nếu index.d.ts chưa có hoặc đang rỗng, sinh trực tiếp bằng napi build / cargo
-          if [ ! -s packages/binding/index.d.ts ] || ! grep -q "totalOccurrences" packages/binding/index.d.ts; then
-            echo "Building binding type declarations..."
-            pnpm --filter @zealamic/css-doctor-binding build || true
-          fi
-          # Fallback: nếu build native trên runner không có Rust, dùng declaration đầy đủ
           if [ ! -s packages/binding/index.d.ts ] || ! grep -q "totalOccurrences" packages/binding/index.d.ts; then
             cat << 'EOF' > packages/binding/index.d.ts
           export interface JsSelectorStat {
@@ -119,8 +113,6 @@ jobs:
           export function optimizeCss(input: any, options?: any): JsOptimizeResult;
           EOF
           fi
-          echo "packages/binding/index.d.ts ready:"
-          head -n 25 packages/binding/index.d.ts
 
       - name: Build CLI and adapters
         run: |
@@ -140,7 +132,6 @@ jobs:
           head -1 packages/cli/dist/index.js | grep -Fx '#!/usr/bin/env node'
           node packages/cli/dist/index.js --help >/dev/null
 
-      # Chuyển workspace:* thành version phát hành thực tế ngay trước khi publish
       - name: Rewrite workspace dependencies to current release
         shell: bash
         run: |
@@ -185,20 +176,10 @@ jobs:
           }
           NODE
 
-      - name: Configure npm auth
+      - name: Publish Adapters and CLI in Topological Order (Skip if already exists)
         shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          set -euo pipefail
-          if [ -z "${NODE_AUTH_TOKEN}" ]; then
-            echo "::error::NPM_TOKEN secret is missing"
-            exit 1
-          fi
-          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
-
-      - name: Publish Adapters and CLI in Topological Order (Skip if already exists)
-        shell: bash
         run: |
           set -euo pipefail
           order=(
@@ -226,7 +207,7 @@ jobs:
           {
             echo "## Release Step 2 Completed 🎉"
             echo "- Version: \`${RELEASE_VERSION}\`"
-            echo "- Dist-tag: \`${NPM_TAG}\`"
+            echo "- npm Dist-tag: \`${NPM_TAG}\`"
             echo "- Pinned: \`@zealamic/css-doctor-binding@${RELEASE_VERSION}\`"
             echo "- Published: \`vite\`, \`rsbuild\`, \`remix\`, \`nuxt\`, \`next\`, \`cli\`"
           } >> "$GITHUB_STEP_SUMMARY"
