@@ -99,13 +99,13 @@ jobs:
             name: string;
             css: string;
             page?: string;
-            sourceChunk?: string;
+            sourceChunk: string;
             kind?: string;
-            variables?: boolean;
+            variables: boolean;
             part?: number;
-            sizeBytes?: number;
-            oversized?: boolean;
-            splitDueToSize?: boolean;
+            sizeBytes: number;
+            oversized: boolean;
+            splitDueToSize: boolean;
             isEntry?: boolean;
           }
 
@@ -214,7 +214,7 @@ jobs:
           {
             echo "## Release Step 2 Completed 🎉"
             echo "- Version: \`${RELEASE_VERSION}\`"
-            echo "- npm Dist-tag: \`${NPM_TAG}\`"
+            echo "- Dist-tag: \`${NPM_TAG}\`"
             echo "- Pinned: \`@zealamic/css-doctor-binding@${RELEASE_VERSION}\`"
             echo "- Published: \`vite\`, \`rsbuild\`, \`remix\`, \`nuxt\`, \`next\`, \`cli\`"
           } >> "$GITHUB_STEP_SUMMARY"
