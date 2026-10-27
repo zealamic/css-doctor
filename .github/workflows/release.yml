@@ -19,7 +19,7 @@ env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
   PNPM_VERSION: 9.0.0
-  NODE_VERSION: 22
+  NODE_VERSION: 24
   ACTIONS_NODE20_DEPRECATION_WARNING: "false"
   CARGO_BUILD_JOBS: 4
   CARGO_INCREMENTAL: 1
@@ -349,7 +349,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          unzip -q release-download/ready-to-publish-packages.zip -d .
+          unzip -q -o release-download/ready-to-publish-packages.zip -d .
           test -d packages/binding/npm
 
       - name: Detect release version and npm dist-tag
