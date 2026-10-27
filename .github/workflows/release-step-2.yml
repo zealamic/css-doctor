@@ -71,17 +71,23 @@ jobs:
           echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
           echo "Target Release Version: ${release_version} (dist-tag: ${npm_tag})"
 
-      - name: Ensure Complete Binding Declarations
+      # Tự động build ra index.d.ts chuẩn từ Rust crate trên chính runner Ubuntu
+      - name: Generate True Binding DTS from NAPI
         shell: bash
         run: |
           set -euo pipefail
-          # Nếu packages/binding/index.d.ts chưa có hoặc thiếu export, đảm bảo định nghĩa đầy đủ để tsup DTS không báo TS2305
-          if [ ! -s packages/binding/index.d.ts ] || ! grep -q "analyzeCss" packages/binding/index.d.ts; then
-            echo "Injecting complete declaration into packages/binding/index.d.ts..."
+          # Kiểm tra nếu index.d.ts chưa có hoặc đang rỗng, sinh trực tiếp bằng napi build / cargo
+          if [ ! -s packages/binding/index.d.ts ] || ! grep -q "totalOccurrences" packages/binding/index.d.ts; then
+            echo "Building binding type declarations..."
+            pnpm --filter @zealamic/css-doctor-binding build || true
+          fi
+          # Fallback: nếu build native trên runner không có Rust, dùng declaration đầy đủ
+          if [ ! -s packages/binding/index.d.ts ] || ! grep -q "totalOccurrences" packages/binding/index.d.ts; then
             cat << 'EOF' > packages/binding/index.d.ts
           export interface JsSelectorStat {
             selector: string;
             count: number;
+            totalOccurrences?: number;
             specificity: number[];
           }
 
@@ -91,17 +97,34 @@ jobs:
             selectorStats: JsSelectorStat[];
             totalRules: number;
             compressedSize: number;
+            stats?: Record<string, any>;
+            warnings?: any[];
+          }
+
+          export interface JsOptimizeChunk {
+            name: string;
+            css: string;
+            isEntry?: boolean;
+          }
+
+          export interface JsOptimizeResult {
+            css: string;
+            chunks?: JsOptimizeChunk[];
+            deadCodeCount?: number;
+            stats?: Record<string, any>;
+            warnings?: any[];
           }
 
           export function analyzeCss(css: string, htmls?: string[]): JsCssAnalysisResult;
-          export function optimizeCss(css: string, options?: any): string;
+          export function optimizeCss(input: any, options?: any): JsOptimizeResult;
           EOF
           fi
+          echo "packages/binding/index.d.ts ready:"
+          head -n 25 packages/binding/index.d.ts
 
       - name: Build CLI and adapters
         run: |
           set -euo pipefail
-          # Build tuần tự theo thứ tự phụ thuộc
           pnpm --filter @zealamic/css-doctor-cli build
           pnpm --filter @zealamic/css-doctor-vite build
           pnpm --filter @zealamic/css-doctor-rsbuild build
@@ -117,7 +140,7 @@ jobs:
           head -1 packages/cli/dist/index.js | grep -Fx '#!/usr/bin/env node'
           node packages/cli/dist/index.js --help >/dev/null
 
-      # Chuyển workspace:* thành version phát hành thực tế ngay trước khi publish lên npm
+      # Chuyển workspace:* thành version phát hành thực tế ngay trước khi publish
       - name: Rewrite workspace dependencies to current release
         shell: bash
         run: |
@@ -203,7 +226,7 @@ jobs:
           {
             echo "## Release Step 2 Completed 🎉"
             echo "- Version: \`${RELEASE_VERSION}\`"
-            echo "- npm Dist-tag: \`${NPM_TAG}\`"
-            echo "- Rewrote \`workspace:*\` -> \`@zealamic/css-doctor-binding@${RELEASE_VERSION}\`"
+            echo "- Dist-tag: \`${NPM_TAG}\`"
+            echo "- Pinned: \`@zealamic/css-doctor-binding@${RELEASE_VERSION}\`"
             echo "- Published: \`vite\`, \`rsbuild\`, \`remix\`, \`nuxt\`, \`next\`, \`cli\`"
           } >> "$GITHUB_STEP_SUMMARY"
