@@ -1,16 +1,16 @@
-name: Release
+name: Release Step 1 - Binding Only
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "v*"
+  # push:
+  #   tags:
+  #     - "v*"
 
 permissions:
   contents: read
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-step-1-${{ github.ref }}
   cancel-in-progress: false
 
 env:
@@ -23,7 +23,6 @@ env:
   CARGO_INCREMENTAL: 1
 
 jobs:
-  # GIAI ĐOẠN 1: Matrix build 5 native platforms
   build-native:
     name: Native ${{ matrix.settings.target }}
     runs-on: ${{ matrix.settings.runner }}
@@ -82,7 +81,7 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: "."
-          shared-key: binding-${{ matrix.settings.target }}
+          shared-key: release-step-1-${{ matrix.settings.target }}
           cache-on-failure: true
 
       - name: Install Zig and cargo-zigbuild for musl
@@ -140,7 +139,6 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  # GIAI ĐOẠN 2: Publish 5 platform bindings + loader trước
   publish-binding:
     name: Publish Native Bindings
     needs: build-native
@@ -312,162 +310,11 @@ jobs:
             (cd packages/binding && npm publish --access public --tag "${NPM_TAG}" --ignore-scripts)
           fi
 
-  # GIAI ĐOẠN 3: Đợi registry 5s rồi build & publish Adapters + CLI
-  publish-ecosystem:
-    name: Build & Publish Adapters & CLI
-    needs: publish-binding
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait 5 seconds for npm registry sync
-        shell: bash
-        run: |
-          echo "Pending 5 seconds for npm registry to propagate binding metadata..."
-          sleep 5
-          echo "Sync delay completed. Proceeding to ecosystem release."
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
-          run_install: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          registry-url: https://registry.npmjs.org
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-
-      - name: Install dependencies
-        run: >-
-          pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
-          --filter "@zealamic/*..." --filter "."
-
-      - name: Resolve Tag & Sync Ecosystem Versions
-        shell: bash
-        env:
-          REF_NAME: ${{ github.ref_name }}
-          REF_TYPE: ${{ github.ref_type }}
-        run: |
-          set -euo pipefail
-
-          if [ "${REF_TYPE}" = "tag" ]; then
-            release_version="${REF_NAME#v}"
-          else
-            release_version=$(node -p "require('./packages/binding/package.json').version")
-          fi
-
-          if [[ "${release_version}" =~ (alpha|beta|rc) ]]; then
-            npm_tag="beta"
-          else
-            npm_tag="latest"
-          fi
-
-          echo "RELEASE_VERSION=${release_version}" >> "$GITHUB_ENV"
-          echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
-          echo "Syncing ecosystem packages to version: ${release_version} (dist-tag: ${npm_tag})"
-
-          TARGET_VERSION="${release_version}" node <<'NODE'
-          const fs = require("node:fs");
-          const path = require("node:path");
-          const version = process.env.TARGET_VERSION;
-
-          if (!version) {
-            console.error("TARGET_VERSION is missing");
-            process.exit(1);
-          }
-
-          const packageDirs = [
-            "css-doctor-vite",
-            "css-doctor-rsbuild",
-            "css-doctor-remix",
-            "css-doctor-nuxt",
-            "css-doctor-next",
-            "cli"
-          ];
-
-          for (const dir of packageDirs) {
-            const manifestPath = path.join("packages", dir, "package.json");
-            if (!fs.existsSync(manifestPath)) continue;
-            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-            manifest.version = version;
-            delete manifest.private;
-            manifest.publishConfig = manifest.publishConfig ?? {};
-            manifest.publishConfig.access = "public";
-
-            if (manifest.dependencies && manifest.dependencies["@zealamic/css-doctor-binding"]) {
-              manifest.dependencies["@zealamic/css-doctor-binding"] = version;
-            }
-            if (manifest.dependencies && manifest.dependencies["@zealamic/css-doctor-vite"]) {
-              manifest.dependencies["@zealamic/css-doctor-vite"] = version;
-            }
-
-            fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
-            console.log(`Updated ${manifest.name} -> ${manifest.version}`);
-          }
-          NODE
-
-      - name: Build CLI and adapters
-        run: |
-          set -euo pipefail
-          pnpm --filter @zealamic/css-doctor-cli build
-          pnpm --filter @zealamic/css-doctor-vite build
-          pnpm --filter @zealamic/css-doctor-rsbuild build
-          pnpm --filter @zealamic/css-doctor-remix build
-          pnpm --filter @zealamic/css-doctor-nuxt build
-          pnpm --filter @zealamic/css-doctor-next build
-
-      - name: Verify CLI bundle
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -x packages/cli/dist/index.js
-          head -1 packages/cli/dist/index.js | grep -Fx '#!/usr/bin/env node'
-          node packages/cli/dist/index.js --help >/dev/null
-
-      - name: Configure npm auth
-        shell: bash
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          set -euo pipefail
-          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
-
-      - name: Publish Adapters and CLI in Topological Order (Skip if already exists)
-        shell: bash
-        run: |
-          set -euo pipefail
-          order=(
-            "css-doctor-vite"
-            "css-doctor-rsbuild"
-            "css-doctor-remix"
-            "css-doctor-nuxt"
-            "css-doctor-next"
-            "cli"
-          )
-          for dir in "${order[@]}"; do
-            manifest_path="packages/${dir}/package.json"
-            pkg_name=$(node -p "require('./${manifest_path}').name")
-
-            if npm view "${pkg_name}@${RELEASE_VERSION}" version >/dev/null 2>&1; then
-              echo "⏩ ${pkg_name}@${RELEASE_VERSION} already exists on npm. Skipping publish."
-            else
-              echo "🚀 Publishing packages/${dir} (${pkg_name})..."
-              (cd "packages/${dir}" && npm publish --access public --tag "${NPM_TAG}" --ignore-scripts)
-            fi
-          done
-
-      - name: Publish Summary
+      - name: Summary
         run: |
           {
-            echo "## Release Pipeline Completed Successfully 🚀"
+            echo "## Release Step 1 Completed 🎉"
             echo "- Version: \`${RELEASE_VERSION}\`"
-            echo "- npm Dist-tag: \`${NPM_TAG}\`"
-            echo "- Step 1: 5 Native Platform Binaries & Binding Loader published"
-            echo "- Step 2: 5s propagation delay verified"
-            echo "- Step 3: Adapters & CLI built and published in topological order"
+            echo "- Dist-tag: \`${NPM_TAG}\`"
+            echo "- 5 Native Platform Binaries & Main Binding Loader published."
           } >> "$GITHUB_STEP_SUMMARY"

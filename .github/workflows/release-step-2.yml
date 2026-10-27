@@ -1,0 +1,184 @@
+name: Release Step 2 - Adapters & CLI
+
+on:
+  workflow_dispatch:
+  # push:
+  #   tags:
+  #     - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-step-2-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+  PNPM_VERSION: 9.0.0
+  NODE_VERSION: 24
+  ACTIONS_NODE20_DEPRECATION_WARNING: "false"
+
+jobs:
+  publish-ecosystem:
+    name: Build and Publish Adapters & CLI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: >-
+          pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+          --filter "@zealamic/*..." --filter "."
+
+      - name: Resolve Version & Sync Ecosystem Dependencies
+        shell: bash
+        env:
+          REF_NAME: ${{ github.ref_name }}
+          REF_TYPE: ${{ github.ref_type }}
+        run: |
+          set -euo pipefail
+
+          if [ "${REF_TYPE}" = "tag" ]; then
+            release_version="${REF_NAME#v}"
+          else
+            release_version=$(node -p "require('./packages/binding/package.json').version")
+          fi
+
+          if [[ "${release_version}" =~ (alpha|beta|rc) ]]; then
+            npm_tag="beta"
+          else
+            npm_tag="latest"
+          fi
+
+          echo "RELEASE_VERSION=${release_version}" >> "$GITHUB_ENV"
+          echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
+          echo "Updating ecosystem packages to version: ${release_version} (dist-tag: ${npm_tag})"
+
+          TARGET_VERSION="${release_version}" node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const version = process.env.TARGET_VERSION;
+
+          if (!version) {
+            console.error("TARGET_VERSION is missing");
+            process.exit(1);
+          }
+
+          const packageDirs = [
+            "css-doctor-vite",
+            "css-doctor-rsbuild",
+            "css-doctor-remix",
+            "css-doctor-nuxt",
+            "css-doctor-next",
+            "cli"
+          ];
+
+          for (const dir of packageDirs) {
+            const manifestPath = path.join("packages", dir, "package.json");
+            if (!fs.existsSync(manifestPath)) continue;
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+
+            // 1. Cập nhật version của chính package
+            manifest.version = version;
+            delete manifest.private;
+            manifest.publishConfig = manifest.publishConfig ?? {};
+            manifest.publishConfig.access = "public";
+
+            // 2. Cập nhật đúng version của @zealamic/css-doctor-binding
+            if (manifest.dependencies && manifest.dependencies["@zealamic/css-doctor-binding"]) {
+              manifest.dependencies["@zealamic/css-doctor-binding"] = version;
+            }
+            if (manifest.peerDependencies && manifest.peerDependencies["@zealamic/css-doctor-binding"]) {
+              manifest.peerDependencies["@zealamic/css-doctor-binding"] = version;
+            }
+
+            // 3. Cập nhật liên kết chéo giữa các adapter (nếu có, ví dụ cli/plugins phụ thuộc vite)
+            if (manifest.dependencies && manifest.dependencies["@zealamic/css-doctor-vite"]) {
+              manifest.dependencies["@zealamic/css-doctor-vite"] = version;
+            }
+
+            fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+            console.log(`Updated ${manifest.name}: version -> ${manifest.version}, binding -> ${version}`);
+          }
+          NODE
+
+      - name: Build CLI and adapters
+        run: |
+          set -euo pipefail
+          pnpm --filter @zealamic/css-doctor-cli build
+          pnpm --filter @zealamic/css-doctor-vite build
+          pnpm --filter @zealamic/css-doctor-rsbuild build
+          pnpm --filter @zealamic/css-doctor-remix build
+          pnpm --filter @zealamic/css-doctor-nuxt build
+          pnpm --filter @zealamic/css-doctor-next build
+
+      - name: Verify CLI bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x packages/cli/dist/index.js
+          head -1 packages/cli/dist/index.js | grep -Fx '#!/usr/bin/env node'
+          node packages/cli/dist/index.js --help >/dev/null
+
+      - name: Configure npm auth
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${NODE_AUTH_TOKEN}" ]; then
+            echo "::error::NPM_TOKEN secret is missing"
+            exit 1
+          fi
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
+
+      - name: Publish Adapters and CLI in Topological Order (Skip if already exists)
+        shell: bash
+        run: |
+          set -euo pipefail
+          order=(
+            "css-doctor-vite"
+            "css-doctor-rsbuild"
+            "css-doctor-remix"
+            "css-doctor-nuxt"
+            "css-doctor-next"
+            "cli"
+          )
+          for dir in "${order[@]}"; do
+            manifest_path="packages/${dir}/package.json"
+            pkg_name=$(node -p "require('./${manifest_path}').name")
+
+            if npm view "${pkg_name}@${RELEASE_VERSION}" version >/dev/null 2>&1; then
+              echo "⏩ ${pkg_name}@${RELEASE_VERSION} already exists on npm. Skipping publish."
+            else
+              echo "🚀 Publishing packages/${dir} (${pkg_name})..."
+              (cd "packages/${dir}" && npm publish --access public --tag "${NPM_TAG}" --ignore-scripts)
+            fi
+          done
+
+      - name: Publish Summary
+        run: |
+          {
+            echo "## Release Step 2 Completed 🎉"
+            echo "- Version: \`${RELEASE_VERSION}\`"
+            echo "- npm Dist-tag: \`${NPM_TAG}\`"
+            echo "- Dependencies linked: \`@zealamic/css-doctor-binding@${RELEASE_VERSION}\`"
+            echo "- All adapters and CLI published successfully in topological order."
+          } >> "$GITHUB_STEP_SUMMARY"
