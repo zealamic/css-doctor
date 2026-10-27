@@ -47,7 +47,7 @@ jobs:
           pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
           --filter "@zealamic/*..." --filter "."
 
-      - name: Resolve Version & Sync Ecosystem Dependencies
+      - name: Resolve Version & Sync Manifests
         shell: bash
         env:
           REF_NAME: ${{ github.ref_name }}
@@ -69,55 +69,32 @@ jobs:
 
           echo "RELEASE_VERSION=${release_version}" >> "$GITHUB_ENV"
           echo "NPM_TAG=${npm_tag}" >> "$GITHUB_ENV"
-          echo "Updating ecosystem packages to version: ${release_version} (dist-tag: ${npm_tag})"
+          echo "Syncing ecosystem packages to version: ${release_version}"
 
+          # Cập nhật package.json của binding loader
           TARGET_VERSION="${release_version}" node <<'NODE'
           const fs = require("node:fs");
           const path = require("node:path");
           const version = process.env.TARGET_VERSION;
 
-          if (!version) {
-            console.error("TARGET_VERSION is missing");
-            process.exit(1);
-          }
-
-          const packageDirs = [
-            "css-doctor-vite",
-            "css-doctor-rsbuild",
-            "css-doctor-remix",
-            "css-doctor-nuxt",
-            "css-doctor-next",
-            "cli"
-          ];
-
-          for (const dir of packageDirs) {
-            const manifestPath = path.join("packages", dir, "package.json");
-            if (!fs.existsSync(manifestPath)) continue;
-            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-
-            // 1. Cập nhật version của chính package
+          const bindingPkgPath = path.join("packages", "binding", "package.json");
+          if (fs.existsSync(bindingPkgPath)) {
+            const manifest = JSON.parse(fs.readFileSync(bindingPkgPath, "utf8"));
             manifest.version = version;
-            delete manifest.private;
-            manifest.publishConfig = manifest.publishConfig ?? {};
-            manifest.publishConfig.access = "public";
-
-            // 2. Cập nhật đúng version của @zealamic/css-doctor-binding
-            if (manifest.dependencies && manifest.dependencies["@zealamic/css-doctor-binding"]) {
-              manifest.dependencies["@zealamic/css-doctor-binding"] = version;
-            }
-            if (manifest.peerDependencies && manifest.peerDependencies["@zealamic/css-doctor-binding"]) {
-              manifest.peerDependencies["@zealamic/css-doctor-binding"] = version;
-            }
-
-            // 3. Cập nhật liên kết chéo giữa các adapter (nếu có, ví dụ cli/plugins phụ thuộc vite)
-            if (manifest.dependencies && manifest.dependencies["@zealamic/css-doctor-vite"]) {
-              manifest.dependencies["@zealamic/css-doctor-vite"] = version;
-            }
-
-            fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
-            console.log(`Updated ${manifest.name}: version -> ${manifest.version}, binding -> ${version}`);
+            fs.writeFileSync(bindingPkgPath, `${JSON.stringify(manifest, null, 2)}\n`);
           }
           NODE
+
+      - name: Ensure Binding Type Declarations Exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Đảm bảo index.d.ts của binding có sẵn cho tsup DTS resolver
+          if [ ! -f packages/binding/index.d.ts ]; then
+            echo "::warning::packages/binding/index.d.ts not found. Generating stub declaration..."
+            mkdir -p packages/binding
+            echo "export * from './index';" > packages/binding/index.d.ts
+          fi
 
       - name: Build CLI and adapters
         run: |
@@ -136,6 +113,53 @@ jobs:
           test -x packages/cli/dist/index.js
           head -1 packages/cli/dist/index.js | grep -Fx '#!/usr/bin/env node'
           node packages/cli/dist/index.js --help >/dev/null
+
+      # BƯỚC QUAN TRỌNG: Thay thế workspace:* thành RELEASE_VERSION thật ngay trước khi publish
+      - name: Rewrite workspace dependencies to current release
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGET_VERSION="${RELEASE_VERSION}" node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const version = process.env.TARGET_VERSION;
+
+          const packageDirs = [
+            "css-doctor-vite",
+            "css-doctor-rsbuild",
+            "css-doctor-remix",
+            "css-doctor-nuxt",
+            "css-doctor-next",
+            "cli"
+          ];
+
+          for (const dir of packageDirs) {
+            const manifestPath = path.join("packages", dir, "package.json");
+            if (!fs.existsSync(manifestPath)) continue;
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+
+            // Gán version cho chính package
+            manifest.version = version;
+            delete manifest.private;
+            manifest.publishConfig = manifest.publishConfig ?? {};
+            manifest.publishConfig.access = "public";
+
+            // Thay thế workspace:* hoặc version cũ thành version hiện tại
+            const depKeys = ["dependencies", "peerDependencies", "optionalDependencies"];
+            for (const key of depKeys) {
+              if (!manifest[key]) continue;
+              if (manifest[key]["@zealamic/css-doctor-binding"]) {
+                manifest[key]["@zealamic/css-doctor-binding"] = version;
+              }
+              if (manifest[key]["@zealamic/css-doctor-vite"]) {
+                manifest[key]["@zealamic/css-doctor-vite"] = version;
+              }
+            }
+
+            fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+            console.log(`Updated ${manifest.name}: version -> ${version}, dependencies pinned.`);
+          }
+          NODE
 
       - name: Configure npm auth
         shell: bash
@@ -178,7 +202,7 @@ jobs:
           {
             echo "## Release Step 2 Completed 🎉"
             echo "- Version: \`${RELEASE_VERSION}\`"
-            echo "- npm Dist-tag: \`${NPM_TAG}\`"
-            echo "- Dependencies linked: \`@zealamic/css-doctor-binding@${RELEASE_VERSION}\`"
-            echo "- All adapters and CLI published successfully in topological order."
+            echo "- Dist-tag: \`${NPM_TAG}\`"
+            echo "- Rewrote \`workspace:*\` -> \`@zealamic/css-doctor-binding@${RELEASE_VERSION}\`"
+            echo "- Published: \`vite\`, \`rsbuild\`, \`remix\`, \`nuxt\`, \`next\`, \`cli\`"
           } >> "$GITHUB_STEP_SUMMARY"

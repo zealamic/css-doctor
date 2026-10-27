@@ -2,9 +2,9 @@ name: Release Step 1 - Binding Only
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "v*"
+  # push:
+  #   tags:
+  #     - "v*"
 
 permissions:
   contents: read
