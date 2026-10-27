@@ -179,6 +179,10 @@ jobs:
         run: |
           set -euo pipefail
 
+          echo "::group::Downloaded native artifact files"
+          find native-binaries -maxdepth 3 -type f -print | sort || true
+          echo "::endgroup::"
+
           version=$(node -p "require('./packages/binding/package.json').version")
 
           targets=(
@@ -211,7 +215,12 @@ jobs:
               artifact=$(find native-binaries -maxdepth 1 -type f -name "*${platform}*.node" -print -quit)
             fi
 
-            test -n "${artifact}"
+            if [ -z "${artifact}" ]; then
+              echo "::error::Missing native binary for target ${target} (expected filename containing ${platform})"
+              exit 1
+            fi
+
+            echo "Staging ${artifact} -> ${binary}"
             cp "${artifact}" "${binary}"
 
             case "${platform}" in
@@ -256,8 +265,16 @@ jobs:
           JSON
           done
 
-          test "$(find packages/binding/npm -type f -name '*.node' | wc -l)" -eq 5
-          find packages/binding/npm -type f -name '*.node' -print
+          staged_count=$(find packages/binding/npm -type f -name '*.node' | wc -l | tr -d ' ')
+          echo "::group::Staged native binaries"
+          find packages/binding/npm -type f -name '*.node' -print | sort
+          echo "Staged .node count: ${staged_count} (expected 5)"
+          echo "::endgroup::"
+
+          if [ "${staged_count}" -ne 5 ]; then
+            echo "::error::Expected 5 staged native binaries, found ${staged_count}"
+            exit 1
+          fi
 
       - name: Typecheck all packages
         run: pnpm typecheck
@@ -268,23 +285,98 @@ jobs:
       - name: Verify package outputs
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
+          missing=0
 
-          test -f packages/binding/index.js
-          test -f packages/binding/index.d.ts
+          echo "::group::packages/binding top-level files"
+          ls -la packages/binding || true
+          echo "::endgroup::"
 
+          echo "::group::packages/binding/npm tree"
+          find packages/binding/npm -maxdepth 3 -type f -print 2>/dev/null | sort || true
+          echo "::endgroup::"
+
+          if [ ! -f packages/binding/index.js ]; then
+            echo "::error::Missing packages/binding/index.js"
+            missing=1
+          else
+            echo "Found packages/binding/index.js"
+          fi
+
+          if [ ! -f packages/binding/index.d.ts ]; then
+            echo "::error::Missing packages/binding/index.d.ts"
+            missing=1
+          else
+            echo "Found packages/binding/index.d.ts"
+          fi
+
+          platforms=(
+            "darwin-arm64"
+            "darwin-x64"
+            "linux-x64-gnu"
+            "linux-x64-musl"
+            "win32-x64-msvc"
+          )
+
+          for platform in "${platforms[@]}"; do
+            package_dir="packages/binding/npm/css-doctor-binding-${platform}"
+            binary="${package_dir}/css-doctor-binding.${platform}.node"
+
+            if [ ! -d "${package_dir}" ]; then
+              echo "::error::Missing platform package directory: ${package_dir}"
+              missing=1
+            elif [ ! -f "${binary}" ]; then
+              echo "::error::Missing native binary: ${binary}"
+              missing=1
+            else
+              echo "Verified ${binary}"
+            fi
+
+            if [ ! -f "${package_dir}/package.json" ]; then
+              echo "::error::Missing platform package manifest: ${package_dir}/package.json"
+              missing=1
+            fi
+          done
+
+          echo "::group::Package dist outputs"
           for package_dir in packages/*; do
             if [ ! -d "${package_dir}/dist" ]; then
+              echo "No dist directory: ${package_dir}"
               continue
             fi
 
-            test -f "${package_dir}/dist/index.js"
-            test -f "${package_dir}/dist/index.d.ts"
-            echo "Verified ${package_dir}/dist/index.js and index.d.ts"
-          done
+            echo "--- ${package_dir}/dist ---"
+            ls -la "${package_dir}/dist" || true
 
-          test "$(find packages/binding/npm -type f -name '*.node' | wc -l)" -eq 5
-          echo "All five platform native binaries are staged."
+            if [ ! -f "${package_dir}/dist/index.js" ]; then
+              echo "::error::Missing ${package_dir}/dist/index.js"
+              missing=1
+            fi
+
+            if [ ! -f "${package_dir}/dist/index.d.ts" ]; then
+              echo "::error::Missing ${package_dir}/dist/index.d.ts"
+              missing=1
+            fi
+          done
+          echo "::endgroup::"
+
+          node_count=$(find packages/binding/npm -type f -name '*.node' | wc -l | tr -d ' ')
+          echo "::group::Native binary count"
+          echo "Found ${node_count} .node files (expected 5)"
+          find packages/binding/npm -type f -name '*.node' -print | sort || true
+          echo "::endgroup::"
+
+          if [ "${node_count}" -ne 5 ]; then
+            echo "::error::Expected 5 native .node files, found ${node_count}"
+            missing=1
+          fi
+
+          if [ "${missing}" -ne 0 ]; then
+            echo "::error::Release artifact verification failed; see the errors above."
+            exit 1
+          fi
+
+          echo "All release artifacts verified: 5 platform binaries and all dist declarations are present."
 
       - name: Prepare publishable manifests
         shell: bash
