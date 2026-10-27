@@ -2,9 +2,9 @@ name: Release Step 1 - Binding Only
 
 on:
   workflow_dispatch:
-  # push:
-  #   tags:
-  #     - "v*"
+  push:
+    tags:
+      - "v*"
 
 permissions:
   contents: read
@@ -147,11 +147,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js for npm registry
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: https://registry.npmjs.org
+          registry-url: "https://registry.npmjs.org"
+          scope: "@zealamic"
 
       - name: Download all native artifacts
         uses: actions/download-artifact@v4
@@ -263,20 +264,10 @@ jobs:
           console.log(`Updated loader ${mainManifest.name} -> ${mainManifest.version}`);
           NODE
 
-      - name: Configure npm auth
+      - name: Publish 5 Platform Binaries (Skip if already exists)
         shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          set -euo pipefail
-          if [ -z "${NODE_AUTH_TOKEN}" ]; then
-            echo "::error::NPM_TOKEN secret is missing"
-            exit 1
-          fi
-          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
-
-      - name: Publish 5 Platform Binaries (Skip if already exists)
-        shell: bash
         run: |
           set -euo pipefail
           platforms=(
@@ -300,6 +291,8 @@ jobs:
 
       - name: Publish Main Binding Loader (Skip if already exists)
         shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
           pkg_name="@zealamic/css-doctor-binding"
