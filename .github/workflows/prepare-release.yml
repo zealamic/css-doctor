@@ -5,9 +5,6 @@ name: Prepare release artifacts
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "v*"
 
 permissions:
   contents: read
