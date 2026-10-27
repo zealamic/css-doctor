@@ -353,7 +353,8 @@ jobs:
               missing=1
             fi
 
-            if [ ! -f "${package_dir}/dist/index.d.ts" ]; then
+            # The CLI is an executable package; it has no public type declarations.
+            if [ "${package_dir}" != "packages/cli" ] && [ ! -f "${package_dir}/dist/index.d.ts" ]; then
               echo "::error::Missing ${package_dir}/dist/index.d.ts"
               missing=1
             fi
